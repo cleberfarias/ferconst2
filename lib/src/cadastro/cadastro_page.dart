@@ -6,15 +6,15 @@ class CadastroPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Cadastro'),
-        toolbarHeight: 50.0, // Definindo a altura da AppBar
+        toolbarHeight: 80.0, // Definindo a altura da AppBar
         backgroundColor: Color(0xFF6E92B4), // Cor de fundo da AppBar
       ),
       body: Row(
         children: [
           Container(
             width: MediaQuery.of(context).size.width *
-                0.03, // Reduzindo o tamanho do menu
-            color: Colors.grey[200], // Cor de fundo do menu
+                0.04, // Reduzindo o tamanho do menu
+            color: Color(0xFF6E92B4), // Cor de fundo do menu
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
