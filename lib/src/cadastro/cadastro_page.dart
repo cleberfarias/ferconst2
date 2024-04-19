@@ -9,55 +9,62 @@ class CadastroPage extends StatelessWidget {
         toolbarHeight: 50.0, // Definindo a altura da AppBar
         backgroundColor: Color(0xFF6E92B4), // Cor de fundo da AppBar
       ),
-      body: SingleChildScrollView(
-        child: Row(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.3,
-              color: Colors.grey[200], // Cor de fundo do menu
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  ListTile(
-                    leading: Icon(Icons.account_circle), // Ícone personalizado
-                    onTap: () {
-                      // Lógica para o item 1 do menu
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.access_time), // Ícone personalizado
-                    onTap: () {
-                      // Lógica para o item 2 do menu
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.assignment), // Ícone personalizado
-                    onTap: () {
-                      // Lógica para o item 3 do menu
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.dashboard), // Ícone personalizado
-                    onTap: () {
-                      // Lógica para o item 4 do menu
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.settings), // Ícone personalizado
-                    onTap: () {
-                      // Lógica para o item 5 do menu
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.help), // Ícone personalizado
-                    onTap: () {
-                      // Lógica para o item 6 do menu
-                    },
-                  ),
-                ],
-              ),
+      body: Row(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width *
+                0.03, // Reduzindo o tamanho do menu
+            color: Colors.grey[200], // Cor de fundo do menu
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListTile(
+                  leading: Icon(Icons.account_circle,
+                      size: 24), // Ícone personalizado com tamanho reduzido
+                  onTap: () {
+                    // Lógica para o item 1 do menu
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.access_time,
+                      size: 24), // Ícone personalizado com tamanho reduzido
+                  onTap: () {
+                    // Lógica para o item 2 do menu
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.assignment,
+                      size: 24), // Ícone personalizado com tamanho reduzido
+                  onTap: () {
+                    // Lógica para o item 3 do menu
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.dashboard,
+                      size: 24), // Ícone personalizado com tamanho reduzido
+                  onTap: () {
+                    // Lógica para o item 4 do menu
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.settings,
+                      size: 24), // Ícone personalizado com tamanho reduzido
+                  onTap: () {
+                    // Lógica para o item 5 do menu
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.help,
+                      size: 24), // Ícone personalizado com tamanho reduzido
+                  onTap: () {
+                    // Lógica para o item 6 do menu
+                  },
+                ),
+              ],
             ),
-            Expanded(
+          ),
+          Expanded(
+            child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Card(
@@ -293,19 +300,19 @@ class CadastroPage extends StatelessWidget {
                               onPressed: () {
                                 // Lógica para limpar os campos
                               },
-                              child: Text('Limpar'),
+                              child: Text('Enviar'),
                             ),
                             ElevatedButton(
                               onPressed: () {
                                 // Lógica para sair
                               },
-                              child: Text('Sair'),
+                              child: Text('Limpar'),
                             ),
                             ElevatedButton(
                               onPressed: () {
                                 // Lógica para enviar o formulário
                               },
-                              child: Text('Enviar'),
+                              child: Text('Sair'),
                             ),
                           ],
                         ),
@@ -315,8 +322,8 @@ class CadastroPage extends StatelessWidget {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
