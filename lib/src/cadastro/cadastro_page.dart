@@ -13,53 +13,114 @@ class CadastroPage extends StatelessWidget {
         children: [
           Container(
             width: MediaQuery.of(context).size.width *
-                0.04, // Reduzindo o tamanho do menu
+                0.05, // Ajustando o tamanho do menu
             color: Color(0xFF6E92B4), // Cor de fundo do menu
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ListTile(
-                  leading: Icon(Icons.account_circle,
-                      size: 24), // Ícone personalizado com tamanho reduzido
-                  onTap: () {
-                    // Lógica para o item 1 do menu
-                  },
+                SizedBox(height: 20),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      // Lógica para o item 1 do menu
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.home, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-                ListTile(
-                  leading: Icon(Icons.access_time,
-                      size: 24), // Ícone personalizado com tamanho reduzido
-                  onTap: () {
-                    // Lógica para o item 2 do menu
-                  },
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      // Lógica para o item 2 do menu
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.access_time, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-                ListTile(
-                  leading: Icon(Icons.assignment,
-                      size: 24), // Ícone personalizado com tamanho reduzido
-                  onTap: () {
-                    // Lógica para o item 3 do menu
-                  },
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      // Lógica para o item 3 do menu
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.chat, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-                ListTile(
-                  leading: Icon(Icons.dashboard,
-                      size: 24), // Ícone personalizado com tamanho reduzido
-                  onTap: () {
-                    // Lógica para o item 4 do menu
-                  },
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      // Lógica para o item 4 do menu
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.settings, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-                ListTile(
-                  leading: Icon(Icons.settings,
-                      size: 24), // Ícone personalizado com tamanho reduzido
-                  onTap: () {
-                    // Lógica para o item 5 do menu
-                  },
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      // Lógica para o item 5 do menu
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.person, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-                ListTile(
-                  leading: Icon(Icons.help,
-                      size: 24), // Ícone personalizado com tamanho reduzido
-                  onTap: () {
-                    // Lógica para o item 6 do menu
-                  },
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      // Lógica para o item 6 do menu
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.exit_to_app, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
+                // Adicione os outros itens do menu da mesma forma
               ],
             ),
           ),
