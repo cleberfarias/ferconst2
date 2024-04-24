@@ -1,20 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:ferconst/src/status/status_page.dart';
 
-class CadastroPage extends StatelessWidget {
+class CadastroPage extends StatefulWidget {
+  @override
+  _CadastroPageState createState() => _CadastroPageState();
+}
+
+class _CadastroPageState extends State<CadastroPage> {
+  TextEditingController nomeController = TextEditingController();
+  TextEditingController matriculaController = TextEditingController();
+  TextEditingController cargoController = TextEditingController();
+  TextEditingController setorController = TextEditingController();
+  TextEditingController treinamentoController = TextEditingController();
+  TextEditingController dataConclusaoController = TextEditingController();
+  TextEditingController observacaoController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Cadastro'),
-        toolbarHeight: 80.0, // Definindo a altura da AppBar
-        backgroundColor: Color(0xFF6E92B4), // Cor de fundo da AppBar
+        toolbarHeight: 80.0,
+        backgroundColor: Color(0xFF6E92B4),
       ),
       body: Row(
         children: [
           Container(
-            width: MediaQuery.of(context).size.width *
-                0.05, // Ajustando o tamanho do menu
-            color: Color(0xFF6E92B4), // Cor de fundo do menu
+            width: MediaQuery.of(context).size.width * 0.05,
+            color: Color(0xFF6E92B4),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -120,7 +133,6 @@ class CadastroPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Adicione os outros itens do menu da mesma forma
               ],
             ),
           ),
@@ -129,7 +141,7 @@ class CadastroPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Card(
-                  elevation: 10.0, // Altura da sombra do Card
+                  elevation: 10.0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -146,6 +158,7 @@ class CadastroPage extends StatelessWidget {
                         Container(
                           width: 120.0,
                           child: TextField(
+                            controller: dataConclusaoController,
                             decoration: InputDecoration(
                               hintText: 'dd/mm/aaaa',
                               border: OutlineInputBorder(
@@ -168,6 +181,7 @@ class CadastroPage extends StatelessWidget {
                                   ),
                                   SizedBox(height: 8.0),
                                   TextField(
+                                    controller: nomeController,
                                     decoration: InputDecoration(
                                       hintText: 'Digite o nome',
                                       border: OutlineInputBorder(
@@ -175,7 +189,7 @@ class CadastroPage extends StatelessWidget {
                                             BorderRadius.circular(10.0),
                                       ),
                                     ),
-                                    maxLines: null, // Permite múltiplas linhas
+                                    maxLines: null,
                                   ),
                                 ],
                               ),
@@ -192,6 +206,7 @@ class CadastroPage extends StatelessWidget {
                                   ),
                                   SizedBox(height: 8.0),
                                   TextField(
+                                    controller: matriculaController,
                                     decoration: InputDecoration(
                                       hintText: 'Digite a matrícula',
                                       border: OutlineInputBorder(
@@ -219,6 +234,7 @@ class CadastroPage extends StatelessWidget {
                                   ),
                                   SizedBox(height: 8.0),
                                   TextField(
+                                    controller: cargoController,
                                     decoration: InputDecoration(
                                       hintText: 'Digite o cargo',
                                       border: OutlineInputBorder(
@@ -280,6 +296,9 @@ class CadastroPage extends StatelessWidget {
                                     ],
                                     onChanged: (String? value) {
                                       // Lógica para lidar com a mudança de valor
+                                      setState(() {
+                                        setorController.text = value ?? '';
+                                      });
                                     },
                                   ),
                                 ],
@@ -315,24 +334,10 @@ class CadastroPage extends StatelessWidget {
                           ],
                           onChanged: (String? value) {
                             // Lógica para lidar com a mudança de valor
+                            setState(() {
+                              treinamentoController.text = value ?? '';
+                            });
                           },
-                        ),
-                        SizedBox(height: 20.0),
-                        Text(
-                          'Data de Conclusão:',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 8.0),
-                        Container(
-                          width: 120.0,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: 'dd/mm/aaaa',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                          ),
                         ),
                         SizedBox(height: 20.0),
                         Text(
@@ -343,7 +348,8 @@ class CadastroPage extends StatelessWidget {
                         Container(
                           width: double.infinity,
                           child: TextField(
-                            maxLines: 10, // Permite múltiplas linhas
+                            controller: observacaoController,
+                            maxLines: 10,
                             decoration: InputDecoration(
                               hintText:
                                   'Descreva de forma resumida sobre o curso que você fez.',
@@ -359,19 +365,39 @@ class CadastroPage extends StatelessWidget {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                // Lógica para limpar os campos
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => StatusPage(
+                                      nome: nomeController.text,
+                                      cargo: cargoController.text,
+                                      setor: setorController.text,
+                                      treinamento: treinamentoController.text,
+                                      dataConclusao:
+                                          dataConclusaoController.text,
+                                      observacao: observacaoController.text,
+                                    ),
+                                  ),
+                                );
                               },
                               child: Text('Enviar'),
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                // Lógica para sair
+                                // Lógica para limpar os campos
+                                nomeController.clear();
+                                matriculaController.clear();
+                                cargoController.clear();
+                                setorController.clear();
+                                treinamentoController.clear();
+                                dataConclusaoController.clear();
+                                observacaoController.clear();
                               },
                               child: Text('Limpar'),
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                // Lógica para enviar o formulário
+                                // Lógica para sair
                               },
                               child: Text('Sair'),
                             ),
