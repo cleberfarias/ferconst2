@@ -266,6 +266,10 @@ class _CadastroPageState extends State<CadastroPage> {
                                     ),
                                     items: [
                                       DropdownMenuItem<String>(
+                                        value: 'Tecnologia da Informação',
+                                        child: Text('Tecnologia da Informação'),
+                                      ),
+                                      DropdownMenuItem<String>(
                                         value: 'Administração',
                                         child: Text('Administração'),
                                       ),
