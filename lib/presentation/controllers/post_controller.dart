@@ -11,32 +11,32 @@ class PostController{
   PostController(this.apiRepository);
 
   //mostrar erro ao usuário
-  String? _errorLoadingPost;
+  String? _errorLoadingEmployee;
 
   //recuperar error
-  String? get getErrorLoadingPost => _errorLoadingPost;
+  String? get getErrorLoadingEmployee => _errorLoadingEmployee;
 
   //progress
   bool isLoading = true;
 
-  //POST que vamos carregar
-  EmployeeModel? _loadedPost;
+  //Employee que vamos carregar
+  EmployeeModel? _loadedEmployee;
 
-  EmployeeModel? get getLoadedPost => _loadedPost;
+  EmployeeModel? get getLoadedEmployee => _loadedEmployee;
 
-  Future<void> ondLoadPost (int postId) async{
+  Future<void> ondLoadEmployee (int employeeId) async{
     isLoading = true;
-    _errorLoadingPost = null;
+    _errorLoadingEmployee = null;
 
     try {
-      final post = await apiRepository.getPost(postId as Long);
-      _loadedPost = post;
+      final post = await apiRepository.getEmployee(employeeId as Long);
+      _loadedEmployee = post;
     } on ApiException catch(apiExecption){
-      _errorLoadingPost = apiExecption.menssagem;
+      _errorLoadingEmployee = apiExecption.menssagem;
     } catch(error, stacktracer){
 
       //ja temos o log dentro do apiRepository.
-      _errorLoadingPost = "Erro ao carregar o post";
+      _errorLoadingEmployee = "Erro ao carregar o EMPLOYEE";
     }
     //terminou de carregar
     isLoading = false;

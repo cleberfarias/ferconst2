@@ -10,23 +10,27 @@ import 'package:ferconst/Model/repositories/errors/api_exception.dart';
 
 class DioApiRepository implements ApiRepository{
 
+  final String erro = "Erro ao caregar o EMPLOYEE";
+
+  final String erroGet = "Erro ao fazer o get no EMPLOYEE";
+
   final Dio _dio;
 
   DioApiRepository({required Dio dio}) : _dio = dio;
 
 
   @override
-  Future<EmployeeModel?> getPost(Long postId) async {
+  Future<EmployeeModel?> getEmployee(Long employeeId) async {
     try{
-      final url = '$API_URL/posts/$postId'; //recuperando id do post
+      final url = '$API_URL/usuario/$employeeId'; //recuperando id do employee
       final response = await _dio.get(url);
 
       return EmployeeModel.fromMap(response.data);
     } on DioError catch(dioError){
-      throw ApiException(menssagem: dioError.message ?? "Erro ao caregar o POST");
+      throw ApiException(menssagem: dioError.message ?? erro);
     }catch(error, stacktrace){
-      log("Erro ao fazer get d post;", error: error, stackTrace: stacktrace);
-      throw ApiException(menssagem: "Erro ao carregar POST");
+      log(erroGet, error: error, stackTrace: stacktrace);
+      throw ApiException(menssagem: erro);
     }
   }
 

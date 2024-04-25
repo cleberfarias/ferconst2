@@ -13,22 +13,26 @@ class HttpApiRepository implements ApiRepository{
 
   final Client _client;
 
+  final String erro = "Erro ao caregar o EMPLOYEE";
+
+  final String erroGet = "Erro ao fazer o get no EMPLOYEE";
+
   HttpApiRepository({required Client client}) : _client = client;
 
   @override
-  Future<EmployeeModel?> getPost(Long postId) async {
+  Future<EmployeeModel?> getEmployee(Long employeeId) async {
     try{
-      final url = '$API_URL/posts/$postId'; //recuperando id do post
+      final url = '$API_URL/usuario/$employeeId'; //recuperando id do employee
       final response = await _client.get(Uri.parse(url));
 
       if(response.statusCode ==200){
         return EmployeeModel.fromJson(response.body);
       } else {
-        throw ApiException(menssagem: "Erro ao carregar POST");
+        throw ApiException(menssagem: erro);
       }
     }catch(error, stacktrace){
-      log("Erro ao fazer get d post;", error: error, stackTrace: stacktrace);
-      throw ApiException(menssagem: "Erro ao carregar POST");
+      log(erroGet, error: error, stackTrace: stacktrace);
+      throw ApiException(menssagem: erro);
     }
   }
 
