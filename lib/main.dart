@@ -1,6 +1,8 @@
+import 'package:ferconst/src/status/api_status_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/login/login_page.dart';
 import 'package:ferconst/src/cadastro/cadastro_page.dart';
+// Importe a página ApiStatusPage
 
 void main() {
   runApp(MyApp());
@@ -23,16 +25,14 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          Color(0xFF6E92B4), // Define a cor de fundo da página como #76D4FF
+      backgroundColor: Color(0xFF6E92B4),
       appBar: AppBar(
         title: Text('Main Page'),
       ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(
-                "assets/logo.png"), // Substitua "logo.jpg" pelo nome do seu arquivo de imagem.
+            image: AssetImage("assets/logo.png"),
             fit: BoxFit.contain,
           ),
         ),
@@ -57,6 +57,15 @@ class MainPage extends StatelessWidget {
                   );
                 },
                 child: Text('Cadastro de Funcionários'),
+              ),
+              ElevatedButton( // Adiciona um botão para acessar a ApiStatusPage
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ApiStatusPage()),
+                  );
+                },
+                child: Text('Status da API'),
               ),
             ],
           ),

@@ -5,7 +5,7 @@ import 'dart:convert';
 
 class EmployeeModel {
   //atributos para API
-  final Long id;
+  final int id;
   final String nome;
   final String email;
   final String senha;

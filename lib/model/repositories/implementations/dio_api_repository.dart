@@ -20,7 +20,7 @@ class DioApiRepository implements ApiRepository{
 
 
   @override
-  Future<EmployeeModel?> getEmployee(Long employeeId) async {
+  Future<EmployeeModel?> getEmployee(int employeeId) async {
     try{
       final url = '$API_URL/usuario/$employeeId'; //recuperando id do employee
       final response = await _dio.get(url);

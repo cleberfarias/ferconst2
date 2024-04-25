@@ -20,7 +20,7 @@ class HttpApiRepository implements ApiRepository{
   HttpApiRepository({required Client client}) : _client = client;
 
   @override
-  Future<EmployeeModel?> getEmployee(Long employeeId) async {
+  Future<EmployeeModel?> getEmployee(int employeeId) async {
     try{
       final url = '$API_URL/usuario/$employeeId'; //recuperando id do employee
       final response = await _client.get(Uri.parse(url));

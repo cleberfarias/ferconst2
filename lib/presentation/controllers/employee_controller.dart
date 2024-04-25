@@ -33,7 +33,7 @@ class EmployeeController{
     _errorLoadingEmployee = null;
 
     try {
-      final employee = await apiRepository.getEmployee(employeeId as Long);
+      final employee = await apiRepository.getEmployee(employeeId);
       _loadedEmployee = employee;
     } on ApiException catch(apiExecption){
       _errorLoadingEmployee = apiExecption.menssagem;
