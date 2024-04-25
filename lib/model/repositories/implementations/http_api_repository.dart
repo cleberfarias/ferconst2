@@ -3,8 +3,8 @@
 import 'dart:developer';
 import 'dart:ffi';
 
-import 'package:ferconst/Model/data/EmployeeModel.dart';
-import 'package:ferconst/Model/repositories/api_repository.dart';
+import 'package:ferconst/model/data/EmployeeModel.dart';
+import 'package:ferconst/model/repositories/api_repository.dart';
 import 'package:http/http.dart';
 
 import '../errors/api_exception.dart';

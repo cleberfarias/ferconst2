@@ -1,14 +1,14 @@
 import 'dart:ffi';
 
-import 'package:ferconst/Model/data/EmployeeModel.dart';
-import 'package:ferconst/Model/repositories/api_repository.dart';
-import 'package:ferconst/Model/repositories/errors/api_exception.dart';
+import 'package:ferconst/model/data/EmployeeModel.dart';
+import 'package:ferconst/model/repositories/api_repository.dart';
+import 'package:ferconst/model/repositories/errors/api_exception.dart';
 
-class PostController{
+class EmployeeController{
 
   final ApiRepository apiRepository;
 
-  PostController(this.apiRepository);
+  EmployeeController(this.apiRepository);
 
   //mostrar erro ao usuário
   String? _errorLoadingEmployee;

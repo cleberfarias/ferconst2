@@ -4,9 +4,9 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'dart:ffi';
 
-import 'package:ferconst/Model/data/EmployeeModel.dart';
-import 'package:ferconst/Model/repositories/api_repository.dart';
-import 'package:ferconst/Model/repositories/errors/api_exception.dart';
+import 'package:ferconst/model/data/EmployeeModel.dart';
+import 'package:ferconst/model/repositories/api_repository.dart';
+import 'package:ferconst/model/repositories/errors/api_exception.dart';
 
 class DioApiRepository implements ApiRepository{
 
