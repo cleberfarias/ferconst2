@@ -23,8 +23,9 @@ class EmployeeModel {
   });
 
   //DIO transforma direto de JSON para MAP entao só precisamos transformar na factory para nosso modelo
-  factory EmployeeModel.fromMap(Map<String,dynamic> map){
+  factory EmployeeModel.fromMap(Map<String,dynamic> map){ //dynamic pq n sabemos qual valor voltará do json
     return EmployeeModel(
+      //images: List<String>.from({map['images' as Lista})
         id: map['id'],
         nome: map['nome'],
         email: map['email'],

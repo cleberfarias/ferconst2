@@ -5,6 +5,10 @@ import 'package:ferconst/model/repositories/api_repository.dart';
 import 'package:ferconst/model/repositories/errors/api_exception.dart';
 
 class EmployeeController{
+  // trabalhando com async devemos implementar esses 3 tipos de estados
+  // loading - carregando
+  // state - finalizado e atualiza a tela
+  // error - após carregar não carrega os dados ou da erro
 
   final ApiRepository apiRepository;
 
@@ -17,7 +21,7 @@ class EmployeeController{
   String? get getErrorLoadingEmployee => _errorLoadingEmployee;
 
   //progress
-  bool isLoading = true;
+  bool isLoading = false;
 
   //Employee que vamos carregar
   EmployeeModel? _loadedEmployee;
@@ -29,8 +33,8 @@ class EmployeeController{
     _errorLoadingEmployee = null;
 
     try {
-      final post = await apiRepository.getEmployee(employeeId as Long);
-      _loadedEmployee = post;
+      final employee = await apiRepository.getEmployee(employeeId as Long);
+      _loadedEmployee = employee;
     } on ApiException catch(apiExecption){
       _errorLoadingEmployee = apiExecption.menssagem;
     } catch(error, stacktracer){
