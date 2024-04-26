@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ferconst/src/status/status_page.dart';
 
 class CadastroPage extends StatefulWidget {
+  List<Map<String, String>> registros = [];
   @override
   _CadastroPageState createState() => _CadastroPageState();
 }
@@ -36,7 +37,8 @@ class _CadastroPageState extends State<CadastroPage> {
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: InkWell(
                     onTap: () {
-                      // Lógica para o item 1 do menu
+                      Navigator.pop(
+                          context); // Navega de volta para a página inicial
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -53,86 +55,22 @@ class _CadastroPageState extends State<CadastroPage> {
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: InkWell(
                     onTap: () {
-                      // Lógica para o item 2 do menu
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => StatusPage()),
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Row(
                         children: [
-                          Icon(Icons.access_time, size: 24),
+                          Icon(Icons.tab, size: 24),
                         ],
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      // Lógica para o item 3 do menu
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.chat, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      // Lógica para o item 4 do menu
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.settings, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      // Lógica para o item 5 do menu
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.person, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      // Lógica para o item 6 do menu
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.exit_to_app, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                // Adicione os outros ícones e suas navegações aqui
               ],
             ),
           ),
@@ -369,26 +307,19 @@ class _CadastroPageState extends State<CadastroPage> {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => StatusPage(
-                                      nome: nomeController.text,
-                                      cargo: cargoController.text,
-                                      setor: setorController.text,
-                                      treinamento: treinamentoController.text,
-                                      dataConclusao:
-                                          dataConclusaoController.text,
-                                      observacao: observacaoController.text,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Text('Enviar'),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                // Lógica para limpar os campos
+                                // Adicione os dados do formulário à lista de registros
+                                widget.registros.add({
+                                  'Nome': nomeController.text,
+                                  'Matrícula': matriculaController.text,
+                                  'Cargo': cargoController.text,
+                                  'Setor': setorController.text,
+                                  'Treinamento': treinamentoController.text,
+                                  'Data de Conclusão':
+                                      dataConclusaoController.text,
+                                  'Observação': observacaoController.text,
+                                });
+
+                                // Limpe os controladores de texto para limpar o formulário
                                 nomeController.clear();
                                 matriculaController.clear();
                                 cargoController.clear();
@@ -396,14 +327,17 @@ class _CadastroPageState extends State<CadastroPage> {
                                 treinamentoController.clear();
                                 dataConclusaoController.clear();
                                 observacaoController.clear();
+                                // Navegue para a página de status e passe os dados recém-adicionados
+
+                                // Exiba uma mensagem de sucesso ou navegue para outra página se necessário
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content:
+                                        Text('Cadastro realizado com sucesso!'),
+                                  ),
+                                );
                               },
-                              child: Text('Limpar'),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                // Lógica para sair
-                              },
-                              child: Text('Sair'),
+                              child: Text('Enviar'),
                             ),
                           ],
                         ),
