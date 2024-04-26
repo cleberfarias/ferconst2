@@ -34,5 +34,4 @@ class TrainingModel{
       TrainingModel.fromMap(json.decode(source));
 
 
-
 }

@@ -36,4 +36,23 @@ class HttpApiRepository implements ApiRepository{
     }
   }
 
+  @override
+  Future<EmployeeModel?> postEmployee(String nome, String email, String senha, String setor, String cargo) {
+    // TODO: implement postEmployee
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<EmployeeModel?> delEmployee(int employeeId) {
+    // TODO: implement delEmployee
+    throw UnimplementedError();
+  }
+
+
+  @override
+  Future<EmployeeModel?> upEmployee(int employeeId) {
+    // TODO: implement upEmployee
+    throw UnimplementedError();
+  }
+
 }
