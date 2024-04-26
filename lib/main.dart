@@ -1,9 +1,9 @@
 import 'package:ferconst/src/relatorio/relatorio.dart';
 import 'package:ferconst/src/status/api_status_page.dart';
+import 'package:ferconst/src/status/status_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/login/login_page.dart';
 import 'package:ferconst/src/cadastro/cadastro_page.dart';
-// Importe a página ApiStatusPage
 
 void main() {
   runApp(MyApp());
@@ -41,42 +41,46 @@ class MainPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => LoginPage()),
                   );
                 },
-                child: Text('Acessar'),
+                icon: Icon(Icons.login, size: 40), // Ícone de login
+                label: Text('Acessar'),
               ),
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => CadastroPage()),
                   );
                 },
-                child: Text('Cadastro de Funcionários'),
+                icon: Icon(Icons.person_add, size: 40), // Ícone de cadastro
+                label: Text('Cadastro de Funcionários'),
               ),
-              ElevatedButton(
-                // Adiciona um botão para acessar a ApiStatusPage
+              ElevatedButton.icon(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ApiStatusPage()),
                   );
                 },
-                child: Text('Status da API'),
+                icon: Icon(Icons.network_check,
+                    size: 40), // Ícone de status da API
+                label: Text('Status da API'),
               ),
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => RelatorioPage()),
                   );
                 },
-                child: Text('Relatorio'),
+                icon: Icon(Icons.description, size: 40), // Ícone de relatório
+                label: Text('Relatório'),
               ),
             ],
           ),

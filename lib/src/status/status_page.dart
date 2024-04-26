@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
 class StatusPage extends StatefulWidget {
-  final String nome;
-  final String cargo;
-  final String setor;
-  final String treinamento;
-  final String dataConclusao;
-  final String observacao;
+  final String? nome; // Parâmetro opcional com valor padrão nulo
+  final String? cargo; // Parâmetro opcional com valor padrão nulo
+  final String? setor; // Parâmetro opcional com valor padrão nulo
+  final String? treinamento; // Parâmetro opcional com valor padrão nulo
+  final String? dataConclusao; // Parâmetro opcional com valor padrão nulo
+  final String? observacao; // Parâmetro opcional com valor padrão nulo
 
   StatusPage({
-    required this.nome,
-    required this.cargo,
-    required this.setor,
-    required this.treinamento,
-    required this.dataConclusao,
-    required this.observacao,
+    this.nome,
+    this.cargo,
+    this.setor,
+    this.treinamento,
+    this.dataConclusao,
+    this.observacao,
   });
 
   @override
@@ -29,8 +29,14 @@ class _StatusPageState extends State<StatusPage> {
   void initState() {
     super.initState();
     _filteredRows = [
-      _buildDataRow(widget.nome, widget.cargo, widget.setor, widget.treinamento,
-          widget.dataConclusao, widget.observacao)
+      _buildDataRow(
+        widget.nome ?? "", // Use o valor padrão se for nulo
+        widget.cargo ?? "",
+        widget.setor ?? "",
+        widget.treinamento ?? "",
+        widget.dataConclusao ?? "",
+        widget.observacao ?? "",
+      )
     ];
     _searchController = TextEditingController();
   }
@@ -46,30 +52,50 @@ class _StatusPageState extends State<StatusPage> {
       body: Row(
         children: [
           Container(
-            width: MediaQuery.of(context).size.width * 0.08,
+            width: MediaQuery.of(context).size.width * 0.05,
             color: Color(0xFF6E92B4),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 20),
-                _buildMenuItem(Icons.home, 'Home', () {
-                  // Lógica para o item 1 do menu
-                }),
-                _buildMenuItem(Icons.access_time, 'Tempo', () {
-                  // Lógica para o item 2 do menu
-                }),
-                _buildMenuItem(Icons.chat, 'Chat', () {
-                  // Lógica para o item 3 do menu
-                }),
-                _buildMenuItem(Icons.settings, 'Config.', () {
-                  // Lógica para o item 4 do menu
-                }),
-                _buildMenuItem(Icons.person, 'Perfil', () {
-                  // Lógica para o item 5 do menu
-                }),
-                _buildMenuItem(Icons.exit_to_app, 'Sair', () {
-                  // Lógica para o item 6 do menu
-                }),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(
+                          context); // Navega de volta para a página inicial
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.home, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => StatusPage()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.tab, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                // Adicione os outros ícones e suas navegações aqui
               ],
             ),
           ),
@@ -130,9 +156,7 @@ class _StatusPageState extends State<StatusPage> {
       padding: EdgeInsets.only(bottom: 20.0),
       child: TextField(
         controller: _searchController,
-        onChanged: (query) {
-          _filterRows(query);
-        },
+        onChanged: (query) {},
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.search),
           hintText: 'Pesquisar funcionário',
@@ -140,24 +164,6 @@ class _StatusPageState extends State<StatusPage> {
         ),
       ),
     );
-  }
-
-  void _filterRows(String query) {
-    setState(() {
-      _filteredRows.clear(); // Limpa a lista de linhas filtradas
-
-      // Adiciona as linhas correspondentes à consulta de pesquisa
-      if (query.isNotEmpty) {
-        _filteredRows.add(_buildDataRow(
-          widget.nome,
-          widget.cargo,
-          widget.setor,
-          widget.treinamento,
-          widget.dataConclusao,
-          widget.observacao,
-        ));
-      }
-    });
   }
 
   DataRow _buildDataRow(String nome, String cargo, String setor,
@@ -173,6 +179,11 @@ class _StatusPageState extends State<StatusPage> {
   }
 
   Widget _buildTabela(List<DataRow> rows) {
+    if (rows.isEmpty) {
+      // Se não houver linhas, adicione uma única linha com células vazias
+      rows.add(_buildEmptyDataRow());
+    }
+
     return Center(
       child: DataTable(
         columns: [
@@ -186,5 +197,16 @@ class _StatusPageState extends State<StatusPage> {
         rows: rows,
       ),
     );
+  }
+
+  DataRow _buildEmptyDataRow() {
+    return DataRow(cells: [
+      DataCell(Text('')),
+      DataCell(Text('')),
+      DataCell(Text('')),
+      DataCell(Text('')),
+      DataCell(Text('')),
+      DataCell(Text('')),
+    ]);
   }
 }
