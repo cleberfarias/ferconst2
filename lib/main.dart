@@ -1,3 +1,4 @@
+import 'package:ferconst/src/relatorio/relatorio.dart';
 import 'package:ferconst/src/status/api_status_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/login/login_page.dart';
@@ -58,7 +59,8 @@ class MainPage extends StatelessWidget {
                 },
                 child: Text('Cadastro de Funcionários'),
               ),
-              ElevatedButton( // Adiciona um botão para acessar a ApiStatusPage
+              ElevatedButton(
+                // Adiciona um botão para acessar a ApiStatusPage
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -66,6 +68,15 @@ class MainPage extends StatelessWidget {
                   );
                 },
                 child: Text('Status da API'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RelatorioPage()),
+                  );
+                },
+                child: Text('Relatorio'),
               ),
             ],
           ),
