@@ -47,5 +47,22 @@ class EmployeeController{
 
   }
 
+  Future<void> onPostEmployee(String nome, String email, String senha, String setor, String cargo) async{
+    isLoading = true;
+    _errorLoadingEmployee = null;
+
+    try{
+      final postEmployee = await apiRepository.postEmployee(nome, email, senha, setor, cargo);
+      _loadedEmployee = postEmployee;
+
+    } on ApiException catch(apiExecption){
+      _errorLoadingEmployee = apiExecption.menssagem;
+    } catch(error, stacktracer){
+
+      _errorLoadingEmployee = "Erro na solicitação POST";
+    }
+    isLoading = false;
+  }
+
 
 }

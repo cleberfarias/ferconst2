@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/status/status_page.dart';
 
+import '../../model/repositories/implementations/dio_api_repository.dart';
+import '../../presentation/controllers/employee_controller.dart';
+import 'package:dio/dio.dart';
+
 class CadastroPage extends StatefulWidget {
   List<Map<String, String>> registros = [];
+
   @override
   _CadastroPageState createState() => _CadastroPageState();
 }
@@ -15,6 +20,16 @@ class _CadastroPageState extends State<CadastroPage> {
   TextEditingController treinamentoController = TextEditingController();
   TextEditingController dataConclusaoController = TextEditingController();
   TextEditingController observacaoController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController senhaController = TextEditingController();
+
+  late EmployeeController _employeeController;
+
+  @override
+  void initState() {
+    super.initState();
+    _employeeController = EmployeeController(DioApiRepository(dio: Dio()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +52,7 @@ class _CadastroPageState extends State<CadastroPage> {
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: InkWell(
                     onTap: () {
-                      Navigator.pop(
-                          context); // Navega de volta para a página inicial
+                      Navigator.pop(context); // Navega de volta para a página inicial
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -114,8 +128,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                 children: [
                                   Text(
                                     'Nome:',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   TextField(
@@ -123,8 +136,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                     decoration: InputDecoration(
                                       hintText: 'Digite o nome',
                                       border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        borderRadius: BorderRadius.circular(10.0),
                                       ),
                                     ),
                                     maxLines: null,
@@ -138,18 +150,39 @@ class _CadastroPageState extends State<CadastroPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Matrícula:',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    'E-mail:',
+                                    style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   TextField(
-                                    controller: matriculaController,
+                                    controller: emailController,
                                     decoration: InputDecoration(
-                                      hintText: 'Digite a matrícula',
+                                      hintText: 'Digite o e-mail',
                                       border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        borderRadius: BorderRadius.circular(10.0),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 20.0),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Senha:',
+                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(height: 8.0),
+                                  TextField(
+                                    controller: senhaController,
+                                    obscureText: true, // Para ocultar a senha
+                                    decoration: InputDecoration(
+                                      hintText: 'Digite a senha',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.0),
                                       ),
                                     ),
                                   ),
@@ -168,7 +201,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                   Text(
                                     'Cargo:',
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   TextField(
@@ -177,7 +210,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                       hintText: 'Digite o cargo',
                                       border: OutlineInputBorder(
                                         borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        BorderRadius.circular(10.0),
                                       ),
                                     ),
                                   ),
@@ -192,14 +225,14 @@ class _CadastroPageState extends State<CadastroPage> {
                                   Text(
                                     'Setor:',
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   DropdownButtonFormField<String>(
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
                                         borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        BorderRadius.circular(10.0),
                                       ),
                                     ),
                                     items: [
@@ -294,7 +327,7 @@ class _CadastroPageState extends State<CadastroPage> {
                             maxLines: 10,
                             decoration: InputDecoration(
                               hintText:
-                                  'Descreva de forma resumida sobre o curso que você fez.',
+                              'Descreva de forma resumida sobre o curso que você fez.',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
@@ -306,36 +339,40 @@ class _CadastroPageState extends State<CadastroPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             ElevatedButton(
-                              onPressed: () {
-                                // Adicione os dados do formulário à lista de registros
-                                widget.registros.add({
-                                  'Nome': nomeController.text,
-                                  'Matrícula': matriculaController.text,
-                                  'Cargo': cargoController.text,
-                                  'Setor': setorController.text,
-                                  'Treinamento': treinamentoController.text,
-                                  'Data de Conclusão':
-                                      dataConclusaoController.text,
-                                  'Observação': observacaoController.text,
-                                });
+                              onPressed: () async {
+                                // Chame o método onPostEmployee para enviar os dados do formulário
+                                try {
+                                  // Chame o método onPostEmployee e passe os dados do formulário
+                                  await _employeeController.onPostEmployee(
+                                    nomeController.text,
+                                    emailController.text,
+                                    senhaController.text,
+                                    setorController.text,
+                                    cargoController.text,
+                                  );
 
-                                // Limpe os controladores de texto para limpar o formulário
-                                nomeController.clear();
-                                matriculaController.clear();
-                                cargoController.clear();
-                                setorController.clear();
-                                treinamentoController.clear();
-                                dataConclusaoController.clear();
-                                observacaoController.clear();
-                                // Navegue para a página de status e passe os dados recém-adicionados
+                                  // Limpe os controladores de texto para limpar o formulário
+                                  nomeController.clear();
+                                  emailController.clear();
+                                  senhaController.clear();
+                                  setorController.clear();
+                                  cargoController.clear();
 
-                                // Exiba uma mensagem de sucesso ou navegue para outra página se necessário
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content:
-                                        Text('Cadastro realizado com sucesso!'),
-                                  ),
-                                );
+                                  // Exiba uma mensagem de sucesso
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Cadastro realizado com sucesso!'),
+                                    ),
+                                  );
+                                } catch (e) {
+                                  // Se ocorrer um erro ao enviar os dados, exiba uma mensagem de erro
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Erro ao enviar o cadastro: $e'),
+                                    ),
+                                  );
+                                  print("Erro ao enviar o cadastro: $e");
+                                }
                               },
                               child: Text('Enviar'),
                             ),
