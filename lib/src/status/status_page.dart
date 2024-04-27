@@ -1,3 +1,5 @@
+import 'package:ferconst/src/home/homePage.dart';
+import 'package:ferconst/src/login/login_page.dart';
 import 'package:flutter/material.dart';
 
 class StatusPage extends StatefulWidget {
@@ -62,8 +64,9 @@ class _StatusPageState extends State<StatusPage> {
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: InkWell(
                     onTap: () {
-                      Navigator.pop(
-                          context); // Navega de volta para a página inicial
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => Homepage()),
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),

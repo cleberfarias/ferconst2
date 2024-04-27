@@ -1,6 +1,12 @@
+
+import 'package:ferconst/src/home/homePage.dart';
+import 'package:ferconst/src/recuperarSenha/recuperarSenha.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
+  String usuario = ''; // Variável para armazenar o nome de usuário
+  String senha = ''; // Variável para armazenar a senha
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +41,10 @@ class LoginPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         TextField(
+                          onChanged: (value) {
+                            usuario =
+                                value; // Atualiza o valor do usuário ao digitar
+                          },
                           decoration: InputDecoration(
                             hintText: 'Usuário',
                             filled: true,
@@ -51,6 +61,10 @@ class LoginPage extends StatelessWidget {
                         ),
                         SizedBox(height: 20.0),
                         TextField(
+                          onChanged: (value) {
+                            senha =
+                                value; // Atualiza o valor da senha ao digitar
+                          },
                           obscureText: true,
                           decoration: InputDecoration(
                             hintText: 'Senha',
@@ -69,6 +83,12 @@ class LoginPage extends StatelessWidget {
                         SizedBox(height: 20.0),
                         ElevatedButton(
                           onPressed: () {
+                            if (usuario == '12345' && senha == '123') {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => Homepage()),
+                              );
+                            }
                             // Lógica para autenticar o usuário
                           },
                           child: Text('Login'),
@@ -78,12 +98,16 @@ class LoginPage extends StatelessWidget {
                           alignment: Alignment.centerRight,
                           child: TextButton(
                             onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => RecuperarSenhaPage()),
+                              );
                               // Lógica para lidar com "Esqueceu a senha?"
                             },
                             child: Text(
                               'Esqueceu a senha?',
-                              style: TextStyle(
-                                  color: Colors.blue), // Cor do texto do link
+                              style: TextStyle(color: Colors.blue),
+                              // Cor do texto do link
                             ),
                           ),
                         ),
