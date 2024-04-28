@@ -1,3 +1,8 @@
+import 'package:ferconst/src/cadastro/cadastro_page.dart';
+import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
+import 'package:ferconst/src/home/homePage.dart';
+import 'package:ferconst/src/login/login_page.dart';
+import 'package:ferconst/src/status/status_page.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -27,39 +32,179 @@ class _RelatorioPageState extends State {
           },
         ),
       ),
-      
-      body: SingleChildScrollView(
-        
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Card(
-              elevation: 4,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _buildContador(
-                        'Total de Cursos Concluídos', totalCursoConcluido),
-                    _buildContador(
-                        'Total de Cursos em Andamento', totalCursoEmAndamento),
-                    _buildContador('Total de Cursos Não Concluídos',
-                        totalCursoNaoConcluido),
-                  ],
+      body: Row(
+        children: [
+          // Menu bar
+          Container(
+            width: MediaQuery.of(context).size.width * 0.05,
+            color: Color(0xFF6E92B4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => Homepage()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.home, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
+                SizedBox(height: 8),
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CadastroPage()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.person_add, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CadastroCursoPage()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.format_list_bulleted_add, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => StatusPage()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.format_shapes, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RelatorioPage()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.insert_chart, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.login, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                // Adicione os outros ícones e suas navegações aqui
+              ],
+            ),
+          ), // ... other menu items ...
+
+          // Rest of the page content
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Card(
+                    elevation: 4,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildContador('Total de Cursos Concluídos',
+                              totalCursoConcluido),
+                          _buildContador('Total de Cursos em Andamento',
+                              totalCursoEmAndamento),
+                          _buildContador('Total de Cursos Não Concluídos',
+                              totalCursoNaoConcluido),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 32),
+                  Text(
+                    'Gráfico:',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 16),
+                  _buildGrafico(),
+                ],
               ),
             ),
-            SizedBox(height: 32),
-            Text(
-              'Gráfico:',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 16),
-            _buildGrafico(),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -1,4 +1,7 @@
+import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
 import 'package:ferconst/src/home/homePage.dart';
+import 'package:ferconst/src/login/login_page.dart';
+import 'package:ferconst/src/relatorio/relatorio.dart';
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/status/status_page.dart';
 
@@ -67,6 +70,48 @@ class _CadastroPageState extends State<CadastroPage> {
                     ),
                   ),
                 ),
+
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CadastroPage()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.person_add, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CadastroCursoPage()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.format_list_bulleted_add, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
                 SizedBox(height: 8),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.5,
@@ -81,7 +126,49 @@ class _CadastroPageState extends State<CadastroPage> {
                       padding: const EdgeInsets.all(16.0),
                       child: Row(
                         children: [
-                          Icon(Icons.tab, size: 24),
+                          Icon(Icons.format_shapes, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RelatorioPage()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.insert_chart, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.login, size: 24),
                         ],
                       ),
                     ),
@@ -106,7 +193,7 @@ class _CadastroPageState extends State<CadastroPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Data:',
+                          'Data da inscrição:',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 8.0),
@@ -292,7 +379,7 @@ class _CadastroPageState extends State<CadastroPage> {
                         ),
                         SizedBox(height: 20.0),
                         Text(
-                          'Treinamentos:',
+                          'Cursos Sugeridos:',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 8.0),
@@ -315,6 +402,22 @@ class _CadastroPageState extends State<CadastroPage> {
                               value: 'Conduta',
                               child: Text('Conduta'),
                             ),
+                            DropdownMenuItem<String>(
+                              value: 'Segurança no trabalho',
+                              child: Text('Segurança no trabalho'),
+                            ),
+                            DropdownMenuItem<String>(
+                              value: 'Conduta',
+                              child: Text('Conduta'),
+                            ),
+                            DropdownMenuItem<String>(
+                              value: 'Súde Mental',
+                              child: Text('Súde Mental'),
+                            ),
+                            DropdownMenuItem<String>(
+                              value: 'Gestão de Produtividade',
+                              child: Text('Gestão de Produtividade'),
+                            ),
                           ],
                           onChanged: (String? value) {
                             // Lógica para lidar com a mudança de valor
@@ -335,8 +438,7 @@ class _CadastroPageState extends State<CadastroPage> {
                             controller: observacaoController,
                             maxLines: 10,
                             decoration: InputDecoration(
-                              hintText:
-                                  'Descreva de forma resumida sobre o curso que você fez.',
+                              hintText: 'Descreva o que deve abordar no curso.',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),

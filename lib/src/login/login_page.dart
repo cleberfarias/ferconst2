@@ -1,128 +1,114 @@
-
+import 'package:flutter/material.dart';
 import 'package:ferconst/src/home/homePage.dart';
 import 'package:ferconst/src/recuperarSenha/recuperarSenha.dart';
-import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
-  String usuario = ''; // Variável para armazenar o nome de usuário
-  String senha = ''; // Variável para armazenar a senha
+  String usuario = '';
+  String senha = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Login'),
-        toolbarHeight: 50.0, // Definindo a altura da AppBar
-        backgroundColor: Color(0xFF6E92B4), // Cor de fundo da AppBar
+        toolbarHeight: 50.0,
+        backgroundColor: Color(0xFF6E92B4),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Container(
-              alignment:
-                  Alignment.center, // Centraliza o conteúdo verticalmente
-              color: Color(0xFF6E92B4), // Cor de fundo da página
+      body: Container(
+        color: Color(0xFF6E92B4),
+        child: Stack(
+          children: [
+            Positioned.fill(
               child: Center(
-                child: Padding(
-                  padding: EdgeInsets.all(30.0),
-                  child: Container(
-                    width: 600.0,
-                    padding: const EdgeInsets.only(
-                      top: 20,
-                      left: 20,
-                      right: 20,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Color(0xFFD9D9D9),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        TextField(
-                          onChanged: (value) {
-                            usuario =
-                                value; // Atualiza o valor do usuário ao digitar
-                          },
-                          decoration: InputDecoration(
-                            hintText: 'Usuário',
-                            filled: true,
-                            fillColor: Colors.transparent,
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.all(15.0),
-                              child: Image.asset(
-                                'assets/do-utilizador.png', // Caminho da imagem do usuário
-                                width: 24, // Largura da imagem
-                                height: 24, // Altura da imagem
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20.0),
-                        TextField(
-                          onChanged: (value) {
-                            senha =
-                                value; // Atualiza o valor da senha ao digitar
-                          },
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            hintText: 'Senha',
-                            filled: true,
-                            fillColor: Colors.transparent,
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.all(15.0),
-                              child: Image.asset(
-                                'assets/cadeado.png', // Caminho da imagem do cadeado
-                                width: 24, // Largura da imagem
-                                height: 24, // Altura da imagem
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20.0),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (usuario == '12345' && senha == '123') {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => Homepage()),
-                              );
-                            }
-                            // Lógica para autenticar o usuário
-                          },
-                          child: Text('Login'),
-                        ),
-                        SizedBox(height: 20.0),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => RecuperarSenhaPage()),
-                              );
-                              // Lógica para lidar com "Esqueceu a senha?"
+                child: Container(
+                  width: 400.0,
+                  height: 400.0,
+                  alignment: Alignment.center,
+                  child: Card(
+                    elevation: 6.0,
+                    child: Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          TextField(
+                            onChanged: (value) {
+                              usuario = value;
                             },
-                            child: Text(
-                              'Esqueceu a senha?',
-                              style: TextStyle(color: Colors.blue),
-                              // Cor do texto do link
+                            decoration: InputDecoration(
+                              hintText: 'Usuário',
+                              filled: true,
+                              fillColor: Colors.transparent,
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.all(15.0),
+                                child: Image.asset(
+                                  'assets/do-utilizador.png',
+                                  width: 24,
+                                  height: 24,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 20.0),
+                          TextField(
+                            onChanged: (value) {
+                              senha = value;
+                            },
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              hintText: 'Senha',
+                              filled: true,
+                              fillColor: Colors.transparent,
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.all(15.0),
+                                child: Image.asset(
+                                  'assets/cadeado.png',
+                                  width: 24,
+                                  height: 24,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 20.0),
+                          ElevatedButton(
+                            onPressed: () {
+                              if (usuario == '12345' && senha == '123') {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => Homepage()),
+                                );
+                              }
+                              // Lógica para autenticar o usuário
+                            },
+                            child: Text('Login'),
+                          ),
+                          SizedBox(height: 20.0),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          RecuperarSenhaPage()),
+                                );
+                              },
+                              child: Text(
+                                'Esqueceu a senha?',
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          Container(
-            color: Color(0xFF6E92B4),
-            height: 50.0, // Altura do rodapé
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
