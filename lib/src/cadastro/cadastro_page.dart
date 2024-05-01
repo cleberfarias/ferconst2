@@ -399,10 +399,6 @@ class _CadastroPageState extends State<CadastroPage> {
                               child: Text('Fraude'),
                             ),
                             DropdownMenuItem<String>(
-                              value: 'Conduta',
-                              child: Text('Conduta'),
-                            ),
-                            DropdownMenuItem<String>(
                               value: 'Segurança no trabalho',
                               child: Text('Segurança no trabalho'),
                             ),
