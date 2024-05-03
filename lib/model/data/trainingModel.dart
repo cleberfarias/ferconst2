@@ -9,6 +9,7 @@ class TrainingModel{
   final String descricao;
   final DateTime inicio;
   final DateTime fim;
+  final String classificacao;
 
   TrainingModel({
     required this.id,
@@ -16,6 +17,7 @@ class TrainingModel{
     required this.descricao,
     required this.fim,
     required this.inicio,
+    required this.classificacao,
   });
 
   //DIO
@@ -25,7 +27,8 @@ class TrainingModel{
       nome:map['nome'],
       descricao:map['descricao'],
       fim: map['map'],
-      inicio:map['inicio']
+      inicio:map['inicio'],
+      classificacao: map['classificacao']
     );
   }
 
