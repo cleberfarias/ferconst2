@@ -11,6 +11,7 @@ class EmployeeModel {
   final String senha;
   final String setor;
   final String cargo;
+  final DateTime inscricao;
 
   EmployeeModel({
     //required obrigatório
@@ -20,6 +21,7 @@ class EmployeeModel {
     required this.senha,
     required this.setor,
     required this.cargo,
+    required this.inscricao,
   });
 
   //DIO transforma direto de JSON para MAP entao só precisamos transformar na factory para nosso modelo
@@ -31,7 +33,8 @@ class EmployeeModel {
         email: map['email'],
         senha: map['senha'],
         setor: map['setor'],
-        cargo: map['cargo']
+        cargo: map['cargo'],
+        inscricao: map['inscricao']
     );
   }
 
