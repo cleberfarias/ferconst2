@@ -37,7 +37,7 @@ class DioApiRepository implements ApiRepository{
   }
 
   @override
-  Future<EmployeeModel?> postEmployee(String nome, String email, String senha, String setor, String cargo) async {
+  Future<EmployeeModel?> postEmployee(String nome, String email, String senha, String setor, String cargo, DateTime inscricao) async {
     try{
 
       Map<String, dynamic> request ={
@@ -45,7 +45,8 @@ class DioApiRepository implements ApiRepository{
         'email':email,
         'senha':senha,
         'setor':setor,
-        'cargo':cargo
+        'cargo':cargo,
+        'isncricao':inscricao
       };
       final url = '$API_URL/usuario/cadastro';
       final response = await _dio.post(url,data:request);
