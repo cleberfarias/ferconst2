@@ -234,7 +234,7 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                         ),
                         SizedBox(height: 20.0),
                         Text(
-                          'Matricula:',
+                          'Nome:',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 8.0),
@@ -294,7 +294,7 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                           ),
                         SizedBox(height: 20.0),
                         Text(
-                          'Treinamentos:',
+                          'Classificação:',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 8.0),

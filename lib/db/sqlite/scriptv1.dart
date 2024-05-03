@@ -5,7 +5,8 @@ final createTableUsuario = '''
         email TEXT NOT NULL UNIQUE,
         senha TEXT NOT NULL,
         setor TEXT NOT NULL,
-        cargo TEXT NOT NULL
+        cargo TEXT NOT NULL,
+        inscricao DATETIME NOT NULL
     )
 ''';
 
@@ -15,7 +16,8 @@ final createTableTreinamento = '''
         nome TEXT NOT NULL UNIQUE,
         descricao TEXT,
         inicio DATETIME NOT NULL,
-        fim DATETIME NOT NULL
+        fim DATETIME NOT NULL,
+        classificacao TEXT
     )
 ''';
 
