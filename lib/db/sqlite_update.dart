@@ -21,14 +21,14 @@ class DatabaseUpdater {
     await db.transaction((txn) async {
       dataUsuarios.forEach((usuario) async {
         await txn.rawInsert(
-            'INSERT INTO Usuario(id, nome, email, senha, setor, cargo) VALUES(?, ?, ?, ?, ?, ?)',
-            [usuario['id'], usuario['nome'], usuario['email'], usuario['senha'], usuario['setor'], usuario['cargo']]);
+            'INSERT INTO Usuario(id, nome, email, senha, setor, cargo, inscricao) VALUES(?, ?, ?, ?, ?, ?, ?)',
+            [usuario['id'], usuario['nome'], usuario['email'], usuario['senha'], usuario['setor'], usuario['cargo'],usuario['inscricao']]);
       });
 
       dataTreinamentos.forEach((treinamento) async {
         await txn.rawInsert(
-            'INSERT INTO Treinamento(id, nome, descricao, inicio, fim) VALUES(?, ?, ?, ?, ?)',
-            [treinamento['id'], treinamento['nome'], treinamento['descricao'], treinamento['inicio'], treinamento['fim']]);
+            'INSERT INTO Treinamento(id, nome, descricao, inicio, fim, classificacao) VALUES(?, ?, ?, ?, ?, ?)',
+            [treinamento['id'], treinamento['nome'], treinamento['descricao'], treinamento['inicio'], treinamento['fim'], treinamento['classificacao']]);
       });
 
       dataUsuarioTreinamento.forEach((usuarioTreinamento) async {
