@@ -37,7 +37,7 @@ class HttpApiRepository implements ApiRepository{
   }
 
   @override
-  Future<EmployeeModel?> postEmployee(String nome, String email, String senha, String setor, String cargo) {
+  Future<EmployeeModel?> postEmployee(String nome, String email, String senha, String setor, String cargo, DateTime inscricao) {
     // TODO: implement postEmployee
     throw UnimplementedError();
   }
