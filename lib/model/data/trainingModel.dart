@@ -7,8 +7,8 @@ class TrainingModel{
   final int id;
   final String nome;
   final String descricao;
-  final DateTime inicio;
-  final DateTime fim;
+  final String inicio;
+  final String fim;
   final String classificacao;
 
   TrainingModel({

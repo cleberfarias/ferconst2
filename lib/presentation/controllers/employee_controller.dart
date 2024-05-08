@@ -47,7 +47,7 @@ class EmployeeController{
 
   }
 
-  Future<void> onPostEmployee(String nome, String email, String senha, String setor, String cargo, DateTime inscricao) async{
+  Future<void> onPostEmployee(String nome, String email, String senha, String setor, String cargo, String inscricao) async{
     isLoading = true;
     _errorLoadingEmployee = null;
 

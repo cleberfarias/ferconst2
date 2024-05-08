@@ -6,7 +6,7 @@ final createTableUsuario = '''
         senha TEXT NOT NULL,
         setor TEXT NOT NULL,
         cargo TEXT NOT NULL,
-        inscricao DATETIME NOT NULL
+        inscricao TEXT NOT NULL
     )
 ''';
 
@@ -15,8 +15,8 @@ final createTableTreinamento = '''
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL UNIQUE,
         descricao TEXT,
-        inicio DATETIME NOT NULL,
-        fim DATETIME NOT NULL,
+        inicio TEXT NOT NULL,
+        fim TEXT,
         classificacao TEXT
     )
 ''';

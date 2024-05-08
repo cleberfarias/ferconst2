@@ -11,7 +11,7 @@ class EmployeeModel {
   final String senha;
   final String setor;
   final String cargo;
-  final DateTime inscricao;
+  final String inscricao;
 
   EmployeeModel({
     //required obrigatório
