@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:ferconst/src/home/homePage.dart';
 import 'package:ferconst/src/status/status_page.dart';
 import 'package:ferconst/src/cadastro/cadastro_page.dart';
+import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
+import '../../model/repositories/implementations/dio_api_repository.dart';
+import '../../presentation/controllers/employee_controller.dart';
 
 class CadastroCursoPage extends StatefulWidget {
   List<Map<String, String>> registros = [];
@@ -13,12 +17,35 @@ class CadastroCursoPage extends StatefulWidget {
 }
 
 class _CadastroCursoPageState extends State<CadastroCursoPage> {
-  String? _selectedTraining;
-  List<String> _selectedTrainings = [];
 
-  TextEditingController _searchController = TextEditingController();
+  TextEditingController nomeController = TextEditingController();
+  TextEditingController dataInicioController = TextEditingController();
+  TextEditingController dataFimController = TextEditingController();
+  TextEditingController classificacaoController = TextEditingController();
+  TextEditingController observacaoController = TextEditingController();
 
-  bool _showEmployeeDetails = false;
+
+  late EmployeeController _employeeController;
+  @override
+  void initState() {
+    super.initState();
+    _employeeController = EmployeeController(DioApiRepository(dio: Dio()));
+  }
+
+  void _showDatePicker() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1960),
+      lastDate: DateTime(2035),
+    );
+    if (picked != null) {
+      setState(() {
+        dataInicioController.text = DateFormat('dd/MM/yyyy').format(picked);
+        dataFimController.text = DateFormat('dd/MM/yyyy').format(picked);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -184,20 +211,26 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Data Inicio:',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    'Data início:',
+                                    style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
-                                  Container(
-                                    width: 120.0,
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                        hintText: 'dd/mm/aaaa',
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
+                                  TextFormField(
+                                    readOnly: true, // Para impedir que o usuário edite diretamente
+                                    controller: TextEditingController(
+                                      text: dataInicioController.text,
+                                      /*? DateFormat('dd/MM/yyyy').for
+                                : '', // data String só para mostrar no input*/
+                                    ),
+                                    decoration: InputDecoration(
+                                      hintText: 'Escolha uma data',
+                                      labelText: 'Data início',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                      ),
+                                      suffixIcon: IconButton(
+                                        onPressed: _showDatePicker,
+                                        icon: Icon(Icons.search), //lupa
                                       ),
                                     ),
                                   ),
@@ -211,19 +244,25 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                 children: [
                                   Text(
                                     'Data Fim:',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
-                                  Container(
-                                    width: 120.0,
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                        hintText: 'dd/mm/aaaa',
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
+                                  TextFormField(
+                                    readOnly: true, // Para impedir que o usuário edite diretamente
+                                    controller: TextEditingController(
+                                      text: dataFimController.text,
+                                      /*? DateFormat('dd/MM/yyyy').for
+                                : '', // data String só para mostrar no input*/
+                                    ),
+                                    decoration: InputDecoration(
+                                      hintText: 'Escolha uma data',
+                                      labelText: 'Data fim curso',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                      ),
+                                      suffixIcon: IconButton(
+                                        onPressed: _showDatePicker,
+                                        icon: Icon(Icons.search), //lupa
                                       ),
                                     ),
                                   ),
@@ -233,81 +272,85 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                           ],
                         ),
                         SizedBox(height: 20.0),
-                        Text(
-                          'Nome:',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 8.0),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.4,
-                          child: TextField(
-                            controller: _searchController,
-                            onChanged: (value) {
-                              // Aqui você pode verificar se a matrícula foi encontrada
-                              // e atualizar a variável _showEmployeeDetails conforme necessário
-                              if (value == '12345') {
-                                setState(() {
-                                  _showEmployeeDetails = true;
-                                });
-                              } else {
-                                setState(() {
-                                  _showEmployeeDetails = false;
-                                });
-                              }
-                            },
-                            decoration: InputDecoration(
-                              hintText: 'Buscar',
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.search),
-                                onPressed: () {
-                                  // Função de busca aqui
-                                  // Você pode usar _searchController.text para obter o texto digitado
-                                  // e realizar a busca com base nesse texto
-                                },
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Nome:',
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(height: 8.0),
+                                  TextField(
+                                    controller: nomeController,
+                                    decoration: InputDecoration(
+                                      hintText: 'Digite o nome',
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(10.0),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                        ),
-                        if (_showEmployeeDetails)
-                          SizedBox(
-                            height: 20,
-                          ),
-                        if (_showEmployeeDetails)
-                          DataTable(
-                            columns: [
-                              DataColumn(label: Text('Nome')),
-                              DataColumn(label: Text('Matrícula')),
-                              DataColumn(label: Text('Cargo')),
-                              DataColumn(label: Text('Setor')),
-                            ],
-                            rows: [
-                              DataRow(cells: [
-                                DataCell(Text('Cleber Farias')),
-                                DataCell(Text('12345')),
-                                DataCell(Text('Dev')),
-                                DataCell(Text('TI')),
-                              ]),
-                            ],
-                          ),
-                        SizedBox(height: 20.0),
-                        Text(
-                          'Classificação:',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 8.0),
-                        Wrap(
-                          spacing: 20.0,
-                          runSpacing: 10.0,
-                          children: [
-                            buildCheckbox('Segurança no Trabalho'),
-                            buildCheckbox('Saúde Mental'),
-                            buildCheckbox('Gestão do Tempo e Produtividade'),
-                            buildCheckbox('Assédio'),
-                            buildCheckbox('Fraude'),
-                            buildCheckbox('Conduta'),
+                            SizedBox(width: 20.0),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Classificação:',
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(height: 8.0),
+                                  DropdownButtonFormField<String>(
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(10.0),
+                                      ),
+                                    ),
+                                    items: [
+                                      DropdownMenuItem<String>(
+                                        value: 'Segurança do Trabalho',
+                                        child: Text('Segurança do Trabalho'),
+                                      ),
+                                      DropdownMenuItem<String>(
+                                        value: 'Saúde Mental',
+                                        child: Text('Saúde Mental'),
+                                      ),
+                                      DropdownMenuItem<String>(
+                                        value: 'Gestão de Tempo e Produtividade',
+                                        child: Text('Gestão de Tempo e Produtividade'),
+                                      ),
+                                      DropdownMenuItem<String>(
+                                        value: 'Assédio',
+                                        child: Text('Assédio'),
+                                      ),
+                                      DropdownMenuItem<String>(
+                                        value: 'Fraude',
+                                        child: Text('Fraude'),
+                                      ),
+                                      DropdownMenuItem<String>(
+                                        value: 'Conduta',
+                                        child: Text('Fraude'),
+                                      ),
+                                    ],
+                                    onChanged: (String? value) {
+                                      // Lógica para lidar com a mudança de valor
+                                      setState(() {
+                                        classificacaoController.text = value ?? '';
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                         SizedBox(height: 20.0),
@@ -319,10 +362,10 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                         Container(
                           width: double.infinity,
                           child: TextField(
+                            controller: observacaoController,
                             maxLines: 10,
                             decoration: InputDecoration(
-                              hintText:
-                                  'Descreva de forma resumida sobre o curso que você fez.',
+                              hintText: 'Descreva o que deve abordar no curso.',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
@@ -337,6 +380,22 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                               onPressed: () async {
                                 // Chame o método onPostEmployee para enviar os dados do formulário
                                 try {
+                                  // Chame o método onPostEmployee e passe os dados do formulário
+                                  /*await _employeeController.onPostEmployee(
+                                    nomeController.text,
+                                    dataInicioController.text,
+                                    dataFimController.text,
+                                    classificacaoController.text,
+                                    observacaoController.text,
+                                  );*/
+
+                                  // Limpe os controladores de texto para limpar o formulário
+                                  nomeController.clear();
+                                  dataInicioController.clear();
+                                  dataFimController.clear();
+                                  classificacaoController.clear();
+                                  observacaoController.clear();
+
                                   // Exiba uma mensagem de sucesso
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
@@ -349,7 +408,7 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content:
-                                          Text('Erro ao enviar o cadastro: $e'),
+                                      Text('Erro ao enviar o cadastro: $e'),
                                     ),
                                   );
                                   print("Erro ao enviar o cadastro: $e");
@@ -368,27 +427,6 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget buildCheckbox(String title) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Checkbox(
-          value: _selectedTrainings.contains(title),
-          onChanged: (bool? value) {
-            setState(() {
-              if (value!) {
-                _selectedTrainings.add(title);
-              } else {
-                _selectedTrainings.remove(title);
-              }
-            });
-          },
-        ),
-        Text(title),
-      ],
     );
   }
 }
