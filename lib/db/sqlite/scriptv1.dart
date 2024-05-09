@@ -14,10 +14,11 @@ final createTableTreinamento = '''
     CREATE TABLE IF NOT EXISTS treinamento (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL UNIQUE,
-        descricao TEXT,
+        classificacao TEXT,
         inicio TEXT NOT NULL,
         fim TEXT,
-        classificacao TEXT
+        descricao TEXT
+        
     )
 ''';
 

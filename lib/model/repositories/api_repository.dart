@@ -16,8 +16,8 @@ abstract class ApiRepository{
 }
 
 abstract class ApiRepositoryTraining{
-  Future<TrainingModel> getTraining(int training);
+  Future<TrainingModel> getTraining(int trainingId);
   Future<TrainingModel> postTraining(String nome, String descricao, String inicio, String fim, String classificacao);
-  Future<TrainingModel> upTraining(int training);
-  Future<TrainingModel> delTraining(int training);
+  Future<TrainingModel> upTraining(int trainingId);
+  Future<TrainingModel> delTraining(int trainingId);
 }

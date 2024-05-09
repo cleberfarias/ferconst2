@@ -6,18 +6,18 @@ class TrainingModel{
 
   final int id;
   final String nome;
-  final String descricao;
+  final String classificacao;
   final String inicio;
   final String fim;
-  final String classificacao;
+  final String descricao;
 
   TrainingModel({
     required this.id,
     required this.nome,
-    required this.descricao,
+    required this.classificacao,
     required this.fim,
     required this.inicio,
-    required this.classificacao,
+    required this.descricao,
   });
 
   //DIO
@@ -25,10 +25,10 @@ class TrainingModel{
     return TrainingModel(
       id:map['id'],
       nome:map['nome'],
-      descricao:map['descricao'],
+      classificacao: map['classificacao'],
       fim: map['map'],
       inicio:map['inicio'],
-      classificacao: map['classificacao']
+      descricao:map['descricao']
     );
   }
 

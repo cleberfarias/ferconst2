@@ -1,3 +1,5 @@
+import 'package:ferconst/model/repositories/api_repository.dart';
+import 'package:ferconst/model/repositories/implementations/dio_api_repository_training.dart';
 import 'package:ferconst/src/login/login_page.dart';
 import 'package:ferconst/src/relatorio/relatorio.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +8,7 @@ import 'package:ferconst/src/status/status_page.dart';
 import 'package:ferconst/src/cadastro/cadastro_page.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
-import '../../model/repositories/implementations/dio_api_repository.dart';
-import '../../presentation/controllers/employee_controller.dart';
+import '../../presentation/controllers/training_controller.dart';
 
 class CadastroCursoPage extends StatefulWidget {
   List<Map<String, String>> registros = [];
@@ -22,17 +23,17 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
   TextEditingController dataInicioController = TextEditingController();
   TextEditingController dataFimController = TextEditingController();
   TextEditingController classificacaoController = TextEditingController();
-  TextEditingController observacaoController = TextEditingController();
+  TextEditingController descricaoController = TextEditingController();
 
 
-  late EmployeeController _employeeController;
+  late TrainingController _trainingController;
   @override
   void initState() {
     super.initState();
-    _employeeController = EmployeeController(DioApiRepository(dio: Dio()));
+    _trainingController = TrainingController(DioApiRepositoryTraining(dio: Dio()));
   }
 
-  void _showDatePicker() async {
+  void _showDatePickerInicio() async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -42,6 +43,19 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
     if (picked != null) {
       setState(() {
         dataInicioController.text = DateFormat('dd/MM/yyyy').format(picked);
+      });
+    }
+  }
+
+  void _showDatePickerFim() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1960),
+      lastDate: DateTime(2035),
+    );
+    if (picked != null) {
+      setState(() {
         dataFimController.text = DateFormat('dd/MM/yyyy').format(picked);
       });
     }
@@ -229,7 +243,7 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                         borderRadius: BorderRadius.circular(10.0),
                                       ),
                                       suffixIcon: IconButton(
-                                        onPressed: _showDatePicker,
+                                        onPressed: _showDatePickerInicio,
                                         icon: Icon(Icons.search), //lupa
                                       ),
                                     ),
@@ -261,7 +275,7 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                         borderRadius: BorderRadius.circular(10.0),
                                       ),
                                       suffixIcon: IconButton(
-                                        onPressed: _showDatePicker,
+                                        onPressed: _showDatePickerFim,
                                         icon: Icon(Icons.search), //lupa
                                       ),
                                     ),
@@ -355,14 +369,14 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                         ),
                         SizedBox(height: 20.0),
                         Text(
-                          'Observação:',
+                          'Descrição:',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 8.0),
                         Container(
                           width: double.infinity,
                           child: TextField(
-                            controller: observacaoController,
+                            controller: descricaoController,
                             maxLines: 10,
                             decoration: InputDecoration(
                               hintText: 'Descreva o que deve abordar no curso.',
@@ -381,20 +395,20 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                 // Chame o método onPostEmployee para enviar os dados do formulário
                                 try {
                                   // Chame o método onPostEmployee e passe os dados do formulário
-                                  /*await _employeeController.onPostEmployee(
+                                  await _trainingController.onPostTraining(
                                     nomeController.text,
+                                    classificacaoController.text,
                                     dataInicioController.text,
                                     dataFimController.text,
-                                    classificacaoController.text,
-                                    observacaoController.text,
-                                  );*/
+                                    descricaoController.text,
+                                  );
 
                                   // Limpe os controladores de texto para limpar o formulário
                                   nomeController.clear();
+                                  classificacaoController.clear();
                                   dataInicioController.clear();
                                   dataFimController.clear();
-                                  classificacaoController.clear();
-                                  observacaoController.clear();
+                                  descricaoController.clear();
 
                                   // Exiba uma mensagem de sucesso
                                   ScaffoldMessenger.of(context).showSnackBar(

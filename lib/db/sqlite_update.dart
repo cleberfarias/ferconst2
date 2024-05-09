@@ -27,7 +27,7 @@ class DatabaseUpdater {
 
       dataTreinamentos.forEach((treinamento) async {
         await txn.rawInsert(
-            'INSERT INTO Treinamento(id, nome, descricao, inicio, fim, classificacao) VALUES(?, ?, ?, ?, ?, ?)',
+            'INSERT INTO Treinamento(id, nome, classificacao, inicio, fim,  descricao) VALUES(?, ?, ?, ?, ?, ?)',
             [treinamento['id'], treinamento['nome'], treinamento['descricao'], treinamento['inicio'], treinamento['fim'], treinamento['classificacao']]);
       });
 
