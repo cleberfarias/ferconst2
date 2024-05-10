@@ -1,10 +1,14 @@
+import 'package:ferconst/db/utils/routers.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseUpdater {
+
   static Future<void> syncData(Database db) async {
     //verificado id
+
+
     var lastUserId = Sqflite.firstIntValue(await db.rawQuery('SELECT MAX(id) FROM Usuario')) ?? 0;
     var lastTreinamentoId = Sqflite.firstIntValue(await db.rawQuery('SELECT MAX(id) FROM Treinamento')) ?? 0;
 

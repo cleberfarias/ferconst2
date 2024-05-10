@@ -1,53 +1,29 @@
 import 'package:ferconst/db/sqlite/connection_sqlite.dart';
-import 'package:ferconst/db/sqlite/scriptv1.dart';
+import 'package:ferconst/db/utils/routers.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:sqflite/sqflite.dart';
 
 
 class DatabaseHelper {
-  static final DatabaseHelper _instance = DatabaseHelper.internal();
-  factory DatabaseHelper() => _instance;
 
-  static Database? _db;
+  final ConnectionSqLite _connectionSqLite;
 
-  DatabaseHelper.internal();
+  final Routers _routers;
 
-  Future<Database?> get db async {
-    if (_db != null) {
-      return _db;
-    }
-    _db = await ConnectionSqLite.get(); // obter o banco de dados
-    return _db;
-  }
-
-  Future<void> initDb() async {
-    Database? db = await ConnectionSqLite.get(); // obter o banco de dados
-    if (db != null) {
-      await _onCreate(db, 1); // versão
-    }
-  }
-
-  Future<void> _onCreate(Database db, int newVersion) async {
-    await db.execute(createTableUsuario);
-    await db.execute(createTableTreinamento);
-    await db.execute(createTableUsuarioTreinamento);
-
-    // sincronizando os dados com o PostgreSQL
-    await syncData(db);
-  }
+  DatabaseHelper(this._connectionSqLite, this._routers);
 
   Future<void> syncData(Database db) async {
     // rota do usuario
-    var responseUsuarios = await http.get(Uri.parse("http://localhost:8080/usuario"));
+    var responseUsuarios = await http.get(Uri.parse(_routers.rotaUsuario));
     var dataUsuarios = json.decode(responseUsuarios.body);
 
     // roda treinamento
-    var responseTreinamentos = await http.get(Uri.parse("http://localhost:8080/treinamento"));
+    var responseTreinamentos = await http.get(Uri.parse(_routers.rotaTreinamento));
     var dataTreinamentos = json.decode(responseTreinamentos.body);
 
     // rota tabela vinculaçoes
-    var responseUsuarioTreinamento = await http.get(Uri.parse("http://localhost:8080/usuariotreinamento"));
+    var responseUsuarioTreinamento = await http.get(Uri.parse(_routers.rotaUsuarioTreinamento));
     var dataUsuarioTreinamento = json.decode(responseUsuarioTreinamento.body);
 
     // SQLite embarcado
@@ -75,11 +51,4 @@ class DatabaseHelper {
 
     });
   }
-
-  /*Future<List<Map<String, dynamic>>> getUsuarioTreinamento() async {
-
-    Database? dbClient = await db;
-    var result = await dbClient!.query("--");
-    return result;
-  }*/
 }

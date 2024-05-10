@@ -9,22 +9,17 @@ Cron startDatabaseInitializationCron() {
   final cron = Cron();
 
   Future<void> _initDb() async {
-    DatabaseHelper? databaseHelper = DatabaseHelper();
-    if (databaseHelper != null) {
-      await databaseHelper.initDb(); // iniciar o db
-    } else {
-      DatabaseUpdater? databaseUpdater = DatabaseUpdater();
-      Database? db = await ConnectionSqLite.get(); // recuperar o banco de dados
-      if (db != null) {
-        await DatabaseUpdater.syncData(db); //  atualização se o banco de dados não for nulo
-      }
+    final connectionSqLite = ConnectionSqLite();
+    final db = await ConnectionSqLite.get(); // Recuperar o banco de dados
+    if (db != null) {
+      final databaseUpdater = DatabaseUpdater();
+      await DatabaseUpdater.syncData(db); // Atualização do banco de dados
     }
   }
 
-
   cron.schedule(Schedule.parse('*/10 * * * *'), () async {
     await _initDb();
-    print("Task of Cron: " + DateTime.now().toString());
+    print("Tarefa do Cron: " + DateTime.now().toString());
   });
 
   return cron;

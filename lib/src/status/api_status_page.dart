@@ -1,4 +1,4 @@
-
+import 'package:ferconst/db/sqlite/connection_sqlite.dart';
 import 'package:ferconst/db/sqlite_update.dart';
 import 'package:ferconst/model/repositories/implementations/dio_api_repository.dart';
 import 'package:ferconst/presentation/controllers/employee_controller.dart';
@@ -6,9 +6,6 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:sqflite/sqflite.dart';
-
-import '../../db/sqlite/connection_sqlite.dart';
-import '../../db/sqlite_help.dart';
 
 const int EMPLOYEE_ID_TO_LOAD = 1;
 
@@ -21,8 +18,6 @@ class ApiStatusPage extends StatefulWidget {
 
 class _ApiStatusPage extends State<ApiStatusPage> {
   late EmployeeController _employeeController;
-
-  DatabaseFactory? get databaseFactoryFfi => null;
 
   @override
   void initState() {
@@ -38,15 +33,11 @@ class _ApiStatusPage extends State<ApiStatusPage> {
   }
 
   Future<void> _initDb() async {
-    DatabaseHelper? databaseHelper = DatabaseHelper();
-    if (databaseHelper != null) {
-      await databaseHelper.initDb(); // iniciar o banco de dados
-    } else {
-      DatabaseUpdater? databaseUpdater = DatabaseUpdater();
-      Database? db = await ConnectionSqLite.get(); // Obter o banco de dados
-      if (db != null) {
-        await DatabaseUpdater.syncData(db); //  atualização se o banco de dados não for nulo
-      }
+    final connectionSqLite = ConnectionSqLite();
+    final db = await ConnectionSqLite.get(); // Obter o banco de dados
+    if (db != null) {
+      final databaseUpdater = DatabaseUpdater();
+      await DatabaseUpdater.syncData(db); // Atualizar o banco de dados
     }
   }
 
@@ -86,8 +77,8 @@ class _ApiStatusPage extends State<ApiStatusPage> {
             ),
           ),
           const SizedBox(height: 12),
-          ElevatedButton(onPressed: () =>
-              _employeeController.ondLoadEmployee(EMPLOYEE_ID_TO_LOAD),
+          ElevatedButton(
+            onPressed: () => _employeeController.ondLoadEmployee(EMPLOYEE_ID_TO_LOAD),
             child: const Text('Tente novamente'),
           )
         ],
