@@ -3,7 +3,7 @@ import 'dart:ffi';
 
 import 'package:ferconst/model/data/trainingModel.dart';
 
-import '../data/EmployeeModel.dart';
+import '../data/employeeModel.dart';
 
 const String API_URL = "http://localhost:8080";
 
