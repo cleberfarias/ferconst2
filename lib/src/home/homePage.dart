@@ -1,4 +1,5 @@
 import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
+import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncion%C3%A1rio.dart';
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/cadastro/cadastro_page.dart';
 import 'package:ferconst/src/login/login_page.dart';
@@ -66,6 +67,26 @@ class Homepage extends StatelessWidget {
                             width:
                                 20), // Espaçamento horizontal entre o ícone e o texto
                         Text('Cadastro de Curso'),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20), // Espaçamento vertical entre os botões
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Cursoporfuncionario()),
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.check, size: 80), // Ícone de cadastro
+                        SizedBox(
+                            width:
+                                20), // Espaçamento horizontal entre o ícone e o texto
+                        Text('Curso por funcionário'),
                       ],
                     ),
                   ),
