@@ -1,49 +1,84 @@
-import 'package:ferconst/src/cadastro/cadastro_page.dart';
-import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
-import 'package:ferconst/src/home/homePage.dart';
-import 'package:ferconst/src/login/login_page.dart';
-import 'package:ferconst/src/relatorio/relatorio.dart';
 import 'package:flutter/material.dart';
+import 'package:ferconst/src/home/homePage.dart';
+
+import '../../db/sqlite/connection_sqlite.dart';
+import '../../db/sqlite_selects.dart';
+import '../../model/data/employeeModel.dart';
+
 
 class StatusPage extends StatefulWidget {
-  final String? nome; // Parâmetro opcional com valor padrão nulo
-  final String? cargo; // Parâmetro opcional com valor padrão nulo
-  final String? setor; // Parâmetro opcional com valor padrão nulo
-  final String? treinamento; // Parâmetro opcional com valor padrão nulo
-  final String? dataConclusao; // Parâmetro opcional com valor padrão nulo
-  final String? observacao; // Parâmetro opcional com valor padrão nulo
-
-  StatusPage({
-    this.nome,
-    this.cargo,
-    this.setor,
-    this.treinamento,
-    this.dataConclusao,
-    this.observacao,
-  });
-
   @override
   _StatusPageState createState() => _StatusPageState();
 }
 
 class _StatusPageState extends State<StatusPage> {
-  late List<DataRow> _filteredRows; // Lista de linhas filtradas
-  late TextEditingController _searchController; // Controlador de pesquisa
+  late List<DataRow> _filteredRows = []; // Lista de linhas filtradas
+  late TextEditingController _searchController =
+  TextEditingController(); // Controlador de pesquisa
+  DatabaseSelects _dbSelects = DatabaseSelects(ConnectionSqLite());
 
   @override
   void initState() {
     super.initState();
-    _filteredRows = [
-      _buildDataRow(
-        widget.nome ?? "", // Use o valor padrão se for nulo
-        widget.cargo ?? "",
-        widget.setor ?? "",
-        widget.treinamento ?? "",
-        widget.dataConclusao ?? "",
-        widget.observacao ?? "",
-      )
-    ];
-    _searchController = TextEditingController();
+    _carregarDadosTabela();
+  }
+
+  Future<void> _carregarDadosTabela() async {
+    // todos usuário e treinamento
+    List<Map<String, dynamic>>? userTrainingData =
+    await _dbSelects.getUserTrainingData();
+
+    if (userTrainingData != null) {
+      _filteredRows.clear();
+      for (var data in userTrainingData) {
+        _filteredRows.add(_buildDataRow(
+          data['usuario_nome'],
+          data['usuario_cargo'],
+          data['usuario_setor'],
+          data['treinamento_nome'],
+          data['treinamento_inicio'],
+          data['treinamento_fim'],
+        ));
+      }
+      setState(() {});
+    }
+  }
+
+  Future<void> _pesquisarUsuarios(String query) async {
+    if (query.isEmpty) {
+      // carregar todos
+      _carregarDadosTabela();
+    } else {
+
+      List<EmployeeModel>? usuarios = await _dbSelects.getUsers();
+      if (usuarios != null) {
+        // usuários consulta
+        usuarios = usuarios.where((usuario) =>
+            usuario.nome.toLowerCase().contains(query.toLowerCase())).toList();
+
+        // Atualizar
+        _filteredRows.clear();
+        for (var usuario in usuarios) {
+          // treinamentos associados
+          List<Map<String, dynamic>>? trainings = await _dbSelects.getUserTrainingData();
+          if (trainings != null) {
+            for (var training in trainings) {
+              if (training['usuario_nome'] == usuario.nome) {
+                _filteredRows.add(_buildDataRow(
+                  usuario.nome,
+                  usuario.cargo,
+                  usuario.setor,
+                  training['treinamento_nome'],
+                  training['treinamento_inicio'],
+                  training['treinamento_fim'],
+                ));
+              }
+            }
+          }
+        }
+        setState(() {});
+      }
+    }
   }
 
   @override
@@ -81,110 +116,7 @@ class _StatusPageState extends State<StatusPage> {
                     ),
                   ),
                 ),
-
                 SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CadastroPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.person_add, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CadastroCursoPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.format_list_bulleted_add, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => StatusPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.format_shapes, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RelatorioPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.insert_chart, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.login, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                // Adicione os outros ícones e suas navegações aqui
               ],
             ),
           ),
@@ -218,34 +150,14 @@ class _StatusPageState extends State<StatusPage> {
     );
   }
 
-  Widget _buildMenuItem(IconData icon, String label, VoidCallback onTap) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              Icon(icon, size: 24),
-              SizedBox(width: 8),
-              Text(
-                label,
-                style: TextStyle(fontSize: 16),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildPesquisaTextField() {
     return Padding(
       padding: EdgeInsets.only(bottom: 20.0),
       child: TextField(
         controller: _searchController,
-        onChanged: (query) {},
+        onChanged: (query) {
+          _pesquisarUsuarios(query);
+        },
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.search),
           hintText: 'Pesquisar funcionário',
@@ -255,21 +167,20 @@ class _StatusPageState extends State<StatusPage> {
     );
   }
 
-  DataRow _buildDataRow(String nome, String cargo, String setor,
-      String treinamento, String dataConclusao, String observacao) {
+  DataRow _buildDataRow(
+      String nome, String cargo, String setor, String treinamento, String inicio, String fim) {
     return DataRow(cells: [
       DataCell(Text(nome)),
       DataCell(Text(cargo)),
       DataCell(Text(setor)),
       DataCell(Text(treinamento)),
-      DataCell(Text(dataConclusao)),
-      DataCell(Text(observacao)),
+      DataCell(Text(inicio)),
+      DataCell(Text(fim)),
     ]);
   }
 
   Widget _buildTabela(List<DataRow> rows) {
     if (rows.isEmpty) {
-      // Se não houver linhas, adicione uma única linha com células vazias
       rows.add(_buildEmptyDataRow());
     }
 
@@ -280,8 +191,8 @@ class _StatusPageState extends State<StatusPage> {
           DataColumn(label: Text('Cargo')),
           DataColumn(label: Text('Setor')),
           DataColumn(label: Text('Treinamento')),
-          DataColumn(label: Text('Data de Conclusão')),
-          DataColumn(label: Text('Observação')),
+          DataColumn(label: Text('Data Inicio')),
+          DataColumn(label: Text('Data Fim')),
         ],
         rows: rows,
       ),

@@ -1,6 +1,6 @@
 import 'dart:ffi';
 
-import 'package:ferconst/model/data/EmployeeModel.dart';
+import 'package:ferconst/model/data/employeeModel.dart';
 import 'package:ferconst/model/repositories/api_repository.dart';
 import 'package:ferconst/model/repositories/errors/api_exception.dart';
 
