@@ -13,6 +13,7 @@ abstract class ApiRepository{
   Future<EmployeeModel?> postEmployee(String nome, String email, String senha, String  setor, String cargo, String inscricao);
   Future<EmployeeModel?> upEmployee(int employeeId);
   Future<EmployeeModel?> delEmployee(int employeeId);
+  Future<List<EmployeeModel>> getAllEmployees();
 }
 
 abstract class ApiRepositoryTraining{
@@ -20,4 +21,5 @@ abstract class ApiRepositoryTraining{
   Future<TrainingModel> postTraining(String nome, String descricao, String inicio, String fim, String classificacao);
   Future<TrainingModel> upTraining(int trainingId);
   Future<TrainingModel> delTraining(int trainingId);
+  Future<List<TrainingModel>> getAllTraining();
 }

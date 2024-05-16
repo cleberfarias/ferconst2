@@ -55,4 +55,11 @@ class HttpApiRepository implements ApiRepository{
     throw UnimplementedError();
   }
 
+  @override
+  Future<List<EmployeeModel>> getAllEmployees() {
+    // TODO: implement getAllEmployees
+    throw UnimplementedError();
+  }
+
+
 }

@@ -64,5 +64,22 @@ class EmployeeController{
     isLoading = false;
   }
 
+  Future<List<EmployeeModel>?> onGetEmployees() async{
+    isLoading = true;
+    _errorLoadingEmployee = null;
+    List<EmployeeModel>? getAllEmployees = null;
+    try{
+      getAllEmployees = await apiRepository.getAllEmployees();
+      return getAllEmployees;
+
+    } on ApiException catch(apiExecption){
+      _errorLoadingEmployee = apiExecption.menssagem;
+    } catch(error, stacktracer){
+
+      _errorLoadingEmployee = "Erro na solicitação POST";
+    }
+    return getAllEmployees;
+  }
+
 
 }

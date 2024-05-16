@@ -71,5 +71,26 @@ class DioApiRepositoryTraining implements ApiRepositoryTraining{
     throw UnimplementedError();
   }
 
+  @override
+  Future<List<TrainingModel>> getAllTraining() async {
+    try {
+      final url = '$API_URL/treinamento';
+      final response = await _dio.get(url);
+
+      if (response.statusCode == 200) {
+        List<dynamic> trainingDataList = response.data;
+        List<TrainingModel> trainings = trainingDataList.map((data) => TrainingModel.fromMap(data)).toList();
+        return trainings;
+      } else {
+        throw ApiException(menssagem: "Falha ao buscar treinamentos");
+      }
+    } catch (error, stacktrace) {
+      log(erroPost, error: error, stackTrace: stacktrace);
+      throw ApiException(menssagem: erro);
+    }
+
+  }
+
+
 }
 

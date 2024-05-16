@@ -66,5 +66,22 @@ class TrainingController{
     isLoading = false;
   }
 
+  Future<List<TrainingModel>?> onGetAllTraining() async{
+    isLoading = true;
+    _errorLoadingTraining = null;
+    List<TrainingModel>? getAllTraining = null;
+    try{
+      getAllTraining = await apiRepositoryTraining.getAllTraining();
+      return getAllTraining;
+
+    } on ApiException catch(apiExecption){
+      _errorLoadingTraining = apiExecption.menssagem;
+    } catch(error, stacktracer){
+
+      _errorLoadingTraining = "Erro na solicitação POST";
+    }
+    return getAllTraining;
+  }
+
 
 }

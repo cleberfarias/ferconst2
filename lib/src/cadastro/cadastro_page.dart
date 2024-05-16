@@ -468,9 +468,7 @@ class _CadastroPageState extends State<CadastroPage> {
                           children: [
                             ElevatedButton(
                               onPressed: () async {
-                                // Chame o método onPostEmployee para enviar os dados do formulário
                                 try {
-                                  // Chame o método onPostEmployee e passe os dados do formulário
                                   await _employeeController.onPostEmployee(
                                     nomeController.text,
                                     emailController.text,
@@ -480,14 +478,12 @@ class _CadastroPageState extends State<CadastroPage> {
                                     inscricaoController.text,
                                   );
 
-                                  // Limpe os controladores de texto para limpar o formulário
                                   nomeController.clear();
                                   emailController.clear();
                                   senhaController.clear();
                                   setorController.clear();
                                   cargoController.clear();
 
-                                  // Exiba uma mensagem de sucesso
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
@@ -495,7 +491,6 @@ class _CadastroPageState extends State<CadastroPage> {
                                     ),
                                   );
                                 } catch (e) {
-                                  // Se ocorrer um erro ao enviar os dados, exiba uma mensagem de erro
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content:

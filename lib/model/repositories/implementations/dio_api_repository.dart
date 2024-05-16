@@ -76,4 +76,24 @@ class DioApiRepository implements ApiRepository{
     throw UnimplementedError();
   }
 
+  @override
+  Future<List<EmployeeModel>> getAllEmployees() async {
+    try {
+      final url = '$API_URL/usuario';
+      final response = await _dio.get(url);
+
+      if (response.statusCode == 200) {
+        List<dynamic> employeeDataList = response.data;
+        List<EmployeeModel> employees = employeeDataList.map((data) => EmployeeModel.fromMap(data)).toList();
+        return employees;
+      } else {
+        throw ApiException(menssagem: "Falha ao buscar funcionários");
+      }
+    } catch (error, stacktrace) {
+      log(erroPost, error: error, stackTrace: stacktrace);
+      throw ApiException(menssagem: erro);
+    }
+  }
+
+
 }
