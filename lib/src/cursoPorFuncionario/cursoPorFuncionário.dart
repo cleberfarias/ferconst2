@@ -1,52 +1,52 @@
-import 'package:ferconst/model/repositories/implementations/dio_api_repository_training.dart';
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/home/homePage.dart';
-
 import '../../model/data/employeeModel.dart';
 import '../../model/data/trainingModel.dart';
-import '../../model/repositories/implementations/dio_api_repository.dart';
+import '../../model/repositories/implementations/dio_api_repository_usuariotreinamento.dart';
 import '../../presentation/controllers/employee_controller.dart';
-
-import 'package:dio/dio.dart';
-import 'package:intl/intl.dart';
-
 import '../../presentation/controllers/training_controller.dart';
+import 'package:dio/dio.dart';
+import 'package:ferconst/model/repositories/implementations/dio_api_repository.dart';
+import 'package:ferconst/model/repositories/implementations/dio_api_repository_training.dart';
 
 class Cursoporfuncionario extends StatefulWidget {
-
   @override
   _CursoporfuncionarioState createState() => _CursoporfuncionarioState();
 }
 
 class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
-
   bool isMenuExpanded = false;
   late EmployeeController _employeeController;
+  late TrainingController _trainingController;
   List<EmployeeModel>? _employees;
   List<TrainingModel>? _trainings;
+  EmployeeModel? _selectedEmployee;
+  TrainingModel? _selectedTraining;
 
   @override
   void initState() {
     super.initState();
+    _employeeController = EmployeeController(DioApiRepository(dio: Dio()));
+    _trainingController = TrainingController(DioApiRepositoryTraining(dio: Dio()));
     _loadEmployees();
     _loadTrainings();
   }
 
   void _loadEmployees() async {
-    EmployeeController controller = EmployeeController(DioApiRepository(dio: Dio()));
-    List<EmployeeModel>? employees = await controller.onGetEmployees();
+    List<EmployeeModel>? employees = await _employeeController.onGetEmployees();
     setState(() {
       _employees = employees;
     });
   }
 
-  void _loadTrainings() async{
-    TrainingController controllerTraining = TrainingController(DioApiRepositoryTraining(dio: Dio()));
-    List<TrainingModel>? trainings = await controllerTraining.onGetAllTraining();
+  void _loadTrainings() async {
+    List<TrainingModel>? trainings = await _trainingController.onGetAllTraining();
     setState(() {
       _trainings = trainings;
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -126,9 +126,10 @@ class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
                           ),
                           SizedBox(height: 8.0),
                           DropdownButtonFormField<EmployeeModel>(
-                            value: _employees?.first,
+                            value: _selectedEmployee,
                             onChanged: (EmployeeModel? value) {
                               setState(() {
+                                _selectedEmployee = value;
                               });
                             },
                             decoration: InputDecoration(
@@ -139,16 +140,14 @@ class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
                             items: _employees?.map((employee) {
                               return DropdownMenuItem<EmployeeModel>(
                                 value: employee,
-                                child: Text(employee!.nome),
+                                child: Text(employee.nome),
                               );
                             }).toList() ?? [],
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
-                        height: 10),
-
+                    SizedBox(height: 10),
                     SizedBox(
                       width: 250,
                       child: Column(
@@ -160,9 +159,10 @@ class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
                           ),
                           SizedBox(height: 8.0),
                           DropdownButtonFormField<TrainingModel>(
-                            value: _trainings?.first,
+                            value: _selectedTraining,
                             onChanged: (TrainingModel? value) {
                               setState(() {
+                                _selectedTraining = value;
                               });
                             },
                             decoration: InputDecoration(
@@ -180,14 +180,13 @@ class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
                         ],
                       ),
                     ),
-
                     ElevatedButton(
                       onPressed: () {
-                        if (_employees != null) {
-                          _employees!.forEach((employee) {
-                            print(employee.nome);
-                          });
-                        }
+                        vincularUsuarioNoTreinamento(
+                          context: context,
+                          selectedEmployee: _selectedEmployee,
+                          selectedTraining: _selectedTraining,
+                        );
                       },
                       child: Text('Vincular'),
                     ),
@@ -199,7 +198,6 @@ class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
-
                       ),
                     ),
                   ],

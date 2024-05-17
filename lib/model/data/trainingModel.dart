@@ -25,7 +25,7 @@ class TrainingModel{
     return TrainingModel(
       id:map['id'],
       nome:map['nome'],
-      classificacao: map['classificacao'],
+      classificacao:map['classificacao'],
       fim: map['fim'],
       inicio:map['inicio'],
       descricao:map['descricao']
