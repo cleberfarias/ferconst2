@@ -1,5 +1,6 @@
 import 'package:ferconst/src/cadastro/cadastro_page.dart';
 import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
+import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncion%C3%A1rio.dart';
 import 'package:ferconst/src/login/login_page.dart';
 import 'package:ferconst/src/relatorio/relatorio.dart';
 import 'package:flutter/material.dart';
@@ -78,6 +79,27 @@ class RecuperarSenhaPage extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.format_list_bulleted_add, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Cursoporfuncionario()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.check, size: 24),
                         ],
                       ),
                     ),

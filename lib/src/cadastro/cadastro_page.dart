@@ -1,3 +1,4 @@
+import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncion%C3%A1rio.dart';
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
 import 'package:ferconst/src/home/homePage.dart';
@@ -133,6 +134,27 @@ class _CadastroPageState extends State<CadastroPage> {
                     onTap: () {
                       Navigator.push(
                         context,
+                        MaterialPageRoute(
+                            builder: (context) => Cursoporfuncionario()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.check, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
                         MaterialPageRoute(builder: (context) => StatusPage()),
                       );
                     },
@@ -188,6 +210,7 @@ class _CadastroPageState extends State<CadastroPage> {
                     ),
                   ),
                 ),
+
                 // Adicione os outros ícones e suas navegações aqui
               ],
             ),
@@ -212,7 +235,8 @@ class _CadastroPageState extends State<CadastroPage> {
                         ),
                         SizedBox(height: 8.0),
                         TextFormField(
-                          readOnly: true, // Para impedir que o usuário edite diretamente
+                          readOnly:
+                              true, // Para impedir que o usuário edite diretamente
                           controller: TextEditingController(
                             text: inscricaoController.text,
                             /*? DateFormat('dd/MM/yyyy').for
@@ -240,7 +264,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                   Text(
                                     'Nome:',
                                     style:
-                                    TextStyle(fontWeight: FontWeight.bold),
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   TextField(
@@ -249,7 +273,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                       hintText: 'Digite o nome',
                                       border: OutlineInputBorder(
                                         borderRadius:
-                                        BorderRadius.circular(10.0),
+                                            BorderRadius.circular(10.0),
                                       ),
                                     ),
                                     maxLines: null,
@@ -265,7 +289,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                   Text(
                                     'E-mail:',
                                     style:
-                                    TextStyle(fontWeight: FontWeight.bold),
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   TextField(
@@ -274,7 +298,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                       hintText: 'Digite o e-mail',
                                       border: OutlineInputBorder(
                                         borderRadius:
-                                        BorderRadius.circular(10.0),
+                                            BorderRadius.circular(10.0),
                                       ),
                                     ),
                                   ),
@@ -289,7 +313,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                   Text(
                                     'Senha:',
                                     style:
-                                    TextStyle(fontWeight: FontWeight.bold),
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   TextField(
@@ -299,7 +323,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                       hintText: 'Digite a senha',
                                       border: OutlineInputBorder(
                                         borderRadius:
-                                        BorderRadius.circular(10.0),
+                                            BorderRadius.circular(10.0),
                                       ),
                                     ),
                                   ),
@@ -318,7 +342,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                   Text(
                                     'Cargo:',
                                     style:
-                                    TextStyle(fontWeight: FontWeight.bold),
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   TextField(
@@ -327,7 +351,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                       hintText: 'Digite o cargo',
                                       border: OutlineInputBorder(
                                         borderRadius:
-                                        BorderRadius.circular(10.0),
+                                            BorderRadius.circular(10.0),
                                       ),
                                     ),
                                   ),
@@ -342,14 +366,14 @@ class _CadastroPageState extends State<CadastroPage> {
                                   Text(
                                     'Setor:',
                                     style:
-                                    TextStyle(fontWeight: FontWeight.bold),
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   DropdownButtonFormField<String>(
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
                                         borderRadius:
-                                        BorderRadius.circular(10.0),
+                                            BorderRadius.circular(10.0),
                                       ),
                                     ),
                                     items: [
@@ -494,7 +518,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content:
-                                      Text('Erro ao enviar o cadastro: $e'),
+                                          Text('Erro ao enviar o cadastro: $e'),
                                     ),
                                   );
                                   print("Erro ao enviar o cadastro: $e");

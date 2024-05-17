@@ -1,10 +1,14 @@
+import 'package:ferconst/src/cadastro/cadastro_page.dart';
+import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
+import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncion%C3%A1rio.dart';
+import 'package:ferconst/src/login/login_page.dart';
+import 'package:ferconst/src/relatorio/relatorio.dart';
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/home/homePage.dart';
 
 import '../../db/sqlite/connection_sqlite.dart';
 import '../../db/sqlite_selects.dart';
 import '../../model/data/employeeModel.dart';
-
 
 class StatusPage extends StatefulWidget {
   @override
@@ -14,7 +18,7 @@ class StatusPage extends StatefulWidget {
 class _StatusPageState extends State<StatusPage> {
   late List<DataRow> _filteredRows = []; // Lista de linhas filtradas
   late TextEditingController _searchController =
-  TextEditingController(); // Controlador de pesquisa
+      TextEditingController(); // Controlador de pesquisa
   DatabaseSelects _dbSelects = DatabaseSelects(ConnectionSqLite());
 
   @override
@@ -26,7 +30,7 @@ class _StatusPageState extends State<StatusPage> {
   Future<void> _carregarDadosTabela() async {
     // todos usuário e treinamento
     List<Map<String, dynamic>>? userTrainingData =
-    await _dbSelects.getUserTrainingData();
+        await _dbSelects.getUserTrainingData();
 
     if (userTrainingData != null) {
       _filteredRows.clear();
@@ -49,18 +53,20 @@ class _StatusPageState extends State<StatusPage> {
       // carregar todos
       _carregarDadosTabela();
     } else {
-
       List<EmployeeModel>? usuarios = await _dbSelects.getUsers();
       if (usuarios != null) {
         // usuários consulta
-        usuarios = usuarios.where((usuario) =>
-            usuario.nome.toLowerCase().contains(query.toLowerCase())).toList();
+        usuarios = usuarios
+            .where((usuario) =>
+                usuario.nome.toLowerCase().contains(query.toLowerCase()))
+            .toList();
 
         // Atualizar
         _filteredRows.clear();
         for (var usuario in usuarios) {
           // treinamentos associados
-          List<Map<String, dynamic>>? trainings = await _dbSelects.getUserTrainingData();
+          List<Map<String, dynamic>>? trainings =
+              await _dbSelects.getUserTrainingData();
           if (trainings != null) {
             for (var training in trainings) {
               if (training['usuario_nome'] == usuario.nome) {
@@ -91,6 +97,7 @@ class _StatusPageState extends State<StatusPage> {
       ),
       body: Row(
         children: [
+          // Menu bar
           Container(
             width: MediaQuery.of(context).size.width * 0.05,
             color: Color(0xFF6E92B4),
@@ -117,6 +124,131 @@ class _StatusPageState extends State<StatusPage> {
                   ),
                 ),
                 SizedBox(height: 8),
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CadastroPage()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.person_add, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CadastroCursoPage()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.format_list_bulleted_add, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Cursoporfuncionario()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.check, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => StatusPage()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.format_shapes, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RelatorioPage()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.insert_chart, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.login, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                // Adicione os outros ícones e suas navegações aqui
               ],
             ),
           ),
@@ -167,8 +299,8 @@ class _StatusPageState extends State<StatusPage> {
     );
   }
 
-  DataRow _buildDataRow(
-      String nome, String cargo, String setor, String treinamento, String inicio, String fim) {
+  DataRow _buildDataRow(String nome, String cargo, String setor,
+      String treinamento, String inicio, String fim) {
     return DataRow(cells: [
       DataCell(Text(nome)),
       DataCell(Text(cargo)),

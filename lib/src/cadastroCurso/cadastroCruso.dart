@@ -1,5 +1,6 @@
 import 'package:ferconst/model/repositories/api_repository.dart';
 import 'package:ferconst/model/repositories/implementations/dio_api_repository_training.dart';
+import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncion%C3%A1rio.dart';
 import 'package:ferconst/src/login/login_page.dart';
 import 'package:ferconst/src/relatorio/relatorio.dart';
 import 'package:flutter/material.dart';
@@ -18,19 +19,18 @@ class CadastroCursoPage extends StatefulWidget {
 }
 
 class _CadastroCursoPageState extends State<CadastroCursoPage> {
-
   TextEditingController nomeController = TextEditingController();
   TextEditingController dataInicioController = TextEditingController();
   TextEditingController dataFimController = TextEditingController();
   TextEditingController classificacaoController = TextEditingController();
   TextEditingController descricaoController = TextEditingController();
 
-
   late TrainingController _trainingController;
   @override
   void initState() {
     super.initState();
-    _trainingController = TrainingController(DioApiRepositoryTraining(dio: Dio()));
+    _trainingController =
+        TrainingController(DioApiRepositoryTraining(dio: Dio()));
   }
 
   void _showDatePickerInicio() async {
@@ -145,6 +145,28 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                     onTap: () {
                       Navigator.push(
                         context,
+                        MaterialPageRoute(
+                            builder: (context) => Cursoporfuncionario()),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.check, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
                         MaterialPageRoute(builder: (context) => StatusPage()),
                       );
                     },
@@ -226,11 +248,13 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                 children: [
                                   Text(
                                     'Data início:',
-                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   TextFormField(
-                                    readOnly: true, // Para impedir que o usuário edite diretamente
+                                    readOnly:
+                                        true, // Para impedir que o usuário edite diretamente
                                     controller: TextEditingController(
                                       text: dataInicioController.text,
                                       /*? DateFormat('dd/MM/yyyy').for
@@ -240,7 +264,8 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                       hintText: 'Escolha uma data',
                                       labelText: 'Data início',
                                       border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
                                       ),
                                       suffixIcon: IconButton(
                                         onPressed: _showDatePickerInicio,
@@ -258,11 +283,13 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                 children: [
                                   Text(
                                     'Data Fim:',
-                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   TextFormField(
-                                    readOnly: true, // Para impedir que o usuário edite diretamente
+                                    readOnly:
+                                        true, // Para impedir que o usuário edite diretamente
                                     controller: TextEditingController(
                                       text: dataFimController.text,
                                       /*? DateFormat('dd/MM/yyyy').for
@@ -272,7 +299,8 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                       hintText: 'Escolha uma data',
                                       labelText: 'Data fim curso',
                                       border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
                                       ),
                                       suffixIcon: IconButton(
                                         onPressed: _showDatePickerFim,
@@ -295,7 +323,7 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                   Text(
                                     'Nome:',
                                     style:
-                                    TextStyle(fontWeight: FontWeight.bold),
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   TextField(
@@ -304,7 +332,7 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                       hintText: 'Digite o nome',
                                       border: OutlineInputBorder(
                                         borderRadius:
-                                        BorderRadius.circular(10.0),
+                                            BorderRadius.circular(10.0),
                                       ),
                                     ),
                                   ),
@@ -319,14 +347,14 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                   Text(
                                     'Classificação:',
                                     style:
-                                    TextStyle(fontWeight: FontWeight.bold),
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   DropdownButtonFormField<String>(
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
                                         borderRadius:
-                                        BorderRadius.circular(10.0),
+                                            BorderRadius.circular(10.0),
                                       ),
                                     ),
                                     items: [
@@ -339,8 +367,10 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                         child: Text('Saúde Mental'),
                                       ),
                                       DropdownMenuItem<String>(
-                                        value: 'Gestão de Tempo e Produtividade',
-                                        child: Text('Gestão de Tempo e Produtividade'),
+                                        value:
+                                            'Gestão de Tempo e Produtividade',
+                                        child: Text(
+                                            'Gestão de Tempo e Produtividade'),
                                       ),
                                       DropdownMenuItem<String>(
                                         value: 'Assédio',
@@ -358,7 +388,8 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                     onChanged: (String? value) {
                                       // Lógica para lidar com a mudança de valor
                                       setState(() {
-                                        classificacaoController.text = value ?? '';
+                                        classificacaoController.text =
+                                            value ?? '';
                                       });
                                     },
                                   ),
@@ -422,7 +453,7 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content:
-                                      Text('Erro ao enviar o cadastro: $e'),
+                                          Text('Erro ao enviar o cadastro: $e'),
                                     ),
                                   );
                                   print("Erro ao enviar o cadastro: $e");
