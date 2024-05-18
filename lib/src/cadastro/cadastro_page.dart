@@ -336,69 +336,6 @@ class _CadastroPageState extends State<CadastroPage> {
                           ],
                         ),
                         SizedBox(height: 20.0),
-                        Text(
-                          'Cursos Sugeridos:',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 8.0),
-                        DropdownButtonFormField<String>(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          items: [
-                            DropdownMenuItem<String>(
-                              value: 'Assédio',
-                              child: Text('Assédio'),
-                            ),
-                            DropdownMenuItem<String>(
-                              value: 'Fraude',
-                              child: Text('Fraude'),
-                            ),
-                            DropdownMenuItem<String>(
-                              value: 'Segurança no trabalho',
-                              child: Text('Segurança no trabalho'),
-                            ),
-                            DropdownMenuItem<String>(
-                              value: 'Conduta',
-                              child: Text('Conduta'),
-                            ),
-                            DropdownMenuItem<String>(
-                              value: 'Súde Mental',
-                              child: Text('Súde Mental'),
-                            ),
-                            DropdownMenuItem<String>(
-                              value: 'Gestão de Produtividade',
-                              child: Text('Gestão de Produtividade'),
-                            ),
-                          ],
-                          onChanged: (String? value) {
-                            setState(() {
-                              treinamentoController.text = value ?? '';
-                            });
-                          },
-                        ),
-                        SizedBox(height: 20.0),
-                        Text(
-                          'Observação:',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 8.0),
-                        Container(
-                          width: double.infinity,
-                          child: TextField(
-                            controller: observacaoController,
-                            maxLines: 10,
-                            decoration: InputDecoration(
-                              hintText: 'Descreva o que deve abordar no curso.',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -415,6 +352,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                   nomeController.clear();
                                   setorController.clear();
                                   cargoController.clear();
+                                  inscricaoController.clear();
 
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
