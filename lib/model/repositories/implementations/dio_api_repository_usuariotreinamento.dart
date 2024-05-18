@@ -13,7 +13,7 @@ Future<void> vincularUsuarioNoTreinamento({
   if (selectedEmployee != null && selectedTraining != null) {
     try {
       var funcionarioTreinamentoDTO = {
-        'usuarioEntity': {
+        'funcionarioEntity': {
           'id': selectedEmployee.id,
           'nome': selectedEmployee.nome,
           'setor': selectedEmployee.setor,
