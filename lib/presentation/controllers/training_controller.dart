@@ -35,8 +35,8 @@ class TrainingController{
     _errorLoadingTraining = null;
 
     try {
-      final employee = await apiRepositoryTraining.getTraining(trainingId);
-      _loadedTraining = employee;
+      final training = await apiRepositoryTraining.getTraining(trainingId);
+      _loadedTraining = training;
     } on ApiException catch(apiExecption){
       _errorLoadingTraining = apiExecption.menssagem;
     } catch(error, stacktracer){
@@ -54,8 +54,8 @@ class TrainingController{
     _errorLoadingTraining = null;
 
     try{
-      final postEmployee = await apiRepositoryTraining.postTraining(nome, descricao, inicio, fim, classificacao);
-      _loadedTraining = postEmployee;
+      final postTraining = await apiRepositoryTraining.postTraining(nome, descricao, inicio, fim, classificacao);
+      _loadedTraining = postTraining;
 
     } on ApiException catch(apiExecption){
       _errorLoadingTraining = apiExecption.menssagem;

@@ -14,25 +14,25 @@ class DatabaseHelper {
   DatabaseHelper(this._connectionSqLite, this._routers);
 
   Future<void> syncData(Database db) async {
-    // rota do usuario
-    var responseUsuarios = await http.get(Uri.parse(_routers.rotaUsuario));
-    var dataUsuarios = json.decode(responseUsuarios.body);
+    // rota do funcionario
+    var responseFuncionario = await http.get(Uri.parse(_routers.rotaFuncionario));
+    var dataFuncionarios = json.decode(responseFuncionario.body);
 
     // roda treinamento
     var responseTreinamentos = await http.get(Uri.parse(_routers.rotaTreinamento));
     var dataTreinamentos = json.decode(responseTreinamentos.body);
 
     // rota tabela vinculaçoes
-    var responseUsuarioTreinamento = await http.get(Uri.parse(_routers.rotaUsuarioTreinamento));
-    var dataUsuarioTreinamento = json.decode(responseUsuarioTreinamento.body);
+    var responseFuncionarioTreinamento = await http.get(Uri.parse(_routers.rotaFuncionarioTreinamento));
+    var dataFuncionarioTreinamento = json.decode(responseFuncionarioTreinamento.body);
 
     // SQLite embarcado
     await db.transaction((txn) async {
-      // usuario - recuperando json e insert no embarcado
-      dataUsuarios.forEach((usuario) async {
+      // funcionario - recuperando json e insert no embarcado
+      dataFuncionarios.forEach((funcionario) async {
         await txn.rawInsert(
-            'INSERT INTO Usuario(id, nome, email, senha, setor, cargo, inscricao) VALUES(?, ?, ?, ?, ?, ?, ?)',
-            [usuario['id'], usuario['nome'], usuario['email'], usuario['senha'], usuario['setor'], usuario['cargo'],usuario['inscricao']]);
+            'INSERT INTO Funcionario(id, nome, setor, cargo, inscricao) VALUES(?, ?, ?, ?, ?)',
+            [funcionario['id'], funcionario['nome'], funcionario['setor'], funcionario['cargo'],funcionario['inscricao']]);
       });
 
 
@@ -42,10 +42,10 @@ class DatabaseHelper {
             [treinamento['id'], treinamento['nome'], treinamento['descricao'], treinamento['inicio'], treinamento['fim'], treinamento['classificacao']]);
       });
 
-      dataUsuarioTreinamento.forEach((usuarioTreinamento) async {
+      dataFuncionarioTreinamento.forEach((funcionarioTreinamento) async {
         await txn.rawInsert(
-            'INSERT INTO usuario_treinamento(usuario_id, treinamento_id) VALUES(?, ?)',
-            [usuarioTreinamento['usuarioDTO']['id'], usuarioTreinamento['treinamentoDTO']['id']]
+            'INSERT INTO funcionario_treinamento(funcionario_id, treinamento_id) VALUES(?, ?)',
+            [funcionarioTreinamento['funcionarioDTO']['id'], funcionarioTreinamento['treinamentoDTO']['id']]
         );
       });
 

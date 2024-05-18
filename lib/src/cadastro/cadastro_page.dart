@@ -25,8 +25,6 @@ class _CadastroPageState extends State<CadastroPage> {
   TextEditingController treinamentoController = TextEditingController();
   TextEditingController inscricaoController = TextEditingController();
   TextEditingController observacaoController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController senhaController = TextEditingController();
 
   late EmployeeController _employeeController;
 
@@ -85,7 +83,6 @@ class _CadastroPageState extends State<CadastroPage> {
                     ),
                   ),
                 ),
-
                 SizedBox(height: 8),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.5,
@@ -168,7 +165,6 @@ class _CadastroPageState extends State<CadastroPage> {
                     ),
                   ),
                 ),
-
                 SizedBox(height: 8),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.5,
@@ -176,8 +172,7 @@ class _CadastroPageState extends State<CadastroPage> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => RelatorioPage()),
+                        MaterialPageRoute(builder: (context) => RelatorioPage()),
                       );
                     },
                     child: Padding(
@@ -210,8 +205,6 @@ class _CadastroPageState extends State<CadastroPage> {
                     ),
                   ),
                 ),
-
-                // Adicione os outros ícones e suas navegações aqui
               ],
             ),
           ),
@@ -235,13 +228,8 @@ class _CadastroPageState extends State<CadastroPage> {
                         ),
                         SizedBox(height: 8.0),
                         TextFormField(
-                          readOnly:
-                              true, // Para impedir que o usuário edite diretamente
-                          controller: TextEditingController(
-                            text: inscricaoController.text,
-                            /*? DateFormat('dd/MM/yyyy').for
-                                : '', // data String só para mostrar no input*/
-                          ),
+                          readOnly: true,
+                          controller: inscricaoController,
                           decoration: InputDecoration(
                             hintText: 'Escolha uma data',
                             labelText: 'Data da inscrição',
@@ -250,7 +238,37 @@ class _CadastroPageState extends State<CadastroPage> {
                             ),
                             suffixIcon: IconButton(
                               onPressed: _showDatePicker,
-                              icon: Icon(Icons.search), //lupa
+                              icon: Icon(Icons.search),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20.0),
+                        Text(
+                          'Nome:',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 8.0),
+                        TextField(
+                          controller: nomeController,
+                          decoration: InputDecoration(
+                            hintText: 'Digite o nome',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20.0),
+                        Text(
+                          'Cargo:',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 8.0),
+                        TextField(
+                          controller: cargoController,
+                          decoration: InputDecoration(
+                            hintText: 'Digite o cargo',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
                           ),
                         ),
@@ -262,118 +280,14 @@ class _CadastroPageState extends State<CadastroPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Nome:',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(height: 8.0),
-                                  TextField(
-                                    controller: nomeController,
-                                    decoration: InputDecoration(
-                                      hintText: 'Digite o nome',
-                                      border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                    ),
-                                    maxLines: null,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(width: 20.0),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'E-mail:',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(height: 8.0),
-                                  TextField(
-                                    controller: emailController,
-                                    decoration: InputDecoration(
-                                      hintText: 'Digite o e-mail',
-                                      border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(width: 20.0),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Senha:',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(height: 8.0),
-                                  TextField(
-                                    controller: senhaController,
-                                    obscureText: true, // Para ocultar a senha
-                                    decoration: InputDecoration(
-                                      hintText: 'Digite a senha',
-                                      border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20.0),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Cargo:',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(height: 8.0),
-                                  TextField(
-                                    controller: cargoController,
-                                    decoration: InputDecoration(
-                                      hintText: 'Digite o cargo',
-                                      border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(width: 20.0),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
                                     'Setor:',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   DropdownButtonFormField<String>(
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        borderRadius: BorderRadius.circular(10.0),
                                       ),
                                     ),
                                     items: [
@@ -411,7 +325,6 @@ class _CadastroPageState extends State<CadastroPage> {
                                       ),
                                     ],
                                     onChanged: (String? value) {
-                                      // Lógica para lidar com a mudança de valor
                                       setState(() {
                                         setorController.text = value ?? '';
                                       });
@@ -461,7 +374,6 @@ class _CadastroPageState extends State<CadastroPage> {
                             ),
                           ],
                           onChanged: (String? value) {
-                            // Lógica para lidar com a mudança de valor
                             setState(() {
                               treinamentoController.text = value ?? '';
                             });
@@ -495,30 +407,24 @@ class _CadastroPageState extends State<CadastroPage> {
                                 try {
                                   await _employeeController.onPostEmployee(
                                     nomeController.text,
-                                    emailController.text,
-                                    senhaController.text,
                                     setorController.text,
                                     cargoController.text,
                                     inscricaoController.text,
                                   );
 
                                   nomeController.clear();
-                                  emailController.clear();
-                                  senhaController.clear();
                                   setorController.clear();
                                   cargoController.clear();
 
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(
-                                          'Cadastro realizado com sucesso!'),
+                                      content: Text('Cadastro realizado com sucesso!'),
                                     ),
                                   );
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content:
-                                          Text('Erro ao enviar o cadastro: $e'),
+                                      content: Text('Erro ao enviar o cadastro: $e'),
                                     ),
                                   );
                                   print("Erro ao enviar o cadastro: $e");

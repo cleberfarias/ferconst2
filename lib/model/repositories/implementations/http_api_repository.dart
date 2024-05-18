@@ -22,7 +22,7 @@ class HttpApiRepository implements ApiRepository{
   @override
   Future<EmployeeModel?> getEmployee(int employeeId) async {
     try{
-      final url = '$API_URL/usuario/$employeeId'; //recuperando id do employee
+      final url = '$API_URL/funcionario/$employeeId'; //recuperando id do employee
       final response = await _client.get(Uri.parse(url));
 
       if(response.statusCode ==200){
@@ -37,7 +37,7 @@ class HttpApiRepository implements ApiRepository{
   }
 
   @override
-  Future<EmployeeModel?> postEmployee(String nome, String email, String senha, String setor, String cargo, String inscricao) {
+  Future<EmployeeModel?> postEmployee(String nome, String setor, String cargo, String inscricao) {
     // TODO: implement postEmployee
     throw UnimplementedError();
   }

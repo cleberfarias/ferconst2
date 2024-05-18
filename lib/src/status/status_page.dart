@@ -30,7 +30,7 @@ class _StatusPageState extends State<StatusPage> {
   Future<void> _carregarDadosTabela() async {
     // todos usuário e treinamento
     List<Map<String, dynamic>>? userTrainingData =
-        await _dbSelects.getUserTrainingData();
+        await _dbSelects.getEmployeeTrainingData();
 
     if (userTrainingData != null) {
       _filteredRows.clear();
@@ -53,27 +53,27 @@ class _StatusPageState extends State<StatusPage> {
       // carregar todos
       _carregarDadosTabela();
     } else {
-      List<EmployeeModel>? usuarios = await _dbSelects.getUsers();
-      if (usuarios != null) {
+      List<EmployeeModel>? funcionarios = await _dbSelects.getEmployees();
+      if (funcionarios != null) {
         // usuários consulta
-        usuarios = usuarios
-            .where((usuario) =>
-                usuario.nome.toLowerCase().contains(query.toLowerCase()))
+        funcionarios = funcionarios
+            .where((funcionario) =>
+            funcionario.nome.toLowerCase().contains(query.toLowerCase()))
             .toList();
 
         // Atualizar
         _filteredRows.clear();
-        for (var usuario in usuarios) {
+        for (var funcionario in funcionarios) {
           // treinamentos associados
           List<Map<String, dynamic>>? trainings =
-              await _dbSelects.getUserTrainingData();
+              await _dbSelects.getEmployeeTrainingData();
           if (trainings != null) {
             for (var training in trainings) {
-              if (training['usuario_nome'] == usuario.nome) {
+              if (training['funcionario_nome'] == funcionario.nome) {
                 _filteredRows.add(_buildDataRow(
-                  usuario.nome,
-                  usuario.cargo,
-                  usuario.setor,
+                  funcionario.nome,
+                  funcionario.cargo,
+                  funcionario.setor,
                   training['treinamento_nome'],
                   training['treinamento_inicio'],
                   training['treinamento_fim'],

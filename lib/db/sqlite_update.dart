@@ -9,24 +9,24 @@ class DatabaseUpdater {
     //verificado id
 
 
-    var lastUserId = Sqflite.firstIntValue(await db.rawQuery('SELECT MAX(id) FROM Usuario')) ?? 0;
+    var lastEmployeeId = Sqflite.firstIntValue(await db.rawQuery('SELECT MAX(id) FROM Funcionario')) ?? 0;
     var lastTreinamentoId = Sqflite.firstIntValue(await db.rawQuery('SELECT MAX(id) FROM Treinamento')) ?? 0;
 
-    var responseUsuarios = await http.get(Uri.parse("http://localhost:8080/usuario?idGreaterThan=$lastUserId"));
-    var dataUsuarios = json.decode(responseUsuarios.body);
+    var responseFuncionarios = await http.get(Uri.parse("http://localhost:8080/funcionario?idGreaterThan=$lastEmployeeId"));
+    var dataFuncionarios = json.decode(responseFuncionarios.body);
 
     var responseTreinamentos = await http.get(Uri.parse("http://localhost:8080/treinamento?idGreaterThan=$lastTreinamentoId"));
     var dataTreinamentos = json.decode(responseTreinamentos.body);
 
-    var responseUsuarioTreinamento = await http.get(Uri.parse("http://localhost:8080/usuariotreinamento"));
-    var dataUsuarioTreinamento = json.decode(responseUsuarioTreinamento.body);
+    var responseFuncionarioTreinamento = await http.get(Uri.parse("http://localhost:8080/funcionariotreinamento"));
+    var dataFuncionarioTreinamento = json.decode(responseFuncionarioTreinamento.body);
 
     //sqlite conexão
     await db.transaction((txn) async {
-      dataUsuarios.forEach((usuario) async {
+      dataFuncionarios.forEach((funcionario) async {
         await txn.rawInsert(
-            'INSERT INTO Usuario(id, nome, email, senha, setor, cargo, inscricao) VALUES(?, ?, ?, ?, ?, ?, ?)',
-            [usuario['id'], usuario['nome'], usuario['email'], usuario['senha'], usuario['setor'], usuario['cargo'],usuario['inscricao']]);
+            'INSERT INTO Funcionario(id, nome, setor, cargo, inscricao) VALUES(?, ?, ?, ?, ?)',
+            [funcionario['id'], funcionario['nome'], funcionario['setor'], funcionario['cargo'],funcionario['inscricao']]);
       });
 
       dataTreinamentos.forEach((treinamento) async {
@@ -35,10 +35,10 @@ class DatabaseUpdater {
             [treinamento['id'], treinamento['nome'], treinamento['descricao'], treinamento['inicio'], treinamento['fim'], treinamento['classificacao']]);
       });
 
-      dataUsuarioTreinamento.forEach((usuarioTreinamento) async {
+      dataFuncionarioTreinamento.forEach((funcionarioTreinamento) async {
         await txn.rawInsert(
-            'INSERT INTO usuario_treinamento(usuario_id, treinamento_id) VALUES(?, ?)',
-            [usuarioTreinamento['usuarioDTO']['id'], usuarioTreinamento['treinamentoDTO']['id']]
+            'INSERT INTO funcionario_treinamento(funcionario_id, treinamento_id) VALUES(?, ?)',
+            [funcionarioTreinamento['funcionarioDTO']['id'], funcionarioTreinamento['treinamentoDTO']['id']]
         );
       });
     });

@@ -7,8 +7,6 @@ class EmployeeModel {
   //atributos para API
   final int id;
   final String nome;
-  final String email;
-  final String senha;
   final String setor;
   final String cargo;
   final String inscricao;
@@ -17,8 +15,6 @@ class EmployeeModel {
     //required obrigatório
     required this.id,
     required this.nome,
-    required this.email,
-    required this.senha,
     required this.setor,
     required this.cargo,
     required this.inscricao,
@@ -30,8 +26,6 @@ class EmployeeModel {
       //images: List<String>.from({map['images' as Lista})
         id: map['id'],
         nome: map['nome'],
-        email: map['email'],
-        senha: map['senha'],
         setor: map['setor'],
         cargo: map['cargo'],
         inscricao: map['inscricao']

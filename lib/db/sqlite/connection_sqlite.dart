@@ -19,9 +19,9 @@ class ConnectionSqLite{
         path,
         version: 1,
         onCreate:(db,v){ //existe o banco? se nao executa isso
-          db.execute(createTableUsuario);
+          db.execute(createTableFuncionario);
           db.execute(createTableTreinamento);
-          db.execute(createTableUsuarioTreinamento);
+          db.execute(createTableFuncionarioTreinamento);
         },
         //onUpgrade: , // função anonima para alteração do script db
 

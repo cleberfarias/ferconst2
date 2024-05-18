@@ -24,7 +24,7 @@ class DioApiRepository implements ApiRepository{
   @override
   Future<EmployeeModel?> getEmployee(int employeeId) async {
     try{
-      final url = '$API_URL/usuario/$employeeId'; //recuperando id do employee
+      final url = '$API_URL/funcionario/$employeeId'; //recuperando id do employee
       final response = await _dio.get(url);
 
       return EmployeeModel.fromMap(response.data);
@@ -37,24 +37,22 @@ class DioApiRepository implements ApiRepository{
   }
 
   @override
-  Future<EmployeeModel?> postEmployee(String nome, String email, String senha, String setor, String cargo, String inscricao) async {
+  Future<EmployeeModel?> postEmployee(String nome, String setor, String cargo, String inscricao) async {
     try{
 
       Map<String, dynamic> request ={
         'nome':nome,
-        'email':email,
-        'senha':senha,
         'setor':setor,
         'cargo':cargo,
         'inscricao':inscricao
       };
-      final url = '$API_URL/usuario/cadastro';
+      final url = '$API_URL/funcionario/cadastro';
       final response = await _dio.post(url,data:request);
 
       if(response.statusCode == 200){
         return EmployeeModel.fromJson(response.data);
       }else{
-        throw ApiException(menssagem: 'Erro ao enviar dados');
+        throw ApiException(menssagem: 'Erro ao enviar dados do funcionário');
       }
 
     }catch (error, stacktrace){
@@ -79,7 +77,7 @@ class DioApiRepository implements ApiRepository{
   @override
   Future<List<EmployeeModel>> getAllEmployees() async {
     try {
-      final url = '$API_URL/usuario';
+      final url = '$API_URL/funcionario';
       final response = await _dio.get(url);
 
       if (response.statusCode == 200) {

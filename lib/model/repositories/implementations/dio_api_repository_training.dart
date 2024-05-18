@@ -23,7 +23,7 @@ class DioApiRepositoryTraining implements ApiRepositoryTraining{
   @override
   Future<TrainingModel> getTraining(int trainingId) async {
     try {
-      final url = '$API_URL/usuario/$trainingId'; //recuperando id do employee
+      final url = '$API_URL/treinamento/$trainingId'; //recuperando id do employee
       final response = await _dio.get(url);
 
       return TrainingModel.fromMap(response.data);
@@ -36,7 +36,7 @@ class DioApiRepositoryTraining implements ApiRepositoryTraining{
   }
 
   @override
-  Future<TrainingModel> postTraining(String nome,  String classificacao, String inicio, String fim,String descricao) async {
+  Future<TrainingModel> postTraining(String nome, String classificacao, String inicio, String fim,String descricao) async {
     try {
       Map<String, dynamic> request = {
         'nome': nome,

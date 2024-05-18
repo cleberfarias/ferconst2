@@ -10,10 +10,10 @@ Cron startDatabaseInitializationCron() {
 
   Future<void> _initDb() async {
     final connectionSqLite = ConnectionSqLite();
-    final db = await ConnectionSqLite.get(); // Recuperar o banco de dados
+    final db = await ConnectionSqLite.get(); // Recuperar
     if (db != null) {
       final databaseUpdater = DatabaseUpdater();
-      await DatabaseUpdater.syncData(db); // Atualização do banco de dados
+      await DatabaseUpdater.syncData(db); // Atualização
     }
   }
 

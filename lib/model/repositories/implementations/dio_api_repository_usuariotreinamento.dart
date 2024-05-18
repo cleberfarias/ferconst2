@@ -12,12 +12,10 @@ Future<void> vincularUsuarioNoTreinamento({
 }) async {
   if (selectedEmployee != null && selectedTraining != null) {
     try {
-      var usuarioTreinamentoDTO = {
+      var funcionarioTreinamentoDTO = {
         'usuarioEntity': {
           'id': selectedEmployee.id,
           'nome': selectedEmployee.nome,
-          'email': selectedEmployee.email,
-          'senha': selectedEmployee.senha,
           'setor': selectedEmployee.setor,
           'cargo': selectedEmployee.cargo,
         },
@@ -29,10 +27,10 @@ Future<void> vincularUsuarioNoTreinamento({
           'fim': selectedTraining.fim,
         },
       };
-      print(usuarioTreinamentoDTO);
+      print(funcionarioTreinamentoDTO);
       Response response = await Dio().post(
-        'http://localhost:8080/usuariotreinamento/vincular',
-        data: usuarioTreinamentoDTO,
+        'http://localhost:8080/funcionariotreinamento/vincular',
+        data: funcionarioTreinamentoDTO,
       );
 
       if (response.statusCode == 200) {

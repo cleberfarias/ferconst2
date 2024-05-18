@@ -47,12 +47,12 @@ class EmployeeController{
 
   }
 
-  Future<void> onPostEmployee(String nome, String email, String senha, String setor, String cargo, String inscricao) async{
+  Future<void> onPostEmployee(String nome, String setor, String cargo, String inscricao) async{
     isLoading = true;
     _errorLoadingEmployee = null;
 
     try{
-      final postEmployee = await apiRepository.postEmployee(nome, email, senha, setor, cargo, inscricao);
+      final postEmployee = await apiRepository.postEmployee(nome, setor, cargo, inscricao);
       _loadedEmployee = postEmployee;
 
     } on ApiException catch(apiExecption){

@@ -9,13 +9,13 @@ class DatabaseSelects {
 
   DatabaseSelects(this._connectionSqLite);
 
-  Future<List<EmployeeModel>?> getUsers() async {
+  Future<List<EmployeeModel>?> getEmployees() async {
     //select usuario
     Database? db = await ConnectionSqLite.get();
 
-    List<Map<String, Object?>>? resultsUsuarios = await db?.query('usuario');
+    List<Map<String, Object?>>? resultsEmployee = await db?.query('funcionario');
 
-    List<EmployeeModel>? employees = resultsUsuarios?.map((result) {
+    List<EmployeeModel>? employees = resultsEmployee?.map((result) {
       return EmployeeModel.fromMap(result);
     }).toList();
 
@@ -35,16 +35,16 @@ class DatabaseSelects {
     return trainings;
   }
 
-  Future<List<Map<String, dynamic>>?> getUserTrainingData() async {
+  Future<List<Map<String, dynamic>>?> getEmployeeTrainingData() async {
     Database? db = await ConnectionSqLite.get();
 
     // usuario_treinamento vinculados
     List<Map<String, Object?>>? results = await db?.rawQuery('''
-      SELECT u.nome as usuario_nome, u.cargo as usuario_cargo, u.setor as usuario_setor,
+      SELECT f.nome as funcionario_nome, f.cargo as funcionario_cargo, f.setor as funcionario_setor,
              t.nome as treinamento_nome, t.inicio as treinamento_inicio, t.fim as treinamento_fim
-      FROM usuario_treinamento ut
-      INNER JOIN usuario u ON ut.usuario_id = u.id
-      INNER JOIN treinamento t ON ut.treinamento_id = t.id
+      FROM funcionario_treinamento ft
+      INNER JOIN funcionario f ON ft.funcionario_id = f.id
+      INNER JOIN treinamento t ON ft.treinamento_id = t.id
     ''');
 
     return results;

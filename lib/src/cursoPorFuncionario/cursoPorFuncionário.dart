@@ -32,8 +32,7 @@ class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
   void initState() {
     super.initState();
     _employeeController = EmployeeController(DioApiRepository(dio: Dio()));
-    _trainingController =
-        TrainingController(DioApiRepositoryTraining(dio: Dio()));
+    _trainingController = TrainingController(DioApiRepositoryTraining(dio: Dio()));
     _loadEmployees();
     _loadTrainings();
   }
@@ -46,8 +45,7 @@ class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
   }
 
   void _loadTrainings() async {
-    List<TrainingModel>? trainings =
-        await _trainingController.onGetAllTraining();
+    List<TrainingModel>? trainings = await _trainingController.onGetAllTraining();
     setState(() {
       _trainings = trainings;
     });
