@@ -1,5 +1,5 @@
 final createTableFuncionario = '''
-    CREATE TABLE IF NOT EXISTS usuario (
+    CREATE TABLE IF NOT EXISTS funcionario (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL,
         setor TEXT NOT NULL,
