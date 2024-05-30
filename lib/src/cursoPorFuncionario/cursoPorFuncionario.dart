@@ -2,6 +2,7 @@ import 'package:ferconst/model/data/employeeModel.dart';
 import 'package:ferconst/model/data/trainingModel.dart';
 import 'package:ferconst/model/repositories/implementations/dio_api_repository.dart';
 import 'package:ferconst/model/repositories/implementations/dio_api_repository_training.dart';
+import 'package:ferconst/model/repositories/implementations/dio_api_repository_funcionariotreinamento.dart';
 import 'package:ferconst/src/cadastro/cadastro_page.dart';
 import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
 import 'package:ferconst/src/login/login_page.dart';
@@ -10,9 +11,8 @@ import 'package:ferconst/src/status/status_page.dart';
 import 'package:ferconst/src/home/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import '../../utils/token.dart';
 
-
-import '../../model/repositories/implementations/dio_api_repository_usuariotreinamento.dart';
 import '../../presentation/controllers/employee_controller.dart';
 import '../../presentation/controllers/training_controller.dart';
 
@@ -29,10 +29,13 @@ class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
   List<TrainingModel>? _trainings;
   EmployeeModel? _selectedEmployee;
   TrainingModel? _selectedTraining;
+  final Dio _dio = Dio();
+
 
   @override
   void initState() {
     super.initState();
+
     _initializeControllers();
   }
 
@@ -290,7 +293,7 @@ class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
                         SizedBox(height: 20.0),
                         ElevatedButton(
                           onPressed: () {
-                            vincularUsuarioNoTreinamento(
+                            vincularFuncionarioNoTreinamento(
                               context: context,
                               selectedEmployee: _selectedEmployee,
                               selectedTraining: _selectedTraining,

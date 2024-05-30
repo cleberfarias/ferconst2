@@ -1,14 +1,16 @@
 import 'package:ferconst/src/cadastro/cadastro_page.dart';
 import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
-import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncion%C3%A1rio.dart';
+import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncionario.dart';
 import 'package:ferconst/src/login/login_page.dart';
 import 'package:ferconst/src/relatorio/relatorio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/home/homePage.dart';
 
 import '../../db/sqlite/connection_sqlite.dart';
 import '../../db/sqlite_selects.dart';
 import '../../model/data/employeeModel.dart';
+import '../../utils/calculoTreinamento.dart';
 
 class StatusPage extends StatefulWidget {
   @override
@@ -18,7 +20,7 @@ class StatusPage extends StatefulWidget {
 class _StatusPageState extends State<StatusPage> {
   late List<DataRow> _filteredRows = []; // Lista de linhas filtradas
   late TextEditingController _searchController =
-      TextEditingController(); // Controlador de pesquisa
+  TextEditingController(); // Controlador de pesquisa
   DatabaseSelects _dbSelects = DatabaseSelects(ConnectionSqLite());
 
   @override
@@ -30,7 +32,7 @@ class _StatusPageState extends State<StatusPage> {
   Future<void> _carregarDadosTabela() async {
     // todos usuário e treinamento
     List<Map<String, dynamic>>? userTrainingData =
-        await _dbSelects.getEmployeeTrainingData();
+    await _dbSelects.getEmployeeTrainingData();
 
     if (userTrainingData != null) {
       _filteredRows.clear();
@@ -66,7 +68,7 @@ class _StatusPageState extends State<StatusPage> {
         for (var funcionario in funcionarios) {
           // treinamentos associados
           List<Map<String, dynamic>>? trainings =
-              await _dbSelects.getEmployeeTrainingData();
+          await _dbSelects.getEmployeeTrainingData();
           if (trainings != null) {
             for (var training in trainings) {
               if (training['funcionario_nome'] == funcionario.nome) {
@@ -99,14 +101,20 @@ class _StatusPageState extends State<StatusPage> {
         children: [
           // Menu bar
           Container(
-            width: MediaQuery.of(context).size.width * 0.05,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width * 0.05,
             color: Color(0xFF6E92B4),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 20),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.5,
                   child: InkWell(
                     onTap: () {
                       Navigator.of(context).push(
@@ -126,7 +134,10 @@ class _StatusPageState extends State<StatusPage> {
                 SizedBox(height: 8),
                 SizedBox(height: 8),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.5,
                   child: InkWell(
                     onTap: () {
                       Navigator.push(
@@ -146,7 +157,10 @@ class _StatusPageState extends State<StatusPage> {
                 ),
                 SizedBox(height: 8),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.5,
                   child: InkWell(
                     onTap: () {
                       Navigator.push(
@@ -167,7 +181,10 @@ class _StatusPageState extends State<StatusPage> {
                 ),
                 SizedBox(height: 8),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.5,
                   child: InkWell(
                     onTap: () {
                       Navigator.push(
@@ -188,7 +205,10 @@ class _StatusPageState extends State<StatusPage> {
                 ),
                 SizedBox(height: 8),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.5,
                   child: InkWell(
                     onTap: () {
                       Navigator.push(
@@ -209,7 +229,10 @@ class _StatusPageState extends State<StatusPage> {
 
                 SizedBox(height: 8),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.5,
                   child: InkWell(
                     onTap: () {
                       Navigator.push(
@@ -230,7 +253,10 @@ class _StatusPageState extends State<StatusPage> {
                 ),
                 SizedBox(height: 8),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.5,
                   child: InkWell(
                     onTap: () {
                       Navigator.push(
@@ -256,7 +282,10 @@ class _StatusPageState extends State<StatusPage> {
             child: SingleChildScrollView(
               padding: EdgeInsets.all(20.0),
               child: Container(
-                height: MediaQuery.of(context).size.height,
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height,
                 child: Card(
                   elevation: 10.0,
                   shape: RoundedRectangleBorder(
@@ -301,6 +330,7 @@ class _StatusPageState extends State<StatusPage> {
 
   DataRow _buildDataRow(String nome, String cargo, String setor,
       String treinamento, String inicio, String fim) {
+    String status = CalculoTreinamento.calcularStatus(fim);
     return DataRow(cells: [
       DataCell(Text(nome)),
       DataCell(Text(cargo)),
@@ -308,6 +338,7 @@ class _StatusPageState extends State<StatusPage> {
       DataCell(Text(treinamento)),
       DataCell(Text(inicio)),
       DataCell(Text(fim)),
+      DataCell(Text(status)),
     ]);
   }
 
@@ -325,6 +356,7 @@ class _StatusPageState extends State<StatusPage> {
           DataColumn(label: Text('Treinamento')),
           DataColumn(label: Text('Data Inicio')),
           DataColumn(label: Text('Data Fim')),
+          DataColumn(label: Text('Status')),
         ],
         rows: rows,
       ),
@@ -333,6 +365,7 @@ class _StatusPageState extends State<StatusPage> {
 
   DataRow _buildEmptyDataRow() {
     return DataRow(cells: [
+      DataCell(Text('')),
       DataCell(Text('')),
       DataCell(Text('')),
       DataCell(Text('')),

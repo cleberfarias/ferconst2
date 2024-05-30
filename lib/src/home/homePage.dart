@@ -1,5 +1,5 @@
 import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
-import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncion%C3%A1rio.dart';
+import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncionario.dart';
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/cadastro/cadastro_page.dart';
 import 'package:ferconst/src/login/login_page.dart';

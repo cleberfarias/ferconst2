@@ -47,12 +47,17 @@ class DioApiRepository implements ApiRepository {
         data: request,
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
+      print(token);
 
       if (response.statusCode == 200) {
+        var responseData = response.data;
+        var messageDaAPI = responseData['message']; //recuperar mensagem e tratar futuramente.
         return EmployeeModel.fromJson(response.data);
       } else {
         throw ApiException(menssagem: 'Erro ao enviar dados do funcionário');
       }
+    } on DioError catch (dioError) {
+      throw ApiException(menssagem: dioError.message ?? erroPost);
     } catch (error, stacktrace) {
       log(erroPost, error: error, stackTrace: stacktrace);
       throw ApiException(menssagem: erro);

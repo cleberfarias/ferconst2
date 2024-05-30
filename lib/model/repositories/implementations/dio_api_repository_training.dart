@@ -49,10 +49,14 @@ class DioApiRepositoryTraining implements ApiRepositoryTraining {
       );
 
       if (response.statusCode == 200) {
+        var responseData = response.data;
+        var messageDaAPI = responseData['message']; //recuperar mensagem e tratar futuramente.
         return TrainingModel.fromJson(response.data);
       } else {
         throw ApiException(menssagem: 'Erro ao enviar dados');
       }
+    } on DioError catch (dioError) {
+      throw ApiException(menssagem: dioError.message ?? erroPost);
     } catch (error, stacktrace) {
       log(erroPost, error: error, stackTrace: stacktrace);
       throw ApiException(menssagem: erro);

@@ -4,3 +4,8 @@ Future<String?> getToken() async {
   final prefs = await SharedPreferences.getInstance();
   return prefs.getString('auth_token');
 }
+
+Future<void> clearToken() async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.remove('token');
+}

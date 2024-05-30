@@ -1,15 +1,16 @@
-import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncion%C3%A1rio.dart';
+import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncionario.dart';
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
 import 'package:ferconst/src/home/homePage.dart';
 import 'package:ferconst/src/login/login_page.dart';
 import 'package:ferconst/src/relatorio/relatorio.dart';
 import 'package:ferconst/src/status/status_page.dart';
+import '../../model/repositories/errors/api_exception.dart';
 import '../../model/repositories/implementations/dio_api_repository.dart';
 import '../../presentation/controllers/employee_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 import '../../utils/token.dart';
 
@@ -369,6 +370,13 @@ class _CadastroPageState extends State<CadastroPage> {
                                       content: Text('Cadastro realizado com sucesso!'),
                                     ),
                                   );
+                                } on ApiException catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Cadastro realizado - Erro interno: ${e.menssagem}'),
+                                    ),
+                                  );
+                                  print("Erro ao enviar o cadastro: ${e.menssagem}");
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(

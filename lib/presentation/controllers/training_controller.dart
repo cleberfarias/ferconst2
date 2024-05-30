@@ -39,7 +39,7 @@ class TrainingController{
       _loadedTraining = training;
     } on ApiException catch(apiExecption){
       _errorLoadingTraining = apiExecption.menssagem;
-    } catch(error, stacktracer){
+    } catch(error, stacktrace){
 
       //ja temos o log dentro do apiRepositoryTraining.
       _errorLoadingTraining = "Erro ao carregar o TRAINING";
@@ -57,11 +57,12 @@ class TrainingController{
       final postTraining = await apiRepositoryTraining.postTraining(nome, descricao, inicio, fim, classificacao);
       _loadedTraining = postTraining;
 
-    } on ApiException catch(apiExecption){
-      _errorLoadingTraining = apiExecption.menssagem;
-    } catch(error, stacktracer){
-
+    } on ApiException catch (apiException) {
+      _errorLoadingTraining = apiException.menssagem;
+      throw apiException;
+    } catch (error, stacktrace) {
       _errorLoadingTraining = "Erro na solicitação POST Training";
+      throw ApiException(menssagem: error.toString());
     }
     isLoading = false;
   }
@@ -76,7 +77,7 @@ class TrainingController{
 
     } on ApiException catch(apiExecption){
       _errorLoadingTraining = apiExecption.menssagem;
-    } catch(error, stacktracer){
+    } catch(error, stacktrace){
 
       _errorLoadingTraining = "Erro na solicitação POST";
     }

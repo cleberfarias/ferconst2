@@ -1,18 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import '../../../utils/token.dart';
 import '../../data/employeeModel.dart';
 import '../../data/trainingModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<String?> getToken() async {
-  final prefs = await SharedPreferences.getInstance();
-  return prefs.getString('auth_token');
-}
 
-Future<void> vincularUsuarioNoTreinamento({
+
+Future<void> vincularFuncionarioNoTreinamento({
   required BuildContext context,
   required EmployeeModel? selectedEmployee,
   required TrainingModel? selectedTraining,
+
 }) async {
   if (selectedEmployee != null && selectedTraining != null) {
     try {

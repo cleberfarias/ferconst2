@@ -1,6 +1,6 @@
 
 import 'package:ferconst/model/repositories/implementations/dio_api_repository_training.dart';
-import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncion%C3%A1rio.dart';
+import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncionario.dart';
 import 'package:ferconst/src/login/login_page.dart';
 import 'package:ferconst/src/relatorio/relatorio.dart';
 import 'package:ferconst/utils/token.dart';
@@ -10,6 +10,7 @@ import 'package:ferconst/src/status/status_page.dart';
 import 'package:ferconst/src/cadastro/cadastro_page.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
+import '../../model/repositories/errors/api_exception.dart';
 import '../../presentation/controllers/training_controller.dart';
 
 class CadastroCursoPage extends StatefulWidget {
@@ -453,19 +454,21 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                   // Exiba uma mensagem de sucesso
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(
-                                          'Cadastro realizado com sucesso!'),
+                                      content: Text('Cadastro de treinamento realizado com sucesso!'),
+                                    ),
+                                  );
+                                } on ApiException catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Cadastro realizado - Verificar: ${e.menssagem}'),
                                     ),
                                   );
                                 } catch (e) {
-                                  // Se ocorrer um erro ao enviar os dados, exiba uma mensagem de erro
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content:
-                                          Text('Erro ao enviar o cadastro: $e'),
+                                      content: Text('Erro ao enviar o cadastro do treinamento: $e'),
                                     ),
                                   );
-                                  print("Erro ao enviar o cadastro: $e");
                                 }
                               },
                               child: Text('Enviar'),

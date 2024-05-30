@@ -1,6 +1,6 @@
 import 'package:ferconst/src/cadastro/cadastro_page.dart';
 import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
-import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncion%C3%A1rio.dart';
+import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncionario.dart';
 import 'package:ferconst/src/home/homePage.dart';
 import 'package:ferconst/src/login/login_page.dart';
 import 'package:ferconst/src/status/status_page.dart';
