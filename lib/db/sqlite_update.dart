@@ -2,23 +2,31 @@ import 'package:ferconst/db/utils/routers.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:sqflite/sqflite.dart';
+import 'package:ferconst/utils/token.dart';
 
 class DatabaseUpdater {
 
   static Future<void> syncData(Database db) async {
+
+    final String? token = await getToken();
+    if(token ==null){
+      throw Exception('Login inválido');
+    }
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+
     //verificado id
-
-
     var lastEmployeeId = Sqflite.firstIntValue(await db.rawQuery('SELECT MAX(id) FROM Funcionario')) ?? 0;
     var lastTreinamentoId = Sqflite.firstIntValue(await db.rawQuery('SELECT MAX(id) FROM Treinamento')) ?? 0;
 
-    var responseFuncionarios = await http.get(Uri.parse("http://localhost:8080/funcionario?idGreaterThan=$lastEmployeeId"));
+    var responseFuncionarios = await http.get(Uri.parse("http://localhost:8080/funcionario?idGreaterThan=$lastEmployeeId"),headers: headers);
     var dataFuncionarios = json.decode(responseFuncionarios.body);
 
-    var responseTreinamentos = await http.get(Uri.parse("http://localhost:8080/treinamento?idGreaterThan=$lastTreinamentoId"));
+    var responseTreinamentos = await http.get(Uri.parse("http://localhost:8080/treinamento?idGreaterThan=$lastTreinamentoId"),headers: headers);
     var dataTreinamentos = json.decode(responseTreinamentos.body);
 
-    var responseFuncionarioTreinamento = await http.get(Uri.parse("http://localhost:8080/funcionariotreinamento"));
+    var responseFuncionarioTreinamento = await http.get(Uri.parse("http://localhost:8080/funcionariotreinamento"),headers: headers);
     var dataFuncionarioTreinamento = json.decode(responseFuncionarioTreinamento.body);
 
     //sqlite conexão

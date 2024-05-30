@@ -1,9 +1,13 @@
-// lib/utils/vincular_usuario.dart
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../../data/employeeModel.dart';
 import '../../data/trainingModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+Future<String?> getToken() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString('auth_token');
+}
 
 Future<void> vincularUsuarioNoTreinamento({
   required BuildContext context,
@@ -27,10 +31,13 @@ Future<void> vincularUsuarioNoTreinamento({
           'fim': selectedTraining.fim,
         },
       };
-      print(funcionarioTreinamentoDTO);
+
+      final token = await getToken();
+
       Response response = await Dio().post(
         'http://localhost:8080/funcionariotreinamento/vincular',
         data: funcionarioTreinamentoDTO,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
 
       if (response.statusCode == 200) {

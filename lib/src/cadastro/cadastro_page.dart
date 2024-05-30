@@ -9,6 +9,9 @@ import '../../model/repositories/implementations/dio_api_repository.dart';
 import '../../presentation/controllers/employee_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../utils/token.dart';
 
 class CadastroPage extends StatefulWidget {
   List<Map<String, String>> registros = [];
@@ -31,7 +34,14 @@ class _CadastroPageState extends State<CadastroPage> {
   @override
   void initState() {
     super.initState();
-    _employeeController = EmployeeController(DioApiRepository(dio: Dio()));
+    _initializeController();
+  }
+
+  void _initializeController() async {
+    final token = await getToken();
+    setState(() {
+      _employeeController = EmployeeController(DioApiRepository(dio: Dio(), token: token ?? ''));
+    });
   }
 
   void _showDatePicker() async {

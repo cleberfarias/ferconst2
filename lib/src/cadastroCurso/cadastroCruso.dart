@@ -1,8 +1,9 @@
-import 'package:ferconst/model/repositories/api_repository.dart';
+
 import 'package:ferconst/model/repositories/implementations/dio_api_repository_training.dart';
 import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncion%C3%A1rio.dart';
 import 'package:ferconst/src/login/login_page.dart';
 import 'package:ferconst/src/relatorio/relatorio.dart';
+import 'package:ferconst/utils/token.dart';
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/home/homePage.dart';
 import 'package:ferconst/src/status/status_page.dart';
@@ -29,8 +30,16 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
   @override
   void initState() {
     super.initState();
-    _trainingController =
-        TrainingController(DioApiRepositoryTraining(dio: Dio()));
+    _initializeController();
+
+  }
+
+  void _initializeController() async{
+    final token = await getToken();
+    setState(() {
+      _trainingController =
+          TrainingController(DioApiRepositoryTraining(dio: Dio(),token: token ?? ''));
+    });
   }
 
   void _showDatePickerInicio() async {

@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:ferconst/model/data/trainingModel.dart';
 
 import '../data/employeeModel.dart';
+import '../data/userModel.dart';
 
 const String API_URL = "http://localhost:8080";
 
@@ -22,4 +23,9 @@ abstract class ApiRepositoryTraining{
   Future<TrainingModel> upTraining(int trainingId);
   Future<TrainingModel> delTraining(int trainingId);
   Future<List<TrainingModel>> getAllTraining();
+}
+
+abstract class ApiRepositoryUser{
+  Future<UserModel> postLogin(String login, String senha);
+  Future<UserModel> getToke(String login, String token);
 }

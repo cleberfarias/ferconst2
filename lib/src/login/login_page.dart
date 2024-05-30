@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'package:ferconst/src/home/homePage.dart';
 import 'package:ferconst/src/recuperarSenha/recuperarSenha.dart';
+import 'package:ferconst/model/repositories/implementations/dio_api_repositoy_user.dart';
 
 class LoginPage extends StatelessWidget {
-  String usuario = '';
-  String senha = '';
+  final TextEditingController usuarioController = TextEditingController();
+  final TextEditingController senhaController = TextEditingController();
+
+  final DioApiRepositoryUser _userRepository = DioApiRepositoryUser(dio: Dio());
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +37,7 @@ class LoginPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           TextField(
-                            onChanged: (value) {
-                              usuario = value;
-                            },
+                            controller: usuarioController,
                             decoration: InputDecoration(
                               hintText: 'Usuário',
                               filled: true,
@@ -52,9 +54,7 @@ class LoginPage extends StatelessWidget {
                           ),
                           SizedBox(height: 20.0),
                           TextField(
-                            onChanged: (value) {
-                              senha = value;
-                            },
+                            controller: senhaController,
                             obscureText: true,
                             decoration: InputDecoration(
                               hintText: 'Senha',
@@ -72,14 +72,23 @@ class LoginPage extends StatelessWidget {
                           ),
                           SizedBox(height: 20.0),
                           ElevatedButton(
-                            onPressed: () {
-                              if (usuario == '12345' && senha == '123') {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) => Homepage()),
+                            onPressed: () async {
+                              try {
+                                final user = await _userRepository.postLogin(
+                                  usuarioController.text,
+                                  senhaController.text,
                                 );
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => Homepage()),
+                                );
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Erro ao fazer login: $e'),
+                                  ),
+                                );
+                                print("Erro ao fazer login: $e");
                               }
-                              // Lógica para autenticar o usuário
                             },
                             child: Text('Login'),
                           ),
@@ -89,9 +98,7 @@ class LoginPage extends StatelessWidget {
                             child: TextButton(
                               onPressed: () {
                                 Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          RecuperarSenhaPage()),
+                                  MaterialPageRoute(builder: (context) => RecuperarSenhaPage()),
                                 );
                               },
                               child: Text(

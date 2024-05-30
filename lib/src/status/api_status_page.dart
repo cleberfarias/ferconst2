@@ -22,7 +22,7 @@ class _ApiStatusPage extends State<ApiStatusPage> {
   @override
   void initState() {
     _initDb(); // Chame o método para inicializar o banco de dados
-    _employeeController = EmployeeController(DioApiRepository(dio: Dio()));
+    _employeeController = EmployeeController(DioApiRepository(dio: Dio(), token: ''));
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       await _employeeController.ondLoadEmployee(EMPLOYEE_ID_TO_LOAD);
       setState(() {

@@ -1,30 +1,26 @@
-
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
-
 import 'package:ferconst/model/repositories/api_repository.dart';
 import 'package:ferconst/model/repositories/errors/api_exception.dart';
-
 import '../../data/trainingModel.dart';
 
-class DioApiRepositoryTraining implements ApiRepositoryTraining{
-
-  final String erro = "Erro ao caregar o Training";
-
+class DioApiRepositoryTraining implements ApiRepositoryTraining {
+  final String erro = "Erro ao carregar o Training";
   final String erroGet = "Erro ao fazer o get no Training";
-
   final String erroPost = "Erro ao enviar dados";
-
   final Dio _dio;
+  final String token;
 
-  DioApiRepositoryTraining({required Dio dio}) : _dio = dio;
+  DioApiRepositoryTraining({required Dio dio, required this.token}) : _dio = dio;
 
   @override
   Future<TrainingModel> getTraining(int trainingId) async {
     try {
-      final url = '$API_URL/treinamento/$trainingId'; //recuperando id do employee
-      final response = await _dio.get(url);
+      final url = '$API_URL/treinamento/$trainingId'; //recuperando id do training
+      final response = await _dio.get(
+        url,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
 
       return TrainingModel.fromMap(response.data);
     } on DioError catch (dioError) {
@@ -36,7 +32,7 @@ class DioApiRepositoryTraining implements ApiRepositoryTraining{
   }
 
   @override
-  Future<TrainingModel> postTraining(String nome, String classificacao, String inicio, String fim,String descricao) async {
+  Future<TrainingModel> postTraining(String nome, String classificacao, String inicio, String fim, String descricao) async {
     try {
       Map<String, dynamic> request = {
         'nome': nome,
@@ -46,7 +42,11 @@ class DioApiRepositoryTraining implements ApiRepositoryTraining{
         'descricao': descricao,
       };
       final url = '$API_URL/treinamento/cadastrar';
-      final response = await _dio.post(url, data: request);
+      final response = await _dio.post(
+        url,
+        data: request,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
 
       if (response.statusCode == 200) {
         return TrainingModel.fromJson(response.data);
@@ -60,22 +60,53 @@ class DioApiRepositoryTraining implements ApiRepositoryTraining{
   }
 
   @override
-  Future<TrainingModel> delTraining(int trainingId) {
-    // TODO: implement delTraining
-    throw UnimplementedError();
+  Future<TrainingModel> delTraining(int trainingId) async {
+    try {
+      final url = '$API_URL/treinamento/$trainingId';
+      final response = await _dio.delete(
+        url,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      if (response.statusCode == 200) {
+        return TrainingModel.fromJson(response.data);
+      } else {
+        throw ApiException(menssagem: 'Erro ao deletar treinamento');
+      }
+    } catch (error, stacktrace) {
+      log(erroPost, error: error, stackTrace: stacktrace);
+      throw ApiException(menssagem: erro);
+    }
   }
 
   @override
-  Future<TrainingModel> upTraining(int trainingId) {
-    // TODO: implement upTraining
-    throw UnimplementedError();
+  Future<TrainingModel> upTraining(int trainingId) async {
+    try {
+      final url = '$API_URL/treinamento/$trainingId';
+      final response = await _dio.put(
+        url,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      if (response.statusCode == 200) {
+        return TrainingModel.fromJson(response.data);
+      } else {
+        throw ApiException(menssagem: 'Erro ao atualizar treinamento');
+      }
+    } catch (error, stacktrace) {
+      log(erroPost, error: error, stackTrace: stacktrace);
+      throw ApiException(menssagem: erro);
+    }
   }
 
   @override
   Future<List<TrainingModel>> getAllTraining() async {
     try {
       final url = '$API_URL/treinamento';
-      final response = await _dio.get(url);
+      final response = await _dio.get(
+        url,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
 
       if (response.statusCode == 200) {
         List<dynamic> trainingDataList = response.data;
@@ -88,9 +119,5 @@ class DioApiRepositoryTraining implements ApiRepositoryTraining{
       log(erroPost, error: error, stackTrace: stacktrace);
       throw ApiException(menssagem: erro);
     }
-
   }
-
-
 }
-

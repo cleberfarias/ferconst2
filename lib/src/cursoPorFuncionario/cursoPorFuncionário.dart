@@ -1,18 +1,20 @@
+import 'package:ferconst/model/data/employeeModel.dart';
+import 'package:ferconst/model/data/trainingModel.dart';
+import 'package:ferconst/model/repositories/implementations/dio_api_repository.dart';
+import 'package:ferconst/model/repositories/implementations/dio_api_repository_training.dart';
 import 'package:ferconst/src/cadastro/cadastro_page.dart';
 import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
 import 'package:ferconst/src/login/login_page.dart';
 import 'package:ferconst/src/relatorio/relatorio.dart';
 import 'package:ferconst/src/status/status_page.dart';
-import 'package:flutter/material.dart';
 import 'package:ferconst/src/home/homePage.dart';
-import '../../model/data/employeeModel.dart';
-import '../../model/data/trainingModel.dart';
+import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+
+
 import '../../model/repositories/implementations/dio_api_repository_usuariotreinamento.dart';
 import '../../presentation/controllers/employee_controller.dart';
 import '../../presentation/controllers/training_controller.dart';
-import 'package:dio/dio.dart';
-import 'package:ferconst/model/repositories/implementations/dio_api_repository.dart';
-import 'package:ferconst/model/repositories/implementations/dio_api_repository_training.dart';
 
 class Cursoporfuncionario extends StatefulWidget {
   @override
@@ -31,8 +33,13 @@ class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
   @override
   void initState() {
     super.initState();
-    _employeeController = EmployeeController(DioApiRepository(dio: Dio()));
-    _trainingController = TrainingController(DioApiRepositoryTraining(dio: Dio()));
+    _initializeControllers();
+  }
+
+  void _initializeControllers() async {
+    final token = await getToken();
+    _employeeController = EmployeeController(DioApiRepository(dio: Dio(), token: token ?? ''));
+    _trainingController = TrainingController(DioApiRepositoryTraining(dio: Dio(), token: token ?? ''));
     _loadEmployees();
     _loadTrainings();
   }

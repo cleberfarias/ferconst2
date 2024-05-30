@@ -1,23 +1,30 @@
-import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/login/login_page.dart';
+import 'package:ferconst/src/home/homePage.dart';
+import 'package:ferconst/utils/token.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:ferconst/db/cron/atualization_db_help.dart';
 
-Future main() async {
+import 'db/cron/atualization_db_help.dart';
 
-// Initialize FFI para conexão do DBSQlite
+Future<void> main() async {
+  // Initialize FFI para conexão do DBSQlite
   sqfliteFfiInit();
-
-
   databaseFactory = databaseFactoryFfi;
 
   final cron = startDatabaseInitializationCron();
 
-  runApp(MyApp());
+
+  WidgetsFlutterBinding.ensureInitialized();
+  final token = await getToken();
+
+  runApp(MyApp(token: token));
 }
 
 class MyApp extends StatelessWidget {
+  final String? token;
+
+  MyApp({this.token});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,7 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(), // Definindo a rota inicial como a página de login
+      home: LoginPage()
     );
   }
 }
