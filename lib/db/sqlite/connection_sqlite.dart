@@ -13,9 +13,13 @@ class ConnectionSqLite {
         path,
         version: 1,
         onCreate: (db, v) {
+          db.execute('PRAGMA encoding="UTF-8";');
           db.execute(createTableFuncionario);
           db.execute(createTableTreinamento);
           db.execute(createTableFuncionarioTreinamento);
+        },
+        onOpen: (db) async {
+          await db.execute('PRAGMA encoding="UTF-8";');
         },
       );
     }
