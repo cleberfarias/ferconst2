@@ -10,7 +10,7 @@ class DatabaseSelects {
   DatabaseSelects(this._connectionSqLite);
 
   Future<List<EmployeeModel>?> getEmployees() async {
-    //select usuario
+    //select funcionario
     Database? db = await ConnectionSqLite.get();
 
     List<Map<String, Object?>>? resultsEmployee = await db?.query('funcionario');
@@ -46,6 +46,19 @@ class DatabaseSelects {
       INNER JOIN funcionario f ON ft.funcionario_id = f.id
       INNER JOIN treinamento t ON ft.treinamento_id = t.id
     ''');
+
+    return results;
+  }
+
+  Future<List<Map<String, dynamic>>?> getEmployeeTrainings(int employeeId) async {
+    Database? db = await ConnectionSqLite.get();
+
+    List<Map<String, Object?>>? results = await db?.rawQuery('''
+    SELECT t.nome as treinamento_nome, t.inicio as treinamento_inicio, t.fim as treinamento_fim
+    FROM funcionario_treinamento ft
+    INNER JOIN treinamento t ON ft.treinamento_id = t.id
+    WHERE ft.funcionario_id = ?
+  ''', [employeeId]);
 
     return results;
   }

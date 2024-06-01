@@ -18,9 +18,9 @@ class StatusPage extends StatefulWidget {
 }
 
 class _StatusPageState extends State<StatusPage> {
-  late List<DataRow> _filteredRows = []; // Lista de linhas filtradas
+  late List<DataRow> _filteredRows = [];
   late TextEditingController _searchController =
-  TextEditingController(); // Controlador de pesquisa
+  TextEditingController();
   DatabaseSelects _dbSelects = DatabaseSelects(ConnectionSqLite());
 
   @override
@@ -30,21 +30,28 @@ class _StatusPageState extends State<StatusPage> {
   }
 
   Future<void> _carregarDadosTabela() async {
-    // todos usuário e treinamento
+    // todos
     List<Map<String, dynamic>>? userTrainingData =
     await _dbSelects.getEmployeeTrainingData();
 
     if (userTrainingData != null) {
       _filteredRows.clear();
       for (var data in userTrainingData) {
-        _filteredRows.add(_buildDataRow(
-          data['usuario_nome'],
-          data['usuario_cargo'],
-          data['usuario_setor'],
-          data['treinamento_nome'],
-          data['treinamento_inicio'],
-          data['treinamento_fim'],
-        ));
+        int employeeId = data['funcionario_id']; //id funcionario
+        List<Map<String, dynamic>>? trainings = await _dbSelects.getEmployeeTrainings(employeeId);
+
+        if (trainings != null) {
+          for (var training in trainings) {
+            _filteredRows.add(_buildDataRow(
+              data['funcionario_nome'],
+              data['funcionario_cargo'],
+              data['funcionario_setor'],
+              training['treinamento_nome'],
+              training['treinamento_inicio'],
+              training['treinamento_fim'],
+            ));
+          }
+        }
       }
       setState(() {});
     }
@@ -52,26 +59,19 @@ class _StatusPageState extends State<StatusPage> {
 
   Future<void> _pesquisarUsuarios(String query) async {
     if (query.isEmpty) {
-      // carregar todos
       _carregarDadosTabela();
     } else {
       List<EmployeeModel>? funcionarios = await _dbSelects.getEmployees();
       if (funcionarios != null) {
-        // usuários consulta
-        funcionarios = funcionarios
-            .where((funcionario) =>
-            funcionario.nome.toLowerCase().contains(query.toLowerCase()))
-            .toList();
+        _filteredRows.clear(); // Limpa
 
-        // Atualizar
-        _filteredRows.clear();
         for (var funcionario in funcionarios) {
-          // treinamentos associados
-          List<Map<String, dynamic>>? trainings =
-          await _dbSelects.getEmployeeTrainingData();
-          if (trainings != null) {
-            for (var training in trainings) {
-              if (training['funcionario_nome'] == funcionario.nome) {
+          if (funcionario.nome.toLowerCase().contains(query.toLowerCase())) {
+            List<Map<String, dynamic>>? trainings =
+            await _dbSelects.getEmployeeTrainings(funcionario.id);
+
+            if (trainings != null && trainings.isNotEmpty) {
+              for (var training in trainings) {
                 _filteredRows.add(_buildDataRow(
                   funcionario.nome,
                   funcionario.cargo,
@@ -81,10 +81,12 @@ class _StatusPageState extends State<StatusPage> {
                   training['treinamento_fim'],
                 ));
               }
+            } else {
+              _filteredRows.add(_buildEmptyDataRow());
             }
           }
         }
-        setState(() {});
+        setState(() {}); //Atualizar
       }
     }
   }
