@@ -1,8 +1,8 @@
-
 import 'package:ferconst/model/repositories/implementations/dio_api_repository_training.dart';
 import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncionario.dart';
 import 'package:ferconst/src/login/login_page.dart';
 import 'package:ferconst/src/relatorio/relatorio.dart';
+import 'package:ferconst/src/widgets/menu.dart';
 import 'package:ferconst/utils/token.dart';
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/home/homePage.dart';
@@ -32,14 +32,13 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
   void initState() {
     super.initState();
     _initializeController();
-
   }
 
-  void _initializeController() async{
+  void _initializeController() async {
     final token = await getToken();
     setState(() {
-      _trainingController =
-          TrainingController(DioApiRepositoryTraining(dio: Dio(),token: token ?? ''));
+      _trainingController = TrainingController(
+          DioApiRepositoryTraining(dio: Dio(), token: token ?? ''));
     });
   }
 
@@ -81,161 +80,9 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
       ),
       body: Row(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width * 0.05,
-            color: Color(0xFF6E92B4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 20),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => Homepage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.home, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CadastroPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.person_add, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CadastroCursoPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.format_list_bulleted_add, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Cursoporfuncionario()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.check, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => StatusPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.format_shapes, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RelatorioPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.insert_chart, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.login, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                // Adicione os outros ícones e suas navegações aqui
-              ],
-            ),
-          ),
+          // Menu widget
+          Menu(),
+          // Rest
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
@@ -454,19 +301,22 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                   // Exiba uma mensagem de sucesso
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('Cadastro de treinamento realizado com sucesso!'),
+                                      content: Text(
+                                          'Cadastro de treinamento realizado com sucesso!'),
                                     ),
                                   );
                                 } on ApiException catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('Cadastro realizado - Verificar: ${e.menssagem}'),
+                                      content: Text(
+                                          'Cadastro realizado - Verificar: ${e.menssagem}'),
                                     ),
                                   );
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('Erro ao enviar o cadastro do treinamento: $e'),
+                                      content: Text(
+                                          'Erro ao enviar o cadastro do treinamento: $e'),
                                     ),
                                   );
                                 }

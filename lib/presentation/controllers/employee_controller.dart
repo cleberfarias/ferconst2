@@ -1,7 +1,8 @@
 import 'dart:ffi';
-import 'package:ferconst/model/data/employeeModel.dart';
-import 'package:ferconst/model/repositories/api_repository.dart';
-import 'package:ferconst/model/repositories/errors/api_exception.dart';
+
+import '../../model/data/employeeModel.dart';
+import '../../model/repositories/api_repository.dart';
+import '../../model/repositories/errors/api_exception.dart';
 
 class EmployeeController {
   final ApiRepository apiRepository;
@@ -37,12 +38,14 @@ class EmployeeController {
     isLoading = false;
   }
 
-  Future<void> onPostEmployee(String nome, String setor, String cargo, String inscricao) async {
+  Future<void> onPostEmployee(
+      String nome, String setor, String cargo, String inscricao) async {
     isLoading = true;
     _errorLoadingEmployee = null;
 
     try {
-      final postEmployee = await apiRepository.postEmployee(nome, setor, cargo, inscricao);
+      final postEmployee =
+          await apiRepository.postEmployee(nome, setor, cargo, inscricao);
       _loadedEmployee = postEmployee;
     } on ApiException catch (apiException) {
       _errorLoadingEmployee = apiException.menssagem;

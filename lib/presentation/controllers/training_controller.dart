@@ -1,10 +1,8 @@
 import 'dart:ffi';
 
-import 'package:ferconst/model/data/employeeModel.dart';
-import 'package:ferconst/model/repositories/api_repository.dart';
-import 'package:ferconst/model/repositories/errors/api_exception.dart';
-
 import '../../model/data/trainingModel.dart';
+import '../../model/repositories/api_repository.dart';
+import '../../model/repositories/errors/api_exception.dart';
 
 class TrainingController{
   // trabalhando com async devemos implementar esses 3 tipos de estados

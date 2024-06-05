@@ -3,6 +3,7 @@ import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
 import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncionario.dart';
 import 'package:ferconst/src/login/login_page.dart';
 import 'package:ferconst/src/relatorio/relatorio.dart';
+import 'package:ferconst/src/widgets/menu.dart';
 
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/home/homePage.dart';
@@ -19,8 +20,7 @@ class StatusPage extends StatefulWidget {
 
 class _StatusPageState extends State<StatusPage> {
   late List<DataRow> _filteredRows = [];
-  late TextEditingController _searchController =
-  TextEditingController();
+  late TextEditingController _searchController = TextEditingController();
   DatabaseSelects _dbSelects = DatabaseSelects(ConnectionSqLite());
 
   @override
@@ -32,13 +32,14 @@ class _StatusPageState extends State<StatusPage> {
   Future<void> _carregarDadosTabela() async {
     // todos
     List<Map<String, dynamic>>? userTrainingData =
-    await _dbSelects.getEmployeeTrainingData();
+        await _dbSelects.getEmployeeTrainingData();
 
     if (userTrainingData != null) {
       _filteredRows.clear();
       for (var data in userTrainingData) {
         int employeeId = data['funcionario_id']; //id funcionario
-        List<Map<String, dynamic>>? trainings = await _dbSelects.getEmployeeTrainings(employeeId);
+        List<Map<String, dynamic>>? trainings =
+            await _dbSelects.getEmployeeTrainings(employeeId);
 
         if (trainings != null) {
           for (var training in trainings) {
@@ -68,7 +69,7 @@ class _StatusPageState extends State<StatusPage> {
         for (var funcionario in funcionarios) {
           if (funcionario.nome.toLowerCase().contains(query.toLowerCase())) {
             List<Map<String, dynamic>>? trainings =
-            await _dbSelects.getEmployeeTrainings(funcionario.id);
+                await _dbSelects.getEmployeeTrainings(funcionario.id);
 
             if (trainings != null && trainings.isNotEmpty) {
               for (var training in trainings) {
@@ -101,193 +102,14 @@ class _StatusPageState extends State<StatusPage> {
       ),
       body: Row(
         children: [
-          // Menu bar
-          Container(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * 0.05,
-            color: Color(0xFF6E92B4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 20),
-                SizedBox(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => Homepage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.home, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CadastroPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.person_add, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CadastroCursoPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.format_list_bulleted_add, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Cursoporfuncionario()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.check, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => StatusPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.format_shapes, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RelatorioPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.insert_chart, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.login, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                // Adicione os outros ícones e suas navegações aqui
-              ],
-            ),
-          ),
+          // Menu widget
+          Menu(),
+          // Rest
           Expanded(
             child: SingleChildScrollView(
               padding: EdgeInsets.all(20.0),
               child: Container(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height,
+                height: MediaQuery.of(context).size.height,
                 child: Card(
                   elevation: 10.0,
                   shape: RoundedRectangleBorder(

@@ -1,4 +1,5 @@
 import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncionario.dart';
+import 'package:ferconst/src/widgets/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
 import 'package:ferconst/src/home/homePage.dart';
@@ -10,7 +11,6 @@ import '../../model/repositories/implementations/dio_api_repository.dart';
 import '../../presentation/controllers/employee_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
-
 
 import '../../utils/token.dart';
 
@@ -41,7 +41,8 @@ class _CadastroPageState extends State<CadastroPage> {
   void _initializeController() async {
     final token = await getToken();
     setState(() {
-      _employeeController = EmployeeController(DioApiRepository(dio: Dio(), token: token ?? ''));
+      _employeeController =
+          EmployeeController(DioApiRepository(dio: Dio(), token: token ?? ''));
     });
   }
 
@@ -69,156 +70,9 @@ class _CadastroPageState extends State<CadastroPage> {
       ),
       body: Row(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width * 0.05,
-            color: Color(0xFF6E92B4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 20),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => Homepage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.home, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CadastroPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.person_add, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CadastroCursoPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.format_list_bulleted_add, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Cursoporfuncionario()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.check, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => StatusPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.format_shapes, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RelatorioPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.insert_chart, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.login, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Menu widget
+          Menu(),
+          // Rest
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
@@ -292,13 +146,15 @@ class _CadastroPageState extends State<CadastroPage> {
                                 children: [
                                   Text(
                                     'Setor:',
-                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   DropdownButtonFormField<String>(
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
                                       ),
                                     ),
                                     items: [
@@ -367,20 +223,24 @@ class _CadastroPageState extends State<CadastroPage> {
 
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('Cadastro realizado com sucesso!'),
+                                      content: Text(
+                                          'Cadastro realizado com sucesso!'),
                                     ),
                                   );
                                 } on ApiException catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('Cadastro realizado - Erro interno: ${e.menssagem}'),
+                                      content: Text(
+                                          'Cadastro realizado - Erro interno: ${e.menssagem}'),
                                     ),
                                   );
-                                  print("Erro ao enviar o cadastro: ${e.menssagem}");
+                                  print(
+                                      "Erro ao enviar o cadastro: ${e.menssagem}");
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('Erro ao enviar o cadastro: $e'),
+                                      content:
+                                          Text('Erro ao enviar o cadastro: $e'),
                                     ),
                                   );
                                   print("Erro ao enviar o cadastro: $e");

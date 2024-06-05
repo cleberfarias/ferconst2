@@ -9,6 +9,7 @@ import 'package:ferconst/src/login/login_page.dart';
 import 'package:ferconst/src/relatorio/relatorio.dart';
 import 'package:ferconst/src/status/status_page.dart';
 import 'package:ferconst/src/home/homePage.dart';
+import 'package:ferconst/src/widgets/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import '../../utils/token.dart';
@@ -31,7 +32,6 @@ class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
   TrainingModel? _selectedTraining;
   final Dio _dio = Dio();
 
-
   @override
   void initState() {
     super.initState();
@@ -41,8 +41,10 @@ class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
 
   void _initializeControllers() async {
     final token = await getToken();
-    _employeeController = EmployeeController(DioApiRepository(dio: Dio(), token: token ?? ''));
-    _trainingController = TrainingController(DioApiRepositoryTraining(dio: Dio(), token: token ?? ''));
+    _employeeController =
+        EmployeeController(DioApiRepository(dio: Dio(), token: token ?? ''));
+    _trainingController = TrainingController(
+        DioApiRepositoryTraining(dio: Dio(), token: token ?? ''));
     _loadEmployees();
     _loadTrainings();
   }
@@ -55,7 +57,8 @@ class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
   }
 
   void _loadTrainings() async {
-    List<TrainingModel>? trainings = await _trainingController.onGetAllTraining();
+    List<TrainingModel>? trainings =
+        await _trainingController.onGetAllTraining();
     setState(() {
       _trainings = trainings;
     });
@@ -70,160 +73,9 @@ class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
       ),
       body: Row(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width * 0.05,
-            color: Color(0xFF6E92B4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 20),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => Homepage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.home, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CadastroPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.person_add, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CadastroCursoPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.format_list_bulleted_add, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Cursoporfuncionario()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.check, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => StatusPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.format_shapes, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RelatorioPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.insert_chart, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.login, size: 24),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                // Adicione os outros ícones e suas navegações aqui
-              ],
-            ),
-          ),
+          // Menu widget
+          Menu(),
+          // Rest
           Expanded(
             child: Center(
               child: Padding(

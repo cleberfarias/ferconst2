@@ -6,14 +6,11 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'db/cron/atualization_db_help.dart';
 import 'db/sqlite/connection_sqlite.dart';
 
-
 Future<void> main() async {
   // Initialize FFI para conexão do DBSQlite
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
   Database? db = await ConnectionSqLite.get();
-
-
 
   final cron = startDatabaseInitializationCron();
 
@@ -35,7 +32,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-
   @override
   void initState() {
     super.initState();
@@ -58,6 +54,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Desktop App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
