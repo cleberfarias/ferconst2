@@ -26,7 +26,7 @@ class _StatusPageState extends State<StatusPage> {
   @override
   void initState() {
     super.initState();
-    _carregarDadosTabela();
+    //_carregarDadosTabela();
   }
 
   Future<void> _carregarDadosTabela() async {
@@ -60,7 +60,7 @@ class _StatusPageState extends State<StatusPage> {
 
   Future<void> _pesquisarUsuarios(String query) async {
     if (query.isEmpty) {
-      _carregarDadosTabela();
+      //_carregarDadosTabela();
     } else {
       List<EmployeeModel>? funcionarios = await _dbSelects.getEmployees();
       if (funcionarios != null) {
