@@ -50,7 +50,7 @@ class HttpApiRepository implements ApiRepository{
 
 
   @override
-  Future<EmployeeModel?> upEmployee(int employeeId) {
+  Future<EmployeeModel?> upEmployee(EmployeeModel employeeModel) {
     // TODO: implement upEmployee
     throw UnimplementedError();
   }

@@ -12,7 +12,7 @@ const String API_URL = "http://localhost:8080";
 abstract class ApiRepository{
   Future<EmployeeModel?> getEmployee(int employeeId);
   Future<EmployeeModel?> postEmployee(String nome, String  setor, String cargo, String inscricao);
-  Future<EmployeeModel?> upEmployee(int employeeId);
+  Future<EmployeeModel?> upEmployee(EmployeeModel employeeModel);
   Future<EmployeeModel?> delEmployee(int employeeId);
   Future<List<EmployeeModel>> getAllEmployees();
 }
@@ -20,7 +20,7 @@ abstract class ApiRepository{
 abstract class ApiRepositoryTraining{
   Future<TrainingModel> getTraining(int trainingId);
   Future<TrainingModel> postTraining(String nome, String descricao, String inicio, String fim, String classificacao);
-  Future<TrainingModel> upTraining(int trainingId);
+  Future<TrainingModel> upTraining(TrainingModel trainingModel);
   Future<TrainingModel> delTraining(int trainingId);
   Future<List<TrainingModel>> getAllTraining();
 }

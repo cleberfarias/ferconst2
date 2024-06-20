@@ -32,6 +32,17 @@ class EmployeeModel {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'nome': nome,
+      'cargo': cargo,
+      'setor': setor,
+      'inscricao': inscricao,
+    };
+  }
+
+
   //HTTP necessário transformar em MAP e depois para o modelo da class
   factory EmployeeModel.fromJson(String source) =>
       EmployeeModel.fromMap(json.decode(source));

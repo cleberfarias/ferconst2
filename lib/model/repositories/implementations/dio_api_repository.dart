@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'dart:ffi';
 import 'package:ferconst/model/data/employeeModel.dart';
@@ -9,6 +10,8 @@ class DioApiRepository implements ApiRepository {
   final String erro = "Erro ao carregar o EMPLOYEE";
   final String erroGet = "Erro ao fazer o get no EMPLOYEE";
   final String erroPost = "Erro ao enviar dados";
+  final String erroDel = "Erro ao deletar dados";
+  final String erroUp = "Erro ao alterar dados";
   final Dio _dio;
   final String token;
 
@@ -47,7 +50,6 @@ class DioApiRepository implements ApiRepository {
         data: request,
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
-      print(token);
 
       if (response.statusCode == 200) {
         var responseData = response.data;
@@ -66,8 +68,9 @@ class DioApiRepository implements ApiRepository {
 
   @override
   Future<EmployeeModel?> delEmployee(int employeeId) async {
+    print(token);
     try {
-      final url = '$API_URL/funcionario/$employeeId';
+      final url = '$API_URL/funcionario/excluir/$employeeId';
       final response = await _dio.delete(
         url,
         options: Options(headers: {'Authorization': 'Bearer $token'}),
@@ -78,20 +81,30 @@ class DioApiRepository implements ApiRepository {
       } else {
         throw ApiException(menssagem: 'Erro ao deletar funcionário');
       }
+    } on DioError catch (dioError) {
+      throw ApiException(menssagem: dioError.message ?? 'Erro ao deletar dados');
     } catch (error, stacktrace) {
-      log(erroPost, error: error, stackTrace: stacktrace);
-      throw ApiException(menssagem: erro);
+      log('Erro ao deletar dados', error: error, stackTrace: stacktrace);
+      throw ApiException(menssagem: 'Erro ao deletar dados');
     }
   }
 
   @override
-  Future<EmployeeModel?> upEmployee(int employeeId) async {
+  Future<EmployeeModel?> upEmployee(EmployeeModel employeeModel) async {
+
     try {
-      final url = '$API_URL/funcionario/$employeeId';
+      final url = '$API_URL/funcionario/alterar';
       final response = await _dio.put(
         url,
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        data: employeeModel.toJson(),
+          options: Options(
+              headers: {
+                'Authorization': 'Bearer $token',
+                'Content-Type': 'application/json',
+              },
+          ),
       );
+
 
       if (response.statusCode == 200) {
         return EmployeeModel.fromJson(response.data);
@@ -99,7 +112,7 @@ class DioApiRepository implements ApiRepository {
         throw ApiException(menssagem: 'Erro ao atualizar funcionário');
       }
     } catch (error, stacktrace) {
-      log(erroPost, error: error, stackTrace: stacktrace);
+      log(erroUp, error: error, stackTrace: stacktrace);
       throw ApiException(menssagem: erro);
     }
   }

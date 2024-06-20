@@ -8,6 +8,8 @@ class DioApiRepositoryTraining implements ApiRepositoryTraining {
   final String erro = "Erro ao carregar o Training";
   final String erroGet = "Erro ao fazer o get no Training";
   final String erroPost = "Erro ao enviar dados";
+  final String erroDel = "Erro ao deletar dados";
+  final String erroUp = "Erro ao alterar dados";
   final Dio _dio;
   final String token;
 
@@ -66,7 +68,7 @@ class DioApiRepositoryTraining implements ApiRepositoryTraining {
   @override
   Future<TrainingModel> delTraining(int trainingId) async {
     try {
-      final url = '$API_URL/treinamento/$trainingId';
+      final url = '$API_URL/treinamento/excluir/$trainingId';
       final response = await _dio.delete(
         url,
         options: Options(headers: {'Authorization': 'Bearer $token'}),
@@ -77,19 +79,27 @@ class DioApiRepositoryTraining implements ApiRepositoryTraining {
       } else {
         throw ApiException(menssagem: 'Erro ao deletar treinamento');
       }
+    } on DioError catch (dioError) {
+      throw ApiException(menssagem: dioError.message ?? 'Erro ao deletar dados');
     } catch (error, stacktrace) {
-      log(erroPost, error: error, stackTrace: stacktrace);
-      throw ApiException(menssagem: erro);
+      log('Erro ao deletar dados', error: error, stackTrace: stacktrace);
+      throw ApiException(menssagem: 'Erro ao deletar dados');
     }
   }
 
   @override
-  Future<TrainingModel> upTraining(int trainingId) async {
+  Future<TrainingModel> upTraining(TrainingModel trainingModel) async {
     try {
-      final url = '$API_URL/treinamento/$trainingId';
+      final url = '$API_URL/treinamento/alterar';
       final response = await _dio.put(
         url,
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        data: trainingModel.toJson(),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
       );
 
       if (response.statusCode == 200) {

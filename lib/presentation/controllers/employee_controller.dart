@@ -71,4 +71,28 @@ class EmployeeController {
     }
     return getAllEmployees;
   }
+
+  Future<bool> onDeleteEmployee(int employeeId) async {
+    try {
+      await apiRepository.delEmployee(employeeId);
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> onUpdateEmployee(EmployeeModel employeeModel) async {
+    try {
+      await apiRepository.upEmployee(employeeModel);
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+
+
+
 }

@@ -1,18 +1,15 @@
-import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncionario.dart';
 import 'package:ferconst/src/widgets/menu.dart';
 import 'package:flutter/material.dart';
-import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
-import 'package:ferconst/src/home/homePage.dart';
-import 'package:ferconst/src/login/login_page.dart';
-import 'package:ferconst/src/relatorio/relatorio.dart';
-import 'package:ferconst/src/status/status_page.dart';
-import '../../model/repositories/errors/api_exception.dart';
-import '../../model/repositories/implementations/dio_api_repository.dart';
-import '../../presentation/controllers/employee_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 
+
+import '../../model/data/employeeModel.dart';
+import '../../model/repositories/errors/api_exception.dart';
+import '../../model/repositories/implementations/dio_api_repository.dart';
+import '../../presentation/controllers/employee_controller.dart';
 import '../../utils/token.dart';
+import '../widgets/config_employees.dart';
 
 class CadastroPage extends StatefulWidget {
   List<Map<String, String>> registros = [];
@@ -31,6 +28,7 @@ class _CadastroPageState extends State<CadastroPage> {
   TextEditingController observacaoController = TextEditingController();
 
   late EmployeeController _employeeController;
+  EmployeeModel? _selectedEmployee;
 
   @override
   void initState() {
@@ -58,6 +56,19 @@ class _CadastroPageState extends State<CadastroPage> {
         inscricaoController.text = DateFormat('dd/MM/yyyy').format(picked);
       });
     }
+  }
+
+  void _openConfigEmployeesDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ConfigEmployees(onSelected: (employee) {
+          setState(() {
+            _selectedEmployee = employee;
+          });
+        });
+      },
+    );
   }
 
   @override
@@ -146,15 +157,13 @@ class _CadastroPageState extends State<CadastroPage> {
                                 children: [
                                   Text(
                                     'Setor:',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   DropdownButtonFormField<String>(
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        borderRadius: BorderRadius.circular(10.0),
                                       ),
                                     ),
                                     items: [
@@ -203,6 +212,16 @@ class _CadastroPageState extends State<CadastroPage> {
                           ],
                         ),
                         SizedBox(height: 20.0),
+                        ElevatedButton(
+                          onPressed: _openConfigEmployeesDialog,
+                          child: Text('Config. Funcionário'),
+                        ),
+                        if (_selectedEmployee != null)
+                          Text(
+                            'Funcionário Selecionado: ${_selectedEmployee!.nome}',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        SizedBox(height: 20.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -223,24 +242,20 @@ class _CadastroPageState extends State<CadastroPage> {
 
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(
-                                          'Cadastro realizado com sucesso!'),
+                                      content: Text('Cadastro realizado com sucesso!'),
                                     ),
                                   );
                                 } on ApiException catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(
-                                          'Cadastro realizado - Erro interno: ${e.menssagem}'),
+                                      content: Text('Cadastro realizado - Erro interno: ${e.menssagem}'),
                                     ),
                                   );
-                                  print(
-                                      "Erro ao enviar o cadastro: ${e.menssagem}");
+                                  print("Erro ao enviar o cadastro: ${e.menssagem}");
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content:
-                                          Text('Erro ao enviar o cadastro: $e'),
+                                      content: Text('Erro ao enviar o cadastro: $e'),
                                     ),
                                   );
                                   print("Erro ao enviar o cadastro: $e");

@@ -32,6 +32,17 @@ class TrainingModel{
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'nome': nome,
+      'classificacao': classificacao,
+      'fim': fim,
+      'inicio': inicio,
+      'descricao': descricao,
+    };
+  }
+
   //HTTP
   factory TrainingModel.fromJson(String source) =>
       TrainingModel.fromMap(json.decode(source));

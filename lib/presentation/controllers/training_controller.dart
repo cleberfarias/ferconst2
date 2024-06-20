@@ -82,5 +82,27 @@ class TrainingController{
     return getAllTraining;
   }
 
+  Future<bool> onDeleteTraining(int trainingId) async {
+    try{
+      await apiRepositoryTraining.delTraining(trainingId);
+      return true;
+    }catch (e){
+      print (e);
+      return false;
+    }
+  }
+
+  Future<bool> onUpdateTraining(TrainingModel trainingModel) async {
+    try{
+      await apiRepositoryTraining.upTraining(trainingModel);
+      return true;
+    }catch (e){
+      print (e);
+      return false;
+    }
+  }
+
+
+
 
 }
