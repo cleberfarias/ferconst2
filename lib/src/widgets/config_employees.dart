@@ -85,7 +85,8 @@ class _ConfigEmployeesState extends State<ConfigEmployees> {
         id: _selectedEmployee!.id,
         nome: nomeController.text,
         cargo: cargoController.text,
-        setor: setorController.text, inscricao: '',
+        setor: setorController.text,
+        inscricao: _selectedEmployee!.inscricao,
       );
 
       bool success = await _employeeController.onUpdateEmployee(updatedEmployee);
