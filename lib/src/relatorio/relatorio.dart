@@ -1,13 +1,7 @@
-import 'package:ferconst/src/widgets/menu.dart';
 import 'package:flutter/material.dart';
-import 'package:ferconst/src/cadastro/cadastro_page.dart';
-
-import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncionario.dart';
-import 'package:ferconst/src/home/homePage.dart';
-import 'package:ferconst/src/login/login_page.dart';
-import 'package:ferconst/src/relatorio/relatorio.dart'; // Corrigindo o nome do arquivo
-import 'package:ferconst/src/status/status_page.dart';
 import 'package:fl_chart/fl_chart.dart';
+
+import '../widgets/menu.dart';
 
 class RelatorioPage extends StatefulWidget {
   RelatorioPage({Key? key}) : super(key: key);
@@ -46,6 +40,19 @@ class _RelatorioPageState extends State<RelatorioPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Mensagem chamativa
+                  Container(
+                    padding: EdgeInsets.all(16),
+                    color: Colors.amber,
+                    child: Text(
+                      'Estes são dados fictícios. Para acessar dados reais, é necessário um upgrade.',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16),
                   Card(
                     elevation: 4,
                     child: Padding(
@@ -99,8 +106,7 @@ class _RelatorioPageState extends State<RelatorioPage> {
     return Column(
       children: [
         AspectRatio(
-          aspectRatio:
-              5.8, // Ajuste o aspectRatio para aumentar o tamanho do gráfico
+          aspectRatio: 5.8,
           child: PieChart(
             PieChartData(
               sectionsSpace: 5,
@@ -184,28 +190,28 @@ class _RelatorioPageState extends State<RelatorioPage> {
 
   List<PieChartSectionData> _loadCursos() {
     double totalCursos =
-        (totalCursoConcluido + totalCursoNaoConcluido + totalCursoEmAndamento)
-            .toDouble();
+    (totalCursoConcluido + totalCursoNaoConcluido + totalCursoEmAndamento)
+        .toDouble();
     return [
       PieChartSectionData(
         value: totalCursoConcluido.toDouble(),
         color: Colors.green,
         title:
-            '${(totalCursoConcluido / totalCursos * 100).toStringAsFixed(2)}%',
+        '${(totalCursoConcluido / totalCursos * 100).toStringAsFixed(2)}%',
         radius: 60,
       ),
       PieChartSectionData(
         value: totalCursoNaoConcluido.toDouble(),
         color: Colors.red,
         title:
-            '${(totalCursoNaoConcluido / totalCursos * 100).toStringAsFixed(2)}%',
+        '${(totalCursoNaoConcluido / totalCursos * 100).toStringAsFixed(2)}%',
         radius: 60,
       ),
       PieChartSectionData(
         value: totalCursoEmAndamento.toDouble(),
         color: Colors.blue,
         title:
-            '${(totalCursoEmAndamento / totalCursos * 100).toStringAsFixed(2)}%',
+        '${(totalCursoEmAndamento / totalCursos * 100).toStringAsFixed(2)}%',
         radius: 60,
       ),
     ];

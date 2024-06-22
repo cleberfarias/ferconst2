@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
 import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncionario.dart';
-import 'package:flutter/material.dart';
 import 'package:ferconst/src/cadastro/cadastro_page.dart';
 import 'package:ferconst/src/login/login_page.dart';
 import 'package:ferconst/src/relatorio/relatorio.dart';
@@ -18,6 +18,7 @@ class Homepage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Coluna da imagem de logo
             Expanded(
@@ -28,155 +29,102 @@ class Homepage extends StatelessWidget {
             // Coluna dos botões
             Expanded(
               flex: 2, // Define a proporção do espaço ocupado pela coluna
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: Wrap(
+                spacing: 20, // Espaçamento horizontal entre os botões
+                runSpacing: 20, // Espaçamento vertical entre os botões
                 children: <Widget>[
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CadastroPage()),
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.person_add, size: 80), // Ícone de cadastro
-                        SizedBox(
-                            width:
-                                20), // Espaçamento horizontal entre o ícone e o texto
-                        Text('Cadastro de Funcionários'),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20), // Espaçamento vertical entre os botões
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CadastroCursoPage()),
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.format_list_bulleted_add,
-                            size: 80), // Ícone de cadastro
-                        SizedBox(
-                            width:
-                                20), // Espaçamento horizontal entre o ícone e o texto
-                        Text('Cadastro de Curso'),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20), // Espaçamento vertical entre os botões
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Cursoporfuncionario()),
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.check, size: 80), // Ícone de cadastro
-                        SizedBox(
-                            width:
-                                20), // Espaçamento horizontal entre o ícone e o texto
-                        Text('Vinculações'),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20), // Espaçamento vertical entre os botões
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ApiStatusPage()),
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.storage,
-                            size: 80), // Ícone de status da API
-                        SizedBox(
-                            width:
-                                20), // Espaçamento horizontal entre o ícone e o texto
-                        Text('Banco de Dados'),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20), // Espaçamento vertical entre os botões
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => StatusPage()),
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.table_chart,
-                            size: 80), // Ícone de relatório
-                        SizedBox(
-                            width:
-                                20), // Espaçamento horizontal entre o ícone e o texto
-                        Text('Status Curso'),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20), // Espaçamento vertical entre os botões
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RelatorioPage()),
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.insert_chart,
-                            size: 80), // Ícone de relatório
-                        SizedBox(
-                            width:
-                                20), // Espaçamento horizontal entre o ícone e o texto
-                        Text('Relatório'),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20), // Espaçamento vertical entre os botões
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.exit_to_app, size: 80), // Ícone de login
-                        SizedBox(
-                            width:
-                                20), // Espaçamento horizontal entre o ícone e o texto
-                        Text('Sair'),
-                      ],
-                    ),
-                  ),
+                  _buildButton(context, Icons.person_add, 'Cadastro de Funcionários', CadastroPage(), Color(0xFF6E92B4)),
+                  _buildButton(context, Icons.format_list_bulleted_add, 'Cadastro de Curso', CadastroCursoPage(), Color(0xFF6E92B4)),
+                  _buildButton(context, Icons.check, 'Vinculações', Cursoporfuncionario(), Color(0xFF6E92B4)),
+                  _buildButton(context, Icons.storage, 'Banco de Dados', ApiStatusPage(), Color(0xFF6E92B4)),
+                  _buildButton(context, Icons.table_chart, 'Status Curso', StatusPage(), Color(0xFF6E92B4)),
+                  _buildButton(context, Icons.insert_chart, 'Relatório', RelatorioPage(), Color(0xFF6E92B4)),
+                  _buildButton(context, Icons.exit_to_app, 'Sair', LoginPage(), Color(0xFF6E92B4)),
+                  _buildDisabledButton(context, Icons.settings, 'Configurações', 'Faça upgrade para ter acesso'),
+                  _buildDisabledButton(context, Icons.support, 'Suporte Técnico', 'Faça upgrade para ter acesso'),
+                  _buildDisabledButton(context, Icons.person_add, 'Criar Login', 'Faça upgrade para ter acesso'),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildButton(BuildContext context, IconData icon, String label, Widget page, Color color) {
+    return SizedBox(
+      width: 150, // Largura do botão
+      height: 150, // Altura do botão
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => page),
+          );
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color, // Cor de fundo do botão
+          elevation: 10.0, // Elevação do botão para simular o efeito de sombra do Card
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8), // Bordas levemente arredondadas
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 80, color: Colors.white), // Ícone do botão
+            SizedBox(height: 10), // Espaçamento vertical entre o ícone e o texto
+            Text(label, textAlign: TextAlign.center, style: TextStyle(color: Colors.white)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDisabledButton(BuildContext context, IconData icon, String label, String message) {
+    return SizedBox(
+      width: 150, // Largura do botão
+      height: 150, // Altura do botão
+      child: TextButton(
+        onPressed: () {
+          _showUpgradeMessage(context, message);
+        },
+        style: TextButton.styleFrom(
+          backgroundColor: Colors.grey[300], // Cor de fundo desativada
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8), // Bordas levemente arredondadas
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 80, color: Colors.grey[600]), // Ícone do botão apagado
+            SizedBox(height: 10), // Espaçamento vertical entre o ícone e o texto
+            Text(label, textAlign: TextAlign.center, style: TextStyle(color: Colors.grey[600])),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showUpgradeMessage(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Upgrade Necessário'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
