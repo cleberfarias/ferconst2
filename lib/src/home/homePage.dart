@@ -86,7 +86,7 @@ class Homepage extends StatelessWidget {
                         SizedBox(
                             width:
                                 20), // Espaçamento horizontal entre o ícone e o texto
-                        Text('Curso por funcionário'),
+                        Text('Vinculações'),
                       ],
                     ),
                   ),
@@ -102,12 +102,12 @@ class Homepage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.network_check,
+                        Icon(Icons.storage,
                             size: 80), // Ícone de status da API
                         SizedBox(
                             width:
                                 20), // Espaçamento horizontal entre o ícone e o texto
-                        Text('Status da API'),
+                        Text('Banco de Dados'),
                       ],
                     ),
                   ),
@@ -122,7 +122,7 @@ class Homepage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.format_shapes,
+                        Icon(Icons.table_chart,
                             size: 80), // Ícone de relatório
                         SizedBox(
                             width:

@@ -332,7 +332,7 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                             ),
                             ElevatedButton(
                               onPressed: _showTrainingDialog, // Chame o método para mostrar a dialog de treinamentos
-                              child: Text('Configurações'),
+                              child: Text('Conf. Treinamentos'),
                             ),
                           ],
                         ),
