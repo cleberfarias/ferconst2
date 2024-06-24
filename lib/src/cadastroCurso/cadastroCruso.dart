@@ -185,7 +185,7 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Nome:',
+                                    'Nome do Curso:',
                                     style:
                                     TextStyle(fontWeight: FontWeight.bold),
                                   ),
