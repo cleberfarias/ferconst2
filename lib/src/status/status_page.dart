@@ -1,10 +1,3 @@
-import 'package:ferconst/src/cadastro/cadastro_page.dart';
-import 'package:ferconst/src/cadastroCurso/cadastroCruso.dart';
-import 'package:ferconst/src/cursoPorFuncionario/cursoPorFuncionario.dart';
-import 'package:ferconst/src/login/login_page.dart';
-import 'package:ferconst/src/relatorio/relatorio.dart';
-import 'package:ferconst/src/widgets/menu.dart';
-
 import 'package:flutter/material.dart';
 import 'package:ferconst/src/home/homePage.dart';
 
@@ -12,6 +5,7 @@ import '../../db/sqlite/connection_sqlite.dart';
 import '../../db/sqlite_selects.dart';
 import '../../model/data/employeeModel.dart';
 import '../../utils/calculoTreinamento.dart';
+import 'package:ferconst/src/widgets/menu.dart';
 
 class StatusPage extends StatefulWidget {
   @override
@@ -22,22 +16,23 @@ class _StatusPageState extends State<StatusPage> {
   late List<DataRow> _filteredRows = [];
   late TextEditingController _searchController = TextEditingController();
   DatabaseSelects _dbSelects = DatabaseSelects(ConnectionSqLite());
+  int _currentPage = 0;
+  int _rowsPerPage = 10;
 
   @override
   void initState() {
     super.initState();
-    //_carregarDadosTabela();
+    _carregarDadosTabela();
   }
 
   Future<void> _carregarDadosTabela() async {
-    // todos
     List<Map<String, dynamic>>? userTrainingData =
         await _dbSelects.getEmployeeTrainingData();
 
     if (userTrainingData != null) {
       _filteredRows.clear();
       for (var data in userTrainingData) {
-        int employeeId = data['funcionario_id']; //id funcionario
+        int employeeId = data['funcionario_id'];
         List<Map<String, dynamic>>? trainings =
             await _dbSelects.getEmployeeTrainings(employeeId);
 
@@ -59,12 +54,12 @@ class _StatusPageState extends State<StatusPage> {
   }
 
   Future<void> _pesquisarUsuarios(String query) async {
-    if (query.isEmpty) {
-      //_carregarDadosTabela();
+    if (query.isEmpty || query.toLowerCase() == 'todos') {
+      await _carregarDadosTabela();
     } else {
       List<EmployeeModel>? funcionarios = await _dbSelects.getEmployees();
       if (funcionarios != null) {
-        _filteredRows.clear(); // Limpa
+        _filteredRows.clear();
 
         for (var funcionario in funcionarios) {
           if (funcionario.nome.toLowerCase().contains(query.toLowerCase())) {
@@ -87,9 +82,23 @@ class _StatusPageState extends State<StatusPage> {
             }
           }
         }
-        setState(() {}); //Atualizar
+        setState(() {});
       }
     }
+  }
+
+  void _nextPage() {
+    setState(() {
+      _currentPage++;
+    });
+  }
+
+  void _previousPage() {
+    setState(() {
+      if (_currentPage > 0) {
+        _currentPage--;
+      }
+    });
   }
 
   @override
@@ -102,14 +111,11 @@ class _StatusPageState extends State<StatusPage> {
       ),
       body: Row(
         children: [
-          // Menu widget
           Menu(),
-          // Rest
           Expanded(
             child: SingleChildScrollView(
               padding: EdgeInsets.all(20.0),
               child: Container(
-                height: MediaQuery.of(context).size.height,
                 child: Card(
                   elevation: 10.0,
                   shape: RoundedRectangleBorder(
@@ -123,6 +129,8 @@ class _StatusPageState extends State<StatusPage> {
                         _buildPesquisaTextField(),
                         SizedBox(height: 20.0),
                         _buildTabela(_filteredRows),
+                        SizedBox(height: 20.0),
+                        _buildPaginationControls(),
                       ],
                     ),
                   ),
@@ -171,6 +179,11 @@ class _StatusPageState extends State<StatusPage> {
       rows.add(_buildEmptyDataRow());
     }
 
+    int startIndex = _currentPage * _rowsPerPage;
+    int endIndex = startIndex + _rowsPerPage;
+    List<DataRow> paginatedRows = rows.sublist(
+        startIndex, endIndex > rows.length ? rows.length : endIndex);
+
     return Center(
       child: DataTable(
         columns: [
@@ -182,8 +195,26 @@ class _StatusPageState extends State<StatusPage> {
           DataColumn(label: Text('Data Fim')),
           DataColumn(label: Text('Status')),
         ],
-        rows: rows,
+        rows: paginatedRows,
       ),
+    );
+  }
+
+  Widget _buildPaginationControls() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        ElevatedButton(
+          onPressed: _currentPage > 0 ? _previousPage : null,
+          child: Text('Anterior'),
+        ),
+        ElevatedButton(
+          onPressed: (_currentPage + 1) * _rowsPerPage < _filteredRows.length
+              ? _nextPage
+              : null,
+          child: Text('Próximo'),
+        ),
+      ],
     );
   }
 
