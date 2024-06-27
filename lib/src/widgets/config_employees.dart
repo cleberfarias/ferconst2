@@ -51,7 +51,7 @@ class _ConfigEmployeesState extends State<ConfigEmployees> {
     if (_selectedEmployee != null) {
       try {
         bool success = await _employeeController.onDeleteEmployee(_selectedEmployee!.id);
-        if (success) {
+        if (success!=null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Funcionário deletado com sucesso')),
           );
@@ -90,7 +90,7 @@ class _ConfigEmployeesState extends State<ConfigEmployees> {
       );
 
       bool success = await _employeeController.onUpdateEmployee(updatedEmployee);
-      if (success) {
+      if (success!=null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Funcionário atualizado com sucesso')),
         );

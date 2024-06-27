@@ -53,7 +53,7 @@ class _ConfigTrainingsState extends State<ConfigTrainings> {
       try{
 
         bool success = await _trainingController.onDeleteTraining(_selectedTraining!.id);
-        if(success){
+        if(success!=null){
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Treinamento deletado com sucesso')),
           );
@@ -93,7 +93,7 @@ class _ConfigTrainingsState extends State<ConfigTrainings> {
           descricao: descricaoController.text
       );
       bool success = await _trainingController.onUpdateTraining(updateTrainig);
-      if (success) {
+      if (success!=null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Treinamento alterado com sucesso')),
         );
