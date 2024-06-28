@@ -70,6 +70,18 @@ class _CadastroPageState extends State<CadastroPage> {
     );
   }
 
+  void _clearSelections() {
+    setState(() {
+      nomeController.clear();
+      matriculaController.clear();
+      cargoController.clear();
+      setorController.clear();
+      treinamentoController.clear();
+      inscricaoController.clear();
+      observacaoController.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,9 +92,7 @@ class _CadastroPageState extends State<CadastroPage> {
       ),
       body: Row(
         children: [
-          // Menu widget
           Menu(),
-          // Rest
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
@@ -107,7 +117,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                   Text(
                                     'Data da inscrição:',
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   TextFormField(
@@ -118,7 +128,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                       labelText: 'Data da inscrição',
                                       border: OutlineInputBorder(
                                         borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        BorderRadius.circular(10.0),
                                       ),
                                       suffixIcon: IconButton(
                                         onPressed: _showDatePicker,
@@ -136,18 +146,18 @@ class _CadastroPageState extends State<CadastroPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Cargo:',
+                                    'Nome:',
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   TextField(
-                                    controller: cargoController,
+                                    controller: nomeController,
                                     decoration: InputDecoration(
-                                      hintText: 'Digite o cargo',
+                                      hintText: 'Digite o nome',
                                       border: OutlineInputBorder(
                                         borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        BorderRadius.circular(10.0),
                                       ),
                                     ),
                                   ),
@@ -158,14 +168,14 @@ class _CadastroPageState extends State<CadastroPage> {
                         ),
                         SizedBox(height: 20.0),
                         Text(
-                          'Nome:',
+                          'Cargo:',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 8.0),
                         TextField(
-                          controller: nomeController,
+                          controller: cargoController,
                           decoration: InputDecoration(
-                            hintText: 'Digite o nome',
+                            hintText: 'Digite o cargo',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
@@ -181,14 +191,14 @@ class _CadastroPageState extends State<CadastroPage> {
                                   Text(
                                     'Setor:',
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 8.0),
                                   DropdownButtonFormField<String>(
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
                                         borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        BorderRadius.circular(10.0),
                                       ),
                                     ),
                                     items: [
@@ -260,10 +270,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                     inscricaoController.text,
                                   );
 
-                                  nomeController.clear();
-                                  setorController.clear();
-                                  cargoController.clear();
-                                  inscricaoController.clear();
+
 
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
@@ -278,13 +285,15 @@ class _CadastroPageState extends State<CadastroPage> {
                                           'Cadastro realizado - Erro interno: ${e.menssagem}'),
                                     ),
                                   );
+                                  _clearSelections();
+                                  Navigator.pop(context);
                                   print(
                                       "Erro ao enviar o cadastro: ${e.menssagem}");
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content:
-                                          Text('Erro ao enviar o cadastro: $e'),
+                                      Text('Erro ao enviar o cadastro: $e'),
                                     ),
                                   );
                                   print("Erro ao enviar o cadastro: $e");

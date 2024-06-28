@@ -8,6 +8,7 @@ import '../../model/repositories/errors/api_exception.dart';
 import '../../presentation/controllers/training_controller.dart';
 import '../widgets/config_trainings.dart';
 import '../widgets/menu.dart';
+import 'package:ferconst/src/home/homePage.dart';
 
 class CadastroCursoPage extends StatefulWidget {
   List<Map<String, String>> registros = [];
@@ -79,6 +80,16 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
         );
       },
     );
+  }
+
+  void _clearSelections() {
+    setState(() {
+      nomeController.clear();
+      classificacaoController.clear();
+      dataInicioController.clear();
+      dataFimController.clear();
+      descricaoController.clear();
+    });
   }
 
   @override
@@ -287,9 +298,7 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                           children: [
                             ElevatedButton(
                               onPressed: () async {
-                                // Chame o método onPostEmployee para enviar os dados do formulário
                                 try {
-                                  // Chame o método onPostEmployee e passe os dados do formulário
                                   await _trainingController.onPostTraining(
                                     nomeController.text,
                                     classificacaoController.text,
@@ -298,14 +307,6 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                     descricaoController.text,
                                   );
 
-                                  // Limpe os controladores de texto para limpar o formulário
-                                  nomeController.clear();
-                                  classificacaoController.clear();
-                                  dataInicioController.clear();
-                                  dataFimController.clear();
-                                  descricaoController.clear();
-
-                                  // Exiba uma mensagem de sucesso
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
@@ -318,7 +319,10 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
                                       content: Text(
                                           'Cadastro realizado - Verificar: ${e.menssagem}'),
                                     ),
+
                                   );
+                                  _clearSelections();
+                                  Navigator.pop(context);
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(

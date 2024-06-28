@@ -6,6 +6,7 @@ import 'package:ferconst/model/repositories/implementations/dio_api_repository_f
 import 'package:ferconst/src/widgets/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+
 import '../../utils/token.dart';
 
 import '../../presentation/controllers/employee_controller.dart';
@@ -55,6 +56,13 @@ class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
         await _trainingController.onGetAllTraining();
     setState(() {
       _trainings = trainings;
+    });
+  }
+
+  void _clearSelections() {
+    setState(() {
+      _selectedEmployee = null;
+      _selectedTraining = null;
     });
   }
 
@@ -144,6 +152,10 @@ class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
                               selectedEmployee: _selectedEmployee,
                               selectedTraining: _selectedTraining,
                             );
+
+                            _clearSelections();
+
+                            Navigator.pop(context);
                           },
                           child: Text('Vincular'),
                         ),
