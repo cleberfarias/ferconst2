@@ -26,26 +26,30 @@ class _StatusPageState extends State<StatusPage> {
   }
 
   Future<void> _carregarDadosTabela() async {
-    List<Map<String, dynamic>>? userTrainingData =
-        await _dbSelects.getEmployeeTrainingData();
+    List<Map<String, dynamic>>? userTrainingData = await _dbSelects.getEmployeeTrainingData();
 
     if (userTrainingData != null) {
       _filteredRows.clear();
+      Set<int> processedEmployeeIds = {};
+
       for (var data in userTrainingData) {
         int employeeId = data['funcionario_id'];
-        List<Map<String, dynamic>>? trainings =
-            await _dbSelects.getEmployeeTrainings(employeeId);
 
-        if (trainings != null) {
-          for (var training in trainings) {
-            _filteredRows.add(_buildDataRow(
-              data['funcionario_nome'],
-              data['funcionario_cargo'],
-              data['funcionario_setor'],
-              training['treinamento_nome'],
-              training['treinamento_inicio'],
-              training['treinamento_fim'],
-            ));
+        if (!processedEmployeeIds.contains(employeeId)) {
+          processedEmployeeIds.add(employeeId);
+          List<Map<String, dynamic>>? trainings = await _dbSelects.getEmployeeTrainings(employeeId);
+
+          if (trainings != null) {
+            for (var training in trainings) {
+              _filteredRows.add(_buildDataRow(
+                data['funcionario_nome'],
+                data['funcionario_cargo'],
+                data['funcionario_setor'],
+                training['treinamento_nome'],
+                training['treinamento_inicio'],
+                training['treinamento_fim'],
+              ));
+            }
           }
         }
       }
