@@ -1,3 +1,4 @@
+import 'package:ferconst/src/home/homePage.dart';
 import 'package:ferconst/src/widgets/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
@@ -286,7 +287,10 @@ class _CadastroPageState extends State<CadastroPage> {
                                     ),
                                   );
                                   _clearSelections();
-                                  Navigator.pop(context);
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => Homepage()),
+                                  );
                                   print(
                                       "Erro ao enviar o cadastro: ${e.menssagem}");
                                 } catch (e) {

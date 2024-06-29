@@ -11,6 +11,7 @@ import '../../utils/token.dart';
 
 import '../../presentation/controllers/employee_controller.dart';
 import '../../presentation/controllers/training_controller.dart';
+import '../home/homePage.dart';
 
 class Cursoporfuncionario extends StatefulWidget {
   @override
@@ -155,7 +156,10 @@ class _CursoporfuncionarioState extends State<Cursoporfuncionario> {
 
                             _clearSelections();
 
-                            Navigator.pop(context);
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => Homepage()),
+                            );
                           },
                           child: Text('Vincular'),
                         ),

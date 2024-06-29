@@ -322,7 +322,10 @@ class _CadastroCursoPageState extends State<CadastroCursoPage> {
 
                                   );
                                   _clearSelections();
-                                  Navigator.pop(context);
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => Homepage()),
+                                  );
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
